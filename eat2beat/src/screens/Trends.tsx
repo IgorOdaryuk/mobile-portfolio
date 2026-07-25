@@ -90,7 +90,7 @@ export default function Trends() {
       {/* macro split */}
       <SectionTitle>Macro split · 14-day avg</SectionTitle>
       <Card style={styles.macroCard}>
-        <MacroDonut pct={pct} />
+        <MacroDonut pct={pct} centerValue={fmt(avg)} centerLabel="kcal/day" />
         <View style={styles.macroLegend}>
           <MacroLeg label="Protein" pct={pct.protein} g={periodMacros.protein} color={MACROS.protein.color} />
           <MacroLeg label="Carbs" pct={pct.carbs} g={periodMacros.carbs} color={MACROS.carbs.color} />

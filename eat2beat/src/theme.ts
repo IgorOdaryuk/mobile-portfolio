@@ -39,13 +39,14 @@ export const LIGHT = {
   fat: '#E8608C',
   fatSoft: '#FBE7EE',
 
-  // water card
-  water: '#3BA7E6',
-  waterSoft: '#E2F2FB',
-  waterBorder: '#CDE7F7',
-  waterStrong: '#12557E',
-  waterText: '#1C6A9E',
-  waterDim: '#4F94BD',
+  // water card — teal, bridging the emerald/mint family so it reads as part of
+  // the system rather than an unrelated blue
+  water: '#12AEB0',
+  waterSoft: '#E0F4F3',
+  waterBorder: '#C4E9E7',
+  waterStrong: '#0A5D5E',
+  waterText: '#0E7C7C',
+  waterDim: '#4FA3A3',
 
   // sample-data badge
   sampleBg: '#FDF0DA',
@@ -85,13 +86,13 @@ export const DARK: Palette = {
   fat: '#E8608C',
   fatSoft: '#361B25',
 
-  // water card
-  water: '#4FB3EE',
-  waterSoft: '#122A38',
-  waterBorder: '#1E3C4E',
-  waterStrong: '#BFE4F8',
-  waterText: '#9BD0F0',
-  waterDim: '#6FA6C6',
+  // water card — teal, in-family with the emerald/mint accents
+  water: '#2BC4C4',
+  waterSoft: '#0F2C2C',
+  waterBorder: '#1E4544',
+  waterStrong: '#BDECEA',
+  waterText: '#8FD9D6',
+  waterDim: '#5FA9A7',
 
   // sample-data badge
   sampleBg: '#2A2312',

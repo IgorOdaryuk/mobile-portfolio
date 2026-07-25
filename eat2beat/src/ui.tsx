@@ -80,7 +80,7 @@ const makeStyles = (C: Palette) =>
       marginTop: 22,
       marginBottom: 12,
     },
-    section: { fontFamily: FONT.bodyBold, fontSize: 16, color: C.text },
+    section: { fontFamily: FONT.bodyBold, fontSize: 17, color: C.text, letterSpacing: -0.3 },
     sample: {
       flexDirection: 'row',
       alignItems: 'center',

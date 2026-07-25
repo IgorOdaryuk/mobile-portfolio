@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Pressable, Platform } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Feather } from '@expo/vector-icons';
 import {
   useFonts,
@@ -98,6 +99,12 @@ function Shell() {
         ) : (
           <Weight />
         )}
+        {/* soft fade so scrolling content dissolves into the bar instead of a hard cut */}
+        <LinearGradient
+          colors={['rgba(0,0,0,0)', C.bg]}
+          style={styles.scrollFade}
+          pointerEvents="none"
+        />
       </View>
 
       {/* tab bar with a raised center Add button */}
@@ -247,6 +254,7 @@ const makeStyles = (C: Palette) =>
     batteryFill: { width: '75%', height: '100%', borderRadius: 1, backgroundColor: C.text },
 
     content: { flex: 1 },
+    scrollFade: { position: 'absolute', left: 0, right: 0, bottom: 0, height: 22 },
     tabbar: {
       flexDirection: 'row',
       alignItems: 'center',

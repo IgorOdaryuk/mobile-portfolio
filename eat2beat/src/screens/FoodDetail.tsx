@@ -42,10 +42,10 @@ export default function FoodDetail({
         </View>
 
         <View style={styles.kcalCard}>
-          <MacroDonut pct={pct} size={120} stroke={18} />
+          <MacroDonut pct={pct} size={120} stroke={18} centerValue={fmt(food.kcal)} centerLabel="kcal" />
           <View style={styles.kcalRight}>
-            <Text style={styles.kcalBig}>{fmt(food.kcal)}</Text>
-            <Text style={styles.kcalUnit}>kcal / serving</Text>
+            <Text style={styles.kcalServingLabel}>per serving</Text>
+            <Text style={styles.kcalServing}>{food.serving}</Text>
           </View>
         </View>
 
@@ -127,8 +127,8 @@ const makeStyles = (C: Palette) =>
       padding: 18,
     },
     kcalRight: { flex: 1 },
-    kcalBig: { fontFamily: FONT.display, fontSize: 40, color: C.text, letterSpacing: -1 },
-    kcalUnit: { fontFamily: FONT.bodySemi, fontSize: 13, color: C.textDim },
+    kcalServingLabel: { fontFamily: FONT.bodySemi, fontSize: 12, color: C.textFaint, letterSpacing: 0.3, textTransform: 'uppercase' },
+    kcalServing: { fontFamily: FONT.display, fontSize: 20, color: C.text, marginTop: 4 },
 
     factsTitle: { fontFamily: FONT.bodyBold, fontSize: 16, color: C.text, marginTop: 26, marginBottom: 12 },
     facts: {
