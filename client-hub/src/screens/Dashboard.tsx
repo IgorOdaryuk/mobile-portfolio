@@ -34,7 +34,7 @@ export default function Dashboard({ data, go, onOpenClient }: { data: Seed; go: 
     <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
       <View style={styles.topbar}>
         <View>
-          <Text style={styles.brand}>ClientA</Text>
+          <Text style={styles.brand}>Northline</Text>
           <Text style={styles.date}>Thursday · Jul 25</Text>
         </View>
         <View style={styles.bell}>
