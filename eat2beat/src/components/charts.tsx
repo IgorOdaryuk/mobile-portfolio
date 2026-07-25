@@ -159,12 +159,18 @@ export function MacroDonut({
   pct,
   size = 130,
   stroke = 20,
+  centerValue,
+  centerLabel,
 }: {
   pct: { protein: number; carbs: number; fat: number };
   size?: number;
   stroke?: number;
+  /** Optional big number shown in the hole (e.g. total kcal) so it isn't empty. */
+  centerValue?: string;
+  centerLabel?: string;
 }) {
   const { C } = useTheme();
+  const styles = useStyles(makeStyles);
   const r = (size - stroke) / 2;
   const cx = size / 2;
   const cy = size / 2;
@@ -176,29 +182,37 @@ export function MacroDonut({
   ];
   let offset = 0;
   return (
-    <Svg width={size} height={size}>
-      <G rotation={-90} origin={`${cx}, ${cy}`}>
-        <Circle cx={cx} cy={cy} r={r} stroke={C.ring} strokeWidth={stroke} fill="none" />
-        {segs.map((s, i) => {
-          const len = (s.v / 100) * circ;
-          const el = (
-            <Circle
-              key={i}
-              cx={cx}
-              cy={cy}
-              r={r}
-              stroke={s.c}
-              strokeWidth={stroke}
-              fill="none"
-              strokeDasharray={`${len} ${circ - len}`}
-              strokeDashoffset={-offset}
-            />
-          );
-          offset += len;
-          return el;
-        })}
-      </G>
-    </Svg>
+    <View style={{ width: size, height: size, alignItems: 'center', justifyContent: 'center' }}>
+      <Svg width={size} height={size}>
+        <G rotation={-90} origin={`${cx}, ${cy}`}>
+          <Circle cx={cx} cy={cy} r={r} stroke={C.ring} strokeWidth={stroke} fill="none" />
+          {segs.map((s, i) => {
+            const len = (s.v / 100) * circ;
+            const el = (
+              <Circle
+                key={i}
+                cx={cx}
+                cy={cy}
+                r={r}
+                stroke={s.c}
+                strokeWidth={stroke}
+                fill="none"
+                strokeDasharray={`${len} ${circ - len}`}
+                strokeDashoffset={-offset}
+              />
+            );
+            offset += len;
+            return el;
+          })}
+        </G>
+      </Svg>
+      {centerValue != null ? (
+        <View style={styles.donutCenter}>
+          <Text style={[styles.donutValue, { fontSize: Math.round(size * 0.2) }]}>{centerValue}</Text>
+          {centerLabel ? <Text style={styles.donutLabel}>{centerLabel}</Text> : null}
+        </View>
+      ) : null}
+    </View>
   );
 }
 
@@ -292,4 +306,8 @@ const makeStyles = (C: Palette) =>
     macroVal: { fontFamily: FONT.body, fontSize: 13 },
     macroTrack: { height: 9, borderRadius: 5, backgroundColor: C.ring, overflow: 'hidden' },
     macroFill: { height: '100%', borderRadius: 5 },
+
+    donutCenter: { position: 'absolute', alignItems: 'center' },
+    donutValue: { fontFamily: FONT.display, color: C.text, letterSpacing: -0.5 },
+    donutLabel: { fontFamily: FONT.bodySemi, fontSize: 10, color: C.textFaint, marginTop: -1, letterSpacing: 0.3 },
   });
