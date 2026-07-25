@@ -25,7 +25,7 @@ LEAD_BY_CITY = {
     "Atlanta": "Atlanta LSA", "Jacksonville": "Jacksonville LSA", "Miami": "Miami LSA",
     "Alpharetta": "Atlanta LSA",
 }
-OTHER_LEADS = ["Reserve with Google", "Online Booking", "ClientA.com", "Email Marketing 2026"]
+OTHER_LEADS = ["Reserve with Google", "Online Booking", "northline.com", "Email Marketing 2026"]
 
 APPLIANCES = {
     "Dishwasher": ["Bosch", "KitchenAid", "Frigidaire", "Whirlpool", "Miele"],
@@ -57,7 +57,8 @@ LAST = ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "D
 STREETS = ["Oakwood Dr", "Maple Ave", "Sunset Blvd", "Birchwood Ln", "Palmetto St", "Harbor View Rd",
            "Magnolia Ct", "Riverside Dr", "Camden Way", "Ashford Pl", "Willow Bend", "Highland Ave",
            "Sycamore St", "Cypress Point", "Brookhaven Dr", "Lakeshore Dr", "Peachtree Rd", "Bayshore Blvd"]
-TECHS = ["Pavel M.", "Andrii K.", "Sergei V.", "Dmytro L.", "Oleg R."]
+# Fictional, gender-neutral technician handles — not real people.
+TECHS = ["Alex R.", "Sam T.", "Jordan P.", "Casey L.", "Morgan D."]
 
 # work_status distribution (from real export shape)
 STATUS_WEIGHTS = [
