@@ -16,7 +16,7 @@ Phone-first CRM for home-service businesses on Housecall Pro / Jobber. Client 36
 pipeline board, and auto-generated follow-up tasks in one place.
 **React Native · Expo · TypeScript.**
 
-**▶ [Live demo](https://igorodaryuk.github.io/mobile-portfolio/)** · [code & README](./client-hub)
+**▶ [Live demo](https://igorodaryuk.github.io/mobile-portfolio/client-hub/)** · [code & README](./client-hub)
 
 ![Client Hub — all screens](./client-hub/screenshots/hero.png)
 
