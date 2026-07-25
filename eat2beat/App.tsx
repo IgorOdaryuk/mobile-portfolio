@@ -13,6 +13,7 @@ import { SpaceGrotesk_500Medium, SpaceGrotesk_700Bold } from '@expo-google-fonts
 
 import { FONT, LIGHT, type Palette } from './src/theme';
 import { ThemeProvider, useTheme, useStyles } from './src/theme-context';
+import { ScaleIcon } from './src/components/icons';
 import { StoreProvider } from './src/store';
 import Today from './src/screens/Today';
 import Diary from './src/screens/Diary';
@@ -129,9 +130,20 @@ function TabButton({
 }) {
   const { C } = useTheme();
   const styles = useStyles(makeStyles);
+  const tint = active ? C.primary : C.textFaint;
   return (
-    <Pressable onPress={onPress} style={styles.tab}>
-      <Feather name={t.icon as any} size={22} color={active ? C.primary : C.textFaint} />
+    <Pressable
+      onPress={onPress}
+      style={styles.tab}
+      accessibilityRole="tab"
+      accessibilityState={{ selected: active }}
+      accessibilityLabel={t.key}
+    >
+      {t.key === 'Weight' ? (
+        <ScaleIcon size={22} color={tint} />
+      ) : (
+        <Feather name={t.icon as any} size={22} color={tint} />
+      )}
       <Text style={[styles.tabLabel, active && { color: C.primary, fontFamily: FONT.bodyBold }]}>{t.key}</Text>
     </Pressable>
   );
