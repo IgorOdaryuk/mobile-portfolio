@@ -1,5 +1,9 @@
 # Client Hub — field-service CRM (mobile)
 
+[![CI](https://github.com/IgorOdaryuk/mobile-portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/IgorOdaryuk/mobile-portfolio/actions/workflows/ci.yml)
+![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6)
+![Expo](https://img.shields.io/badge/Expo-SDK%2057-000)
+
 A phone-first CRM for home-service businesses (appliance repair, HVAC, cleaning) that
 run on Housecall Pro / Jobber. It puts the whole client 360 — jobs, money, pipeline
 stage and follow-up tasks — on one screen, so the owner and dispatchers stop digging
@@ -27,11 +31,30 @@ product; it ships with a fully **synthetic** demo dataset so it runs with zero b
 - Type pairing: **Space Grotesk** (display / figures) + **Plus Jakarta Sans** (body)
 - Runs on iOS, Android and web from one codebase
 
+## Structure
+
+```
+src/
+  theme.ts        design tokens (colors, type scale, stage/status maps)
+  types.ts        Client / Job / Task / Kpis
+  selectors.ts    pure data logic (filter, sort, group) — unit-tested
+  ui.tsx          shared primitives (Card, Pill, Avatar, SectionLabel)
+  screens/        Dashboard · Clients · ClientDetail · Board · Tasks
+  data/seed.json  synthetic dataset (built by scripts/gen_seed.py)
+  __tests__/      jest tests for the selectors layer
+App.tsx           font loading, tab navigation, iPhone web frame
+```
+
+Data logic lives in `selectors.ts`, decoupled from components, so it stays testable
+and screens stay presentational.
+
 ## Run it
 
 ```bash
 npm install
-npm run web       # or: npm run ios / npm run android
+npm run web        # or: npm run ios / npm run android
+npm run typecheck  # tsc --noEmit (strict)
+npm test           # jest — unit tests for the selectors layer
 ```
 
 On web the app renders inside an iPhone frame (faux status bar + dynamic island) so it

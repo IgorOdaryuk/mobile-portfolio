@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { colors, font, radius, shadow, money } from '../theme';
 import { Seed, Task } from '../types';
+import { groupTasks } from '../selectors';
 
 const META: Record<Task['type'], { icon: any; color: string; bg: string; group: string }> = {
   balance: { icon: 'dollar-sign', color: colors.danger, bg: colors.dangerSoft, group: 'Collect balance' },
@@ -10,11 +11,10 @@ const META: Record<Task['type'], { icon: any; color: string; bg: string; group: 
   review: { icon: 'star', color: colors.warn, bg: colors.warnSoft, group: 'Ask for review' },
   winback: { icon: 'refresh-ccw', color: colors.violet, bg: colors.violetSoft, group: 'Win back' },
 };
-const ORDER: Task['type'][] = ['balance', 'schedule', 'review', 'winback'];
 
 export default function Tasks({ data, onOpenClient }: { data: Seed; onOpenClient: (id: string) => void }) {
   const [done, setDone] = useState<Record<string, boolean>>({});
-  const grouped = ORDER.map((t) => ({ type: t, items: data.tasks.filter((x) => x.type === t) })).filter((g) => g.items.length);
+  const grouped = groupTasks(data.tasks);
   const openCount = data.tasks.filter((t) => !done[t.id]).length;
 
   return (

@@ -4,20 +4,15 @@ import { Feather } from '@expo/vector-icons';
 import { colors, font, radius, shadow, stageColor, money } from '../theme';
 import { Avatar, Pill } from '../ui';
 import { Seed } from '../types';
+import { CLIENT_FILTERS, ClientFilter, filterClients, sortByPriority } from '../selectors';
 
-const FILTERS = ['All', 'New Lead', 'Scheduled', 'In Progress', 'Completed', 'Canceled'];
+const FILTERS = CLIENT_FILTERS;
 
 export default function Clients({ data, onOpenClient }: { data: Seed; onOpenClient: (id: string) => void }) {
-  const [filter, setFilter] = useState('All');
+  const [filter, setFilter] = useState<ClientFilter>('All');
   const [q, setQ] = useState('');
 
-  let list = data.clients;
-  if (filter !== 'All') list = list.filter((c) => c.stage === filter);
-  if (q.trim()) {
-    const s = q.toLowerCase();
-    list = list.filter((c) => c.name.toLowerCase().includes(s) || c.city.toLowerCase().includes(s) || c.tags.join(' ').toLowerCase().includes(s));
-  }
-  list = [...list].sort((a, b) => b.outstanding - a.outstanding || b.lifetimeValue - a.lifetimeValue);
+  const list = sortByPriority(filterClients(data.clients, filter, q));
 
   return (
     <View style={{ flex: 1 }}>
