@@ -1,30 +1,41 @@
-// Design tokens — "premium field-ops" aesthetic.
-// Warm paper background, white cards, burnt-orange accent, characterful type.
+// Design tokens — "field-ops console" aesthetic.
+// Cool graphite/steel surfaces, hairline rules, sharp corners, monospaced numerics,
+// a single burnt-orange signal accent. A utilitarian pro-tool, not a boutique app.
 
 export const colors = {
-  paper: '#F6F3EF',
-  paperDeep: '#EFEAE3',
+  paper: '#EDEFF2',
+  paperDeep: '#E1E5EA',
   card: '#FFFFFF',
-  ink: '#1B1712',
-  inkSoft: '#4B443C',
-  muted: '#8C8378',
-  line: '#ECE6DE',
-  lineSoft: '#F2EDE6',
+  ink: '#14181E',
+  inkSoft: '#3B434F',
+  muted: '#717B88',
+  line: '#DBE0E6',
+  lineSoft: '#E8EBEF',
 
   accent: '#E2570C',
   accentDeep: '#C2410C',
-  accentSoft: '#FCE9DC',
+  accentSoft: '#FBE7D8',
 
   success: '#15803D',
   successSoft: '#DCFCE7',
   warn: '#B45309',
-  warnSoft: '#FEF0D6',
+  warnSoft: '#FBEAD2',
   danger: '#DC2626',
-  dangerSoft: '#FDE4E4',
+  dangerSoft: '#FCE2E2',
   info: '#1D4ED8',
   infoSoft: '#DEE7FE',
   violet: '#6D28D9',
-  violetSoft: '#EDE4FD',
+  violetSoft: '#EAE2FB',
+};
+
+// dark graphite surfaces for hero / detail headers (cool, technical — not warm brown)
+export const hero = {
+  grad: ['#1B2027', '#2B333F'] as const,
+  detailGrad: ['#191E25', '#313A47'] as const,
+  muted: '#8E99A8',
+  line: 'rgba(255,255,255,0.10)',
+  fill: 'rgba(255,255,255,0.06)',
+  accent: '#F6A567',
 };
 
 // pipeline stage -> accent color
@@ -47,42 +58,49 @@ export const statusMeta: Record<string, { label: string; fg: string; bg: string 
   'pro canceled': { label: 'Canceled', fg: colors.muted, bg: colors.paperDeep },
 };
 
+// Type system: dense grotesque (Archivo) for text, monospace (JetBrains Mono) for
+// every number, label and status tag — tabular alignment + engineering character.
 export const font = {
-  display: 'SpaceGrotesk_700Bold',
-  displayMed: 'SpaceGrotesk_500Medium',
-  bold: 'PlusJakartaSans_700Bold',
-  semi: 'PlusJakartaSans_600SemiBold',
-  med: 'PlusJakartaSans_500Medium',
-  reg: 'PlusJakartaSans_400Regular',
+  display: 'Archivo_700Bold',
+  displayMed: 'Archivo_600SemiBold',
+  bold: 'Archivo_700Bold',
+  semi: 'Archivo_600SemiBold',
+  med: 'Archivo_500Medium',
+  reg: 'Archivo_400Regular',
+  mono: 'JetBrainsMono_500Medium',
+  monoSemi: 'JetBrainsMono_600SemiBold',
+  monoBold: 'JetBrainsMono_700Bold',
 };
 
-export const radius = { sm: 10, md: 16, lg: 22, xl: 28, pill: 999 };
+// Sharp, near-square corners — the pro-tool tell.
+export const radius = { sm: 4, md: 6, lg: 8, xl: 10, pill: 999 };
 
 export const shadow = {
+  // flat: lean on hairline borders (see ui.Card) instead of soft glow
   card: {
-    shadowColor: '#2A1D10',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.06,
-    shadowRadius: 16,
-    elevation: 3,
-  },
-  soft: {
-    shadowColor: '#2A1D10',
+    shadowColor: '#0B1520',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,
-    shadowRadius: 8,
+    shadowRadius: 6,
     elevation: 2,
+  },
+  soft: {
+    shadowColor: '#0B1520',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.04,
+    shadowRadius: 3,
+    elevation: 1,
   },
 };
 
-// deterministic avatar color from a string
+// deterministic avatar color from a string (cooler, flatter set)
 const AVATARS = [
-  ['#F9C7A6', '#7A3410'],
-  ['#CDE7D3', '#1B5E30'],
-  ['#CFE0FB', '#1E40AF'],
-  ['#E7D6FB', '#5B21B6'],
-  ['#FBD9D4', '#9B2033'],
-  ['#F6E4B0', '#7A5A0B'],
+  ['#F3D2BC', '#7A3410'],
+  ['#C8E1D0', '#1B5E30'],
+  ['#CBD8EF', '#1E40AF'],
+  ['#DBD1EE', '#5B21B6'],
+  ['#F0CFCB', '#9B2033'],
+  ['#E7DBB8', '#7A5A0B'],
 ];
 export function avatarColor(seed: string) {
   let h = 0;

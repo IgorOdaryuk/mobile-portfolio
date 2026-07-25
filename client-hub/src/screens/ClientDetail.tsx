@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Pressable, Linking } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Feather } from '@expo/vector-icons';
-import { colors, font, radius, shadow, statusMeta, money, avatarColor } from '../theme';
+import { colors, font, radius, shadow, hero, statusMeta, money, avatarColor } from '../theme';
 import { Pill, SectionLabel } from '../ui';
 import { Client } from '../types';
 
@@ -35,7 +35,7 @@ export default function ClientDetail({
 
   return (
     <View style={{ flex: 1 }}>
-      <LinearGradient colors={['#2A1D12', '#4A2C13']} style={styles.head}>
+      <LinearGradient colors={hero.detailGrad} style={styles.head}>
         <View style={styles.headBar}>
           <Pressable onPress={onBack} style={styles.iconBtn}>
             <Feather name="chevron-left" size={22} color="#FFF" />
@@ -46,41 +46,41 @@ export default function ClientDetail({
         </View>
         <View style={styles.headMain}>
           <View style={[styles.bigAvatar, { backgroundColor: abg }]}>
-            <Text style={{ color: afg, fontFamily: font.bold, fontSize: 26 }}>
+            <Text style={{ color: afg, fontFamily: font.monoBold, fontSize: 23 }}>
               {client.name.split(' ').map((w) => w[0]).slice(0, 2).join('')}
             </Text>
           </View>
           <Text style={styles.name}>{client.name}</Text>
           <Text style={styles.meta}>{client.kind} · {client.city}, {client.state} · since {client.since}</Text>
           <View style={styles.leadTag}>
-            <Feather name="radio" size={11} color="#F4C89E" />
+            <Feather name="radio" size={11} color={hero.accent} />
             <Text style={styles.leadTagText}>{client.leadSource}</Text>
           </View>
         </View>
         <View style={styles.moneyRow}>
           <View style={styles.moneyCol}>
             <Text style={styles.moneyVal}>{money(client.lifetimeValue)}</Text>
-            <Text style={styles.moneyLbl}>Lifetime value</Text>
+            <Text style={styles.moneyLbl}>LIFETIME VALUE</Text>
           </View>
           <View style={styles.moneyDiv} />
           <View style={styles.moneyCol}>
             <Text style={[styles.moneyVal, client.outstanding > 0 && { color: '#FF9E8A' }]}>{money(client.outstanding)}</Text>
-            <Text style={styles.moneyLbl}>Outstanding</Text>
+            <Text style={styles.moneyLbl}>OUTSTANDING</Text>
           </View>
           <View style={styles.moneyDiv} />
           <View style={styles.moneyCol}>
             <Text style={styles.moneyVal}>{client.jobCount}</Text>
-            <Text style={styles.moneyLbl}>Jobs</Text>
+            <Text style={styles.moneyLbl}>JOBS</Text>
           </View>
         </View>
       </LinearGradient>
 
       <ScrollView contentContainerStyle={styles.body} showsVerticalScrollIndicator={false}>
         <View style={styles.actions}>
-          <Action icon="phone" label="Call" onPress={() => openUrl(`tel:${tel}`)} />
-          <Action icon="message-circle" label="Text" onPress={() => openUrl(`sms:${tel}`)} />
-          <Action icon="calendar" label="Schedule" onPress={() => onAdvanceStage(client.id)} />
-          <Action icon="file-text" label="Invoice" onPress={() => openUrl(`mailto:${client.email}`)} />
+          <Action icon="phone" label="CALL" onPress={() => openUrl(`tel:${tel}`)} />
+          <Action icon="message-circle" label="TEXT" onPress={() => openUrl(`sms:${tel}`)} />
+          <Action icon="calendar" label="SCHEDULE" onPress={() => onAdvanceStage(client.id)} />
+          <Action icon="file-text" label="INVOICE" onPress={() => openUrl(`mailto:${client.email}`)} />
         </View>
 
         {stageIdx >= 0 && (
@@ -112,7 +112,7 @@ export default function ClientDetail({
           <Info icon="map-pin" text={`${client.street}, ${client.city}, ${client.state} ${client.zip}`} last />
         </View>
 
-        <SectionLabel right={<Text style={styles.jobCount}>{client.jobCount} total</Text>}>Job history</SectionLabel>
+        <SectionLabel right={<Text style={styles.jobCount}>{client.jobCount} TOTAL</Text>}>Job history</SectionLabel>
         {client.jobs.map((j) => {
           const m = statusMeta[j.status];
           return (
@@ -133,7 +133,7 @@ export default function ClientDetail({
                     </View>
                   ) : null}
                   {j.tech && <Text style={styles.jobTech}>{j.tech}</Text>}
-                  {j.outstanding > 0 && <Text style={styles.jobDue}>{money(j.outstanding)} due</Text>}
+                  {j.outstanding > 0 && <Text style={styles.jobDue}>{money(j.outstanding)} DUE</Text>}
                 </View>
               </View>
             </View>
@@ -155,48 +155,48 @@ function Info({ icon, text, last }: { icon: any; text: string; last?: boolean })
 }
 
 const styles = StyleSheet.create({
-  head: { paddingTop: 8, paddingBottom: 20, paddingHorizontal: 20, borderBottomLeftRadius: 28, borderBottomRightRadius: 28 },
+  head: { paddingTop: 8, paddingBottom: 20, paddingHorizontal: 20, borderBottomLeftRadius: radius.xl, borderBottomRightRadius: radius.xl },
   headBar: { flexDirection: 'row', justifyContent: 'space-between' },
-  iconBtn: { width: 40, height: 40, borderRadius: 20, backgroundColor: 'rgba(255,255,255,0.12)', alignItems: 'center', justifyContent: 'center' },
+  iconBtn: { width: 38, height: 38, borderRadius: radius.sm, backgroundColor: hero.fill, alignItems: 'center', justifyContent: 'center' },
   headMain: { alignItems: 'center', marginTop: 6 },
-  bigAvatar: { width: 74, height: 74, borderRadius: 37, alignItems: 'center', justifyContent: 'center', marginBottom: 12 },
-  name: { fontFamily: font.display, fontSize: 24, color: '#FFF', letterSpacing: -0.4 },
-  meta: { fontFamily: font.med, fontSize: 12.5, color: '#C9B69F', marginTop: 4 },
-  leadTag: { flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.1)', paddingHorizontal: 10, paddingVertical: 5, borderRadius: 999, marginTop: 10, gap: 5 },
-  leadTagText: { fontFamily: font.semi, fontSize: 12, color: '#F4C89E' },
-  moneyRow: { flexDirection: 'row', marginTop: 20, backgroundColor: 'rgba(255,255,255,0.07)', borderRadius: 18, paddingVertical: 14 },
+  bigAvatar: { width: 68, height: 68, borderRadius: radius.md, alignItems: 'center', justifyContent: 'center', marginBottom: 12 },
+  name: { fontFamily: font.display, fontSize: 23, color: '#FFF', letterSpacing: -0.4 },
+  meta: { fontFamily: font.med, fontSize: 12, color: hero.muted, marginTop: 5 },
+  leadTag: { flexDirection: 'row', alignItems: 'center', backgroundColor: hero.fill, paddingHorizontal: 9, paddingVertical: 5, borderRadius: radius.sm, marginTop: 10, gap: 5 },
+  leadTagText: { fontFamily: font.monoSemi, fontSize: 10.5, color: hero.accent, textTransform: 'uppercase', letterSpacing: 0.3 },
+  moneyRow: { flexDirection: 'row', marginTop: 20, backgroundColor: hero.fill, borderRadius: radius.md, borderWidth: 1, borderColor: hero.line, paddingVertical: 14 },
   moneyCol: { flex: 1, alignItems: 'center' },
-  moneyVal: { fontFamily: font.display, fontSize: 19, color: '#FFF' },
-  moneyLbl: { fontFamily: font.med, fontSize: 11, color: '#C9B69F', marginTop: 2 },
-  moneyDiv: { width: 1, backgroundColor: 'rgba(255,255,255,0.12)', marginVertical: 4 },
+  moneyVal: { fontFamily: font.monoBold, fontSize: 17, color: '#FFF' },
+  moneyLbl: { fontFamily: font.mono, fontSize: 8.5, color: hero.muted, marginTop: 4, letterSpacing: 0.8 },
+  moneyDiv: { width: 1, backgroundColor: hero.line, marginVertical: 4 },
 
   body: { padding: 20, paddingTop: 18 },
   actions: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 24 },
-  action: { alignItems: 'center', gap: 7 },
-  actionIcon: { width: 54, height: 54, borderRadius: 18, backgroundColor: colors.card, alignItems: 'center', justifyContent: 'center', ...shadow.soft },
-  actionLabel: { fontFamily: font.med, fontSize: 12, color: colors.inkSoft },
+  action: { alignItems: 'center', gap: 8 },
+  actionIcon: { width: 52, height: 52, borderRadius: radius.md, backgroundColor: colors.card, borderWidth: 1, borderColor: colors.line, alignItems: 'center', justifyContent: 'center', ...shadow.soft },
+  actionLabel: { fontFamily: font.mono, fontSize: 9.5, color: colors.inkSoft, letterSpacing: 0.5 },
 
   stepper: { flexDirection: 'row', alignItems: 'flex-start', marginBottom: 24, paddingHorizontal: 4 },
   stepItem: { alignItems: 'center', width: 62 },
-  stepDot: { width: 26, height: 26, borderRadius: 13, backgroundColor: colors.paperDeep, alignItems: 'center', justifyContent: 'center', borderWidth: 2, borderColor: colors.line },
+  stepDot: { width: 24, height: 24, borderRadius: radius.sm, backgroundColor: colors.paperDeep, alignItems: 'center', justifyContent: 'center', borderWidth: 2, borderColor: colors.line },
   stepDotDone: { backgroundColor: colors.accent, borderColor: colors.accent },
-  stepLabel: { fontFamily: font.med, fontSize: 11, color: colors.muted, marginTop: 6, textAlign: 'center' },
-  stepLine: { flex: 1, height: 2, backgroundColor: colors.line, marginTop: 12 },
+  stepLabel: { fontFamily: font.med, fontSize: 10.5, color: colors.muted, marginTop: 7, textAlign: 'center' },
+  stepLine: { flex: 1, height: 2, backgroundColor: colors.line, marginTop: 11 },
 
-  infoCard: { backgroundColor: colors.card, borderRadius: radius.lg, paddingHorizontal: 16, marginBottom: 24, ...shadow.soft },
-  infoRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: 14, gap: 12 },
+  infoCard: { backgroundColor: colors.card, borderRadius: radius.md, borderWidth: 1, borderColor: colors.line, paddingHorizontal: 15, marginBottom: 24, ...shadow.soft },
+  infoRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: 13, gap: 12 },
   infoBorder: { borderBottomWidth: 1, borderBottomColor: colors.lineSoft },
-  infoText: { fontFamily: font.med, fontSize: 14, color: colors.inkSoft, flex: 1 },
+  infoText: { fontFamily: font.med, fontSize: 13.5, color: colors.inkSoft, flex: 1 },
 
-  jobCount: { fontFamily: font.med, fontSize: 12.5, color: colors.muted },
-  jobCard: { backgroundColor: colors.card, borderRadius: radius.lg, padding: 16, marginBottom: 10, ...shadow.soft },
+  jobCount: { fontFamily: font.mono, fontSize: 10, color: colors.muted, letterSpacing: 0.5 },
+  jobCard: { backgroundColor: colors.card, borderRadius: radius.md, borderWidth: 1, borderColor: colors.line, padding: 15, marginBottom: 9, ...shadow.soft },
   jobTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  jobTitle: { fontFamily: font.bold, fontSize: 15, color: colors.ink },
-  jobAmt: { fontFamily: font.display, fontSize: 15, color: colors.ink },
-  jobDesc: { fontFamily: font.reg, fontSize: 13, color: colors.muted, marginTop: 4, lineHeight: 18 },
+  jobTitle: { fontFamily: font.bold, fontSize: 14.5, color: colors.ink },
+  jobAmt: { fontFamily: font.monoBold, fontSize: 14, color: colors.ink },
+  jobDesc: { fontFamily: font.reg, fontSize: 12.5, color: colors.muted, marginTop: 5, lineHeight: 18 },
   jobFoot: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 12 },
   jobFootRight: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   ratingRow: { flexDirection: 'row', gap: 1 },
-  jobTech: { fontFamily: font.med, fontSize: 12, color: colors.inkSoft },
-  jobDue: { fontFamily: font.bold, fontSize: 12, color: colors.danger },
+  jobTech: { fontFamily: font.med, fontSize: 11.5, color: colors.inkSoft },
+  jobDue: { fontFamily: font.monoSemi, fontSize: 11, color: colors.danger, letterSpacing: 0.2 },
 });
