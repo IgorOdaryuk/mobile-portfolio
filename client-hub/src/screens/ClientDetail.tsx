@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Pressable, Linking } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Feather } from '@expo/vector-icons';
 import { colors, font, radius, shadow, statusMeta, money, avatarColor } from '../theme';
@@ -8,9 +8,9 @@ import { Client } from '../types';
 
 const STAGES = ['New Lead', 'Scheduled', 'In Progress', 'Completed'];
 
-function Action({ icon, label }: { icon: any; label: string }) {
+function Action({ icon, label, onPress }: { icon: any; label: string; onPress?: () => void }) {
   return (
-    <Pressable style={styles.action}>
+    <Pressable style={styles.action} onPress={onPress}>
       <View style={styles.actionIcon}>
         <Feather name={icon} size={18} color={colors.ink} />
       </View>
@@ -19,9 +19,19 @@ function Action({ icon, label }: { icon: any; label: string }) {
   );
 }
 
-export default function ClientDetail({ client, onBack }: { client: Client; onBack: () => void }) {
+export default function ClientDetail({
+  client,
+  onBack,
+  onAdvanceStage,
+}: {
+  client: Client;
+  onBack: () => void;
+  onAdvanceStage: (clientId: string) => void;
+}) {
   const [abg, afg] = avatarColor(client.name);
   const stageIdx = STAGES.indexOf(client.stage);
+  const tel = client.phone.replace(/[^0-9+]/g, '');
+  const openUrl = (url: string) => Linking.openURL(url).catch(() => {});
 
   return (
     <View style={{ flex: 1 }}>
@@ -67,10 +77,10 @@ export default function ClientDetail({ client, onBack }: { client: Client; onBac
 
       <ScrollView contentContainerStyle={styles.body} showsVerticalScrollIndicator={false}>
         <View style={styles.actions}>
-          <Action icon="phone" label="Call" />
-          <Action icon="message-circle" label="Text" />
-          <Action icon="calendar" label="Schedule" />
-          <Action icon="file-text" label="Invoice" />
+          <Action icon="phone" label="Call" onPress={() => openUrl(`tel:${tel}`)} />
+          <Action icon="message-circle" label="Text" onPress={() => openUrl(`sms:${tel}`)} />
+          <Action icon="calendar" label="Schedule" onPress={() => onAdvanceStage(client.id)} />
+          <Action icon="file-text" label="Invoice" onPress={() => openUrl(`mailto:${client.email}`)} />
         </View>
 
         {stageIdx >= 0 && (

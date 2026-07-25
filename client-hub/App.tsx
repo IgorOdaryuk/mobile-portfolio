@@ -12,15 +12,13 @@ import {
 import { SpaceGrotesk_500Medium, SpaceGrotesk_700Bold } from '@expo-google-fonts/space-grotesk';
 
 import { colors, font } from './src/theme';
-import seed from './src/data/seed.json';
 import { Seed } from './src/types';
+import { StoreProvider, useStore } from './src/store';
 import Dashboard from './src/screens/Dashboard';
 import Clients from './src/screens/Clients';
 import ClientDetail from './src/screens/ClientDetail';
 import Board from './src/screens/Board';
 import Tasks from './src/screens/Tasks';
-
-const data = seed as unknown as Seed;
 
 const TABS = [
   { key: 'Home', icon: 'grid' },
@@ -31,26 +29,23 @@ const TABS = [
 
 const isWeb = Platform.OS === 'web';
 
-export default function App() {
-  const [fontsLoaded] = useFonts({
-    PlusJakartaSans_400Regular,
-    PlusJakartaSans_500Medium,
-    PlusJakartaSans_600SemiBold,
-    PlusJakartaSans_700Bold,
-    SpaceGrotesk_500Medium,
-    SpaceGrotesk_700Bold,
-  });
+function Shell() {
+  const store = useStore();
   // On web, allow ?tab= / ?client= to set the initial screen (for deterministic screenshots).
   const params = isWeb && typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
   const [tab, setTab] = useState<string>(params?.get('tab') || 'Home');
   const [clientId, setClientId] = useState<string | null>(params?.get('client') || null);
 
-  if (!fontsLoaded) return <View style={{ flex: 1, backgroundColor: colors.paper }} />;
-
-  const client = clientId ? data.clients.find((c) => c.id === clientId) || null : null;
+  const client = clientId ? store.clients.find((c) => c.id === clientId) || null : null;
   const openClient = (id: string) => setClientId(id);
+  const data: Seed = {
+    clients: store.clients,
+    tasks: store.tasks,
+    kpis: store.kpis,
+    jobs: store.clients.flatMap((c) => c.jobs),
+  };
 
-  const app = (
+  return (
     <View style={styles.app}>
       {/* faux iOS status bar */}
       <View style={styles.statusBar}>
@@ -65,15 +60,15 @@ export default function App() {
 
       <View style={styles.content}>
         {client ? (
-          <ClientDetail client={client} onBack={() => setClientId(null)} />
+          <ClientDetail client={client} onBack={() => setClientId(null)} onAdvanceStage={store.advanceStage} />
         ) : tab === 'Home' ? (
           <Dashboard data={data} go={setTab} onOpenClient={openClient} />
         ) : tab === 'Clients' ? (
-          <Clients data={data} onOpenClient={openClient} />
+          <Clients data={data} onOpenClient={openClient} onAddClient={store.addClient} />
         ) : tab === 'Board' ? (
           <Board data={data} onOpenClient={openClient} />
         ) : (
-          <Tasks data={data} onOpenClient={openClient} />
+          <Tasks data={data} onOpenClient={openClient} done={store.done} onToggle={store.toggleTask} />
         )}
       </View>
 
@@ -95,10 +90,28 @@ export default function App() {
       <StatusBar style={client ? 'light' : 'dark'} />
     </View>
   );
+}
+
+export default function App() {
+  const [fontsLoaded] = useFonts({
+    PlusJakartaSans_400Regular,
+    PlusJakartaSans_500Medium,
+    PlusJakartaSans_600SemiBold,
+    PlusJakartaSans_700Bold,
+    SpaceGrotesk_500Medium,
+    SpaceGrotesk_700Bold,
+  });
+  if (!fontsLoaded) return <View style={{ flex: 1, backgroundColor: colors.paper }} />;
+
+  const app = (
+    <StoreProvider>
+      <Shell />
+    </StoreProvider>
+  );
 
   if (!isWeb) return app;
 
-  // Web: render inside an iPhone frame on a neutral backdrop for clean screenshots.
+  // Web: render inside an iPhone frame on a transparent backdrop for clean screenshots.
   return (
     <View style={styles.backdrop}>
       <View style={styles.phone}>
