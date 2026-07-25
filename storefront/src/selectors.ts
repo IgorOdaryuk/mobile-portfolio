@@ -4,7 +4,7 @@
  * aggregates all live here so they can be unit-tested without React/RN.
  */
 import type { CartLine, Category, Product, Review, Variant } from './types';
-import { SUBSCRIBE_DISCOUNT } from './theme';
+import { SUBSCRIBE_DISCOUNT, FREE_SHIP_CENTS, STANDARD_SHIP_CENTS, LOW_STOCK, PROMO } from './theme';
 
 export function productMap(products: Product[]): Record<string, Product> {
   const m: Record<string, Product> = {};
@@ -88,7 +88,10 @@ export function filterAndSort(
   const q = query.trim().toLowerCase();
   let out = products.filter((p) => {
     if (category !== 'all' && p.category !== category) return false;
-    if (q && !(p.name.toLowerCase().includes(q) || p.tagline.toLowerCase().includes(q))) return false;
+    if (q) {
+      const hay = [p.name, p.tagline, p.category, p.ingredients, ...p.benefits].join(' ').toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
     return true;
   });
   switch (sort) {
@@ -151,9 +154,34 @@ export function discountPct(product: Product): number {
   return Math.round((1 - product.priceCents / product.compareAtCents) * 100);
 }
 
-/** Format integer cents as USD, e.g. 3400 -> "$34.00". */
+/** Format integer cents as USD, dropping cents for whole dollars: 3400 -> "$34", 1530 -> "$15.30". */
 export function money(cents: number): string {
-  return '$' + (cents / 100).toFixed(2);
+  const dollars = cents / 100;
+  return '$' + (Number.isInteger(dollars) ? String(dollars) : dollars.toFixed(2));
+}
+
+export function isLowStock(product: Product): boolean {
+  return product.stock > 0 && product.stock <= LOW_STOCK;
+}
+
+/** Cents still needed to reach free shipping (0 once unlocked). */
+export function freeShipRemaining(payableCents: number): number {
+  return Math.max(0, FREE_SHIP_CENTS - payableCents);
+}
+
+/** Standard-shipping cost for a given payable total (free over the threshold). */
+export function standardShippingCents(payableCents: number): number {
+  return payableCents >= FREE_SHIP_CENTS ? 0 : STANDARD_SHIP_CENTS;
+}
+
+/** Discount rate for a promo code (case-insensitive); 0 if it doesn't match. */
+export function promoRate(code: string): number {
+  return code.trim().toUpperCase() === PROMO.code ? PROMO.rate : 0;
+}
+
+/** Promo discount in cents applied to a payable total. */
+export function promoDiscountCents(payableCents: number, code: string): number {
+  return Math.round(payableCents * promoRate(code));
 }
 
 export type CheckoutForm = { name: string; email: string; address: string; city: string };

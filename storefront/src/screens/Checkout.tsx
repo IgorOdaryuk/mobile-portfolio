@@ -4,12 +4,16 @@ import { FONT, RADIUS, BTN, type Palette } from '../theme';
 import { useTheme, useStyles } from '../theme-context';
 import { ProductArt } from '../components/ProductArt';
 import { useStore } from '../store';
-import { resolveLines, cartSummary, money, validateCheckout, isCheckoutValid } from '../selectors';
-
-const SHIPPING = [
-  { key: 'standard', label: 'Standard', detail: '3–5 business days', cents: 0 },
-  { key: 'express', label: 'Express', detail: '1–2 business days', cents: 700 },
-];
+import { PROMO } from '../theme';
+import {
+  resolveLines,
+  cartSummary,
+  money,
+  validateCheckout,
+  isCheckoutValid,
+  standardShippingCents,
+  promoDiscountCents,
+} from '../selectors';
 
 export default function Checkout({ onBack, onDone }: { onBack: () => void; onDone: () => void }) {
   const styles = useStyles(makeStyles);
@@ -21,8 +25,14 @@ export default function Checkout({ onBack, onDone }: { onBack: () => void; onDon
   const [showErrors, setShowErrors] = useState(false);
   const [form, setForm] = useState({ name: 'Alex Morgan', email: 'alex@example.com', address: '742 Sunset Blvd', city: 'Austin, TX 78704' });
 
+  const promoDisc = promoDiscountCents(summary.totalCents, store.promo);
+  const afterPromo = summary.totalCents - promoDisc;
+  const SHIPPING = [
+    { key: 'standard', label: 'Standard', detail: '3–5 business days', cents: standardShippingCents(summary.totalCents) },
+    { key: 'express', label: 'Express', detail: '1–2 business days', cents: 700 },
+  ];
   const shipCents = SHIPPING.find((s) => s.key === ship)?.cents ?? 0;
-  const total = summary.totalCents + shipCents;
+  const total = afterPromo + shipCents;
   const errors = validateCheckout(form);
   const valid = isCheckoutValid(form);
   const err = (k: 'name' | 'email' | 'address' | 'city') => (showErrors ? errors[k] : undefined);
@@ -92,6 +102,7 @@ export default function Checkout({ onBack, onDone }: { onBack: () => void; onDon
           <View style={styles.sep} />
           <SummaryRow label="Subtotal" value={money(summary.subtotalCents)} />
           {summary.savingsCents > 0 ? <SummaryRow label="Subscribe savings" value={`−${money(summary.savingsCents)}`} accent /> : null}
+          {promoDisc > 0 ? <SummaryRow label={`Promo (${PROMO.code})`} value={`−${money(promoDisc)}`} accent /> : null}
           <SummaryRow label="Shipping" value={shipCents === 0 ? 'Free' : money(shipCents)} />
         </View>
       </ScrollView>
