@@ -10,7 +10,7 @@
  * Note: RTL v14 (React 19) `render` is async — always `await` it.
  */
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
+import { render, userEvent } from '@testing-library/react-native';
 
 import { ThemeProvider } from '../theme-context';
 import { StoreProvider } from '../store';
@@ -41,11 +41,12 @@ describe('Shop screen', () => {
   });
 
   it('opens a product when a bestseller card is pressed', async () => {
+    const user = userEvent.setup();
     const onOpenProduct = jest.fn();
     const { findAllByText } = await renderShop({ onOpenProduct, onOpenCategory: jest.fn() });
     const bestseller = products.find((p) => p.bestseller)!;
     const cards = await findAllByText(bestseller.name);
-    fireEvent.press(cards[0]);
+    await user.press(cards[0]);
     expect(onOpenProduct).toHaveBeenCalled();
   });
 });
