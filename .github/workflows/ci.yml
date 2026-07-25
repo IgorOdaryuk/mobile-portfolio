@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        app: [client-hub, eat2beat]
+        app: [client-hub, eat2beat, storefront]
     defaults:
       run:
         working-directory: ${{ matrix.app }}

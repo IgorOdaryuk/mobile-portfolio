@@ -38,13 +38,22 @@ jobs:
           npm ci
           npx expo export -p web
 
-      # Assemble a single site: Client Hub at root, Eat2Beat under /eat2beat.
+      # Solva storefront -> /mobile-portfolio/storefront/
+      - name: Build Storefront
+        working-directory: storefront
+        run: |
+          npm ci
+          npx expo export -p web
+
+      # Assemble one site: Client Hub at root, others under their subpaths.
       - name: Assemble site
         run: |
           mkdir -p _site
           cp -r client-hub/dist/* _site/
           mkdir -p _site/eat2beat
           cp -r eat2beat/dist/* _site/eat2beat/
+          mkdir -p _site/storefront
+          cp -r storefront/dist/* _site/storefront/
 
       - uses: actions/configure-pages@v5
 
