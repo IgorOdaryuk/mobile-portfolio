@@ -135,11 +135,12 @@ gig type and the portfolio had no shop.
 - **Persistence:** AsyncStorage cart + wishlist survive reload.
 - **Design:** premium warm palette, **inline-SVG product illustrations** (bottle/jar/tube/
   dropper/pouch, tinted per product) — cohesive boutique look with zero image assets.
-- **Quality gates:** **47 Jest tests** + `tsc --noEmit` (strict). 36 pure-logic tests
-  **plus 11 React Testing Library render tests (#15)** — `@testing-library/react-native`
-  mounts ProductCard, the UI primitives (Stars/Tag/SampleBadge/HeartButton) and the Shop
-  screen in real theme+store providers, asserting rendered text + that presses fire the
-  right callbacks (jest.setup.js mocks AsyncStorage + vector-icons). CI matrix covers all
+- **Quality gates:** **51 Jest tests** + `tsc --noEmit` (strict). 36 pure-logic tests
+  **plus 15 React Testing Library render tests (#15)** — `@testing-library/react-native`
+  mounts ProductCard + UI primitives (Stars/Tag/SampleBadge/HeartButton) and the Shop /
+  Cart / Category / ProductDetail screens in real theme+store providers, asserting
+  rendered text + that presses fire the right callbacks / update the cart (interactions
+  via `userEvent`; jest.setup.js mocks AsyncStorage + vector-icons). CI matrix covers all
   three apps; deploy builds all three (Client Hub at root, Eat2Beat + Solva at subpaths).
 - **Data:** 100% synthetic catalog (`scripts/gen_catalog.py`, fixed seed). Fictional brand
   "Solva", 17 products, 54 reviews, SAMPLE STORE badge. No real brand/customer data.

@@ -167,14 +167,14 @@ const styles = StyleSheet.create({
   moneyRow: { flexDirection: 'row', marginTop: 20, backgroundColor: hero.fill, borderRadius: radius.md, borderWidth: 1, borderColor: hero.line, paddingVertical: 14 },
   moneyCol: { flex: 1, alignItems: 'center' },
   moneyVal: { fontFamily: font.monoBold, fontSize: 17, color: '#FFF' },
-  moneyLbl: { fontFamily: font.mono, fontSize: 8.5, color: hero.muted, marginTop: 4, letterSpacing: 0.8 },
+  moneyLbl: { fontFamily: font.mono, fontSize: 9.5, color: hero.muted, marginTop: 4, letterSpacing: 0.4 },
   moneyDiv: { width: 1, backgroundColor: hero.line, marginVertical: 4 },
 
   body: { padding: 20, paddingTop: 18 },
   actions: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 24 },
   action: { alignItems: 'center', gap: 8 },
   actionIcon: { width: 52, height: 52, borderRadius: radius.md, backgroundColor: colors.card, borderWidth: 1, borderColor: colors.line, alignItems: 'center', justifyContent: 'center', ...shadow.soft },
-  actionLabel: { fontFamily: font.mono, fontSize: 9.5, color: colors.inkSoft, letterSpacing: 0.5 },
+  actionLabel: { fontFamily: font.mono, fontSize: 10, color: colors.inkSoft, letterSpacing: 0.4 },
 
   stepper: { flexDirection: 'row', alignItems: 'flex-start', marginBottom: 24, paddingHorizontal: 4 },
   stepItem: { alignItems: 'center', width: 62 },
