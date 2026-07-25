@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
-import { C, FONT, RADIUS } from '../theme';
+import { FONT, RADIUS, type Palette } from '../theme';
+import { useTheme, useStyles } from '../theme-context';
 import { Card, fmt } from '../ui';
 import { MacroBar } from '../components/charts';
 import { EntryRow } from '../components/FoodRow';
@@ -10,8 +11,10 @@ import { longDate, weekdayLetter, dayOfMonth } from '../dateutil';
 import { MEAL_LABEL } from '../types';
 
 export default function Diary({ onOpenFood }: { onOpenFood: (foodId: string) => void }) {
+  const { C } = useTheme();
+  const styles = useStyles(makeStyles);
   const store = useStore();
-  const goals = store.profile.goals;
+  const goals = store.goals;
   // Most-recent day first so "today" sits at the left edge, selected by default.
   const days = lastNDates(store.today, 14).slice().reverse();
   const [selected, setSelected] = useState(store.today);
@@ -82,37 +85,38 @@ export default function Diary({ onOpenFood }: { onOpenFood: (foodId: string) => 
   );
 }
 
-const styles = StyleSheet.create({
-  scroll: { padding: 18, paddingTop: 8, paddingBottom: 28 },
-  title: { fontFamily: FONT.display, fontSize: 26, color: C.text, marginBottom: 14 },
+const makeStyles = (C: Palette) =>
+  StyleSheet.create({
+    scroll: { padding: 18, paddingTop: 8, paddingBottom: 28 },
+    title: { fontFamily: FONT.display, fontSize: 26, color: C.text, marginBottom: 14 },
 
-  strip: { gap: 8, paddingBottom: 4 },
-  pill: {
-    width: 46,
-    alignItems: 'center',
-    paddingVertical: 10,
-    borderRadius: RADIUS.md,
-    backgroundColor: C.card,
-    borderWidth: 1,
-    borderColor: C.cardBorder,
-    gap: 3,
-  },
-  pillActive: { backgroundColor: C.primary, borderColor: C.primary },
-  pillDow: { fontFamily: FONT.bodySemi, fontSize: 11, color: C.textDim },
-  pillDay: { fontFamily: FONT.display, fontSize: 16, color: C.text },
-  pillTextActive: { color: '#fff' },
-  pillDot: { width: 5, height: 5, borderRadius: 3 },
+    strip: { gap: 8, paddingBottom: 4 },
+    pill: {
+      width: 46,
+      alignItems: 'center',
+      paddingVertical: 10,
+      borderRadius: RADIUS.md,
+      backgroundColor: C.card,
+      borderWidth: 1,
+      borderColor: C.cardBorder,
+      gap: 3,
+    },
+    pillActive: { backgroundColor: C.primary, borderColor: C.primary },
+    pillDow: { fontFamily: FONT.bodySemi, fontSize: 11, color: C.textDim },
+    pillDay: { fontFamily: FONT.display, fontSize: 16, color: C.text },
+    pillTextActive: { color: '#fff' },
+    pillDot: { width: 5, height: 5, borderRadius: 3 },
 
-  summary: { marginTop: 16 },
-  summaryHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 },
-  summaryDate: { fontFamily: FONT.bodyBold, fontSize: 15, color: C.text },
-  summaryKcal: { fontFamily: FONT.display, fontSize: 18, color: C.text },
-  summaryGoal: { fontFamily: FONT.bodySemi, fontSize: 13, color: C.textFaint },
-  barTrack: { height: 10, borderRadius: 5, backgroundColor: C.ring, overflow: 'hidden' },
-  barFill: { height: '100%', borderRadius: 5 },
+    summary: { marginTop: 16 },
+    summaryHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 },
+    summaryDate: { fontFamily: FONT.bodyBold, fontSize: 15, color: C.text },
+    summaryKcal: { fontFamily: FONT.display, fontSize: 18, color: C.text },
+    summaryGoal: { fontFamily: FONT.bodySemi, fontSize: 13, color: C.textFaint },
+    barTrack: { height: 10, borderRadius: 5, backgroundColor: C.ring, overflow: 'hidden' },
+    barFill: { height: '100%', borderRadius: 5 },
 
-  meal: { marginTop: 20 },
-  mealHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 2 },
-  mealName: { fontFamily: FONT.bodyBold, fontSize: 15, color: C.text },
-  mealKcal: { fontFamily: FONT.bodySemi, fontSize: 13, color: C.textDim },
-});
+    meal: { marginTop: 20 },
+    mealHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 2 },
+    mealName: { fontFamily: FONT.bodyBold, fontSize: 15, color: C.text },
+    mealKcal: { fontFamily: FONT.bodySemi, fontSize: 13, color: C.textDim },
+  });

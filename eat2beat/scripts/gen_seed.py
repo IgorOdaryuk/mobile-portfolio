@@ -16,9 +16,43 @@ from pathlib import Path
 
 SEED = 2026
 DAYS = 14          # today + 13 days of history (for trends)
+WEIGHT_DAYS = 30   # body-weight trend spans a longer window than the food log
 TODAY = date(2026, 7, 25)
 
 rng = random.Random(SEED)
+
+# --- Onboarding bio + goal math (mirrors src/selectors.ts computeGoals) -----
+BIO = {
+    "sex": "male",
+    "heightCm": 178,
+    "weightKg": 78,
+    "age": 29,
+    "activity": "moderate",
+    "goal": "lose",
+}
+WEIGHT_GOAL_KG = 75.0
+
+ACTIVITY_FACTOR = {
+    "sedentary": 1.2, "light": 1.375, "moderate": 1.55, "active": 1.725, "athlete": 1.9,
+}
+GOAL_KCAL_DELTA = {"lose": -500, "maintain": 0, "gain": 350}
+PROTEIN_PER_KG = {"lose": 2.0, "maintain": 1.8, "gain": 1.8}
+
+
+def round10(n):
+    return round(n / 10) * 10
+
+
+def compute_goals(bio):
+    w, h, a = bio["weightKg"], bio["heightCm"], bio["age"]
+    bmr = round(10 * w + 6.25 * h - 5 * a + (5 if bio["sex"] == "male" else -161))
+    maintenance = round(bmr * ACTIVITY_FACTOR[bio["activity"]])
+    kcal = max(1200, round10(maintenance + GOAL_KCAL_DELTA[bio["goal"]]))
+    protein = round(w * PROTEIN_PER_KG[bio["goal"]])
+    fat = round((kcal * 0.25) / 9)
+    carbs = max(0, round((kcal - protein * 4 - fat * 9) / 4))
+    water_ml = round10(w * 35)
+    return {"kcal": kcal, "protein": protein, "carbs": carbs, "fat": fat, "waterMl": water_ml}
 
 # --- Food database (per one serving) ---------------------------------------
 # name, brand, emoji, serving, kcal, protein, carbs, fat
@@ -126,23 +160,37 @@ def gen_water():
     return water
 
 
+def gen_weight():
+    """Gentle downward trend from ~79.6 kg with day-to-day noise; a couple of
+    missed weigh-ins to look real. Today and the first day are always present."""
+    weight = {}
+    start = 79.6
+    for d in range(WEIGHT_DAYS):
+        day = TODAY - timedelta(days=(WEIGHT_DAYS - 1 - d))
+        is_edge = d in (0, WEIGHT_DAYS - 1)
+        if not is_edge and rng.random() < 0.12:
+            continue  # skipped weigh-in
+        trend = start - d * 0.06
+        kg = round(trend + rng.uniform(-0.35, 0.35), 1)
+        weight[day.isoformat()] = kg
+    return weight
+
+
 def main():
     foods = build_foods()
     entries = gen_entries(foods)
     water = gen_water()
+    weight = gen_weight()
 
     seed = {
         "today": TODAY.isoformat(),
         "profile": {
             "name": "Alex Rivera",
-            "goals": {
-                "kcal": 2200,
-                "protein": 150,
-                "carbs": 220,
-                "fat": 70,
-                "waterMl": 2500,
-            },
+            "goals": compute_goals(BIO),
+            "bio": BIO,
+            "weightGoalKg": WEIGHT_GOAL_KG,
             "waterByDate": water,
+            "weightByDate": weight,
         },
         "foods": foods,
         "entries": entries,
@@ -151,7 +199,10 @@ def main():
     out = Path(__file__).resolve().parent.parent / "src" / "data" / "seed.json"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(seed, indent=2, ensure_ascii=False) + "\n")
-    print(f"wrote {out} — {len(foods)} foods, {len(entries)} entries, {DAYS} days")
+    print(
+        f"wrote {out} — {len(foods)} foods, {len(entries)} entries, "
+        f"{len(weight)} weigh-ins, goals={seed['profile']['goals']}"
+    )
 
 
 if __name__ == "__main__":

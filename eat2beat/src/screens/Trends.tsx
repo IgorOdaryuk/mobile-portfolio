@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import { C, FONT, MACROS } from '../theme';
+import { Feather } from '@expo/vector-icons';
+import { FONT, MACROS, type Palette } from '../theme';
+import { useTheme, useStyles } from '../theme-context';
 import { Card, SectionTitle, fmt } from '../ui';
 import { WeeklyBars, MacroDonut } from '../components/charts';
 import { useStore } from '../store';
@@ -13,12 +15,17 @@ import {
   sumMacros,
   macroCaloriePct,
   lastNDates,
+  buildInsights,
+  type Insight,
+  type InsightTone,
 } from '../selectors';
 import { weekdayShort } from '../dateutil';
 
 export default function Trends() {
+  const { C } = useTheme();
+  const styles = useStyles(makeStyles);
   const store = useStore();
-  const goals = store.profile.goals;
+  const goals = store.goals;
   const dates = lastNDates(store.today, 14);
   const series = dailyKcalSeries(store.entries, store.foodsById, store.today, 14);
 
@@ -35,6 +42,9 @@ export default function Trends() {
   );
   const pct = macroCaloriePct(periodMacros);
 
+  // Same 14-day window as the rest of the screen, so figures never appear to disagree.
+  const insights = buildInsights(store.entries, store.foodsById, goals, store.today, 14);
+
   const last7 = series.slice(-7);
 
   return (
@@ -50,6 +60,14 @@ export default function Trends() {
         <Tile value={`${onTarget}/${daysLogged}`} label="days on target" />
         <Tile value={fmt(goals.kcal)} label="daily goal" />
       </View>
+
+      {/* insights */}
+      <SectionTitle>Insights</SectionTitle>
+      <Card style={styles.insightCard}>
+        {insights.map((ins, i) => (
+          <InsightRow key={ins.id} insight={ins} last={i === insights.length - 1} />
+        ))}
+      </Card>
 
       {/* weekly bars */}
       <SectionTitle>Last 14 days</SectionTitle>
@@ -86,6 +104,7 @@ export default function Trends() {
 }
 
 function Tile({ value, label, tint }: { value: string; label: string; tint?: string }) {
+  const styles = useStyles(makeStyles);
   return (
     <View style={styles.tile}>
       <Text style={[styles.tileVal, tint ? { color: tint } : null]}>{value}</Text>
@@ -94,7 +113,29 @@ function Tile({ value, label, tint }: { value: string; label: string; tint?: str
   );
 }
 
+const INSIGHT_ICON: Record<InsightTone, keyof typeof Feather.glyphMap> = {
+  good: 'check-circle',
+  warn: 'alert-triangle',
+  info: 'info',
+};
+
+function InsightRow({ insight, last }: { insight: Insight; last: boolean }) {
+  const { C } = useTheme();
+  const styles = useStyles(makeStyles);
+  const tint = insight.tone === 'good' ? C.primary : insight.tone === 'warn' ? C.over : C.water;
+  const bg = insight.tone === 'good' ? C.primarySoft : insight.tone === 'warn' ? C.overSoft : C.waterSoft;
+  return (
+    <View style={[styles.insightRow, !last && styles.insightRowBorder]}>
+      <View style={[styles.insightIcon, { backgroundColor: bg }]}>
+        <Feather name={INSIGHT_ICON[insight.tone]} size={15} color={tint} />
+      </View>
+      <Text style={styles.insightText}>{insight.text}</Text>
+    </View>
+  );
+}
+
 function MacroLeg({ label, pct, g, color }: { label: string; pct: number; g: number; color: string }) {
+  const styles = useStyles(makeStyles);
   return (
     <View style={styles.mlRow}>
       <View style={[styles.mlDot, { backgroundColor: color }]} />
@@ -105,7 +146,8 @@ function MacroLeg({ label, pct, g, color }: { label: string; pct: number; g: num
   );
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (C: Palette) =>
+  StyleSheet.create({
   scroll: { padding: 18, paddingTop: 8, paddingBottom: 28 },
   title: { fontFamily: FONT.display, fontSize: 26, color: C.text, marginBottom: 16 },
 
@@ -121,6 +163,12 @@ const styles = StyleSheet.create({
   },
   tileVal: { fontFamily: FONT.display, fontSize: 26, color: C.text },
   tileLabel: { fontFamily: FONT.bodySemi, fontSize: 12, color: C.textDim, marginTop: 3 },
+
+  insightCard: { paddingVertical: 4 },
+  insightRow: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 12 },
+  insightRowBorder: { borderBottomWidth: 1, borderBottomColor: C.cardBorder },
+  insightIcon: { width: 30, height: 30, borderRadius: 15, alignItems: 'center', justifyContent: 'center' },
+  insightText: { flex: 1, fontFamily: FONT.bodySemi, fontSize: 13, color: C.text, lineHeight: 18 },
 
   axis: { flexDirection: 'row', justifyContent: 'space-around', marginTop: 2 },
   axisLabel: { fontFamily: FONT.body, fontSize: 11, color: C.textFaint },

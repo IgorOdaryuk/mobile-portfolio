@@ -10,7 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SHOTS = ROOT / "screenshots"
 # order shown left -> right in the hero
-PANELS = ["01-today", "04-trends", "02-add", "03-diary"]
+PANELS = ["01-today", "04-trends", "07-weight", "09-today-dark"]
 
 
 def data_uri(name: str) -> str:
@@ -34,7 +34,10 @@ html = f"""<!doctype html>
   }}
   .head {{ text-align:center; margin-bottom:40px; }}
   .title {{ font-size:56px; font-weight:800; color:#0F1A16; letter-spacing:-1px; }}
-  .title .beat {{ color:#12A867; }}
+  .title .beat {{
+    background:linear-gradient(135deg,#0F9E6E,#2FD3A6);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }}
   .sub {{ font-size:23px; color:#5E6B65; margin-top:10px; font-weight:500; }}
   .row {{ display:flex; justify-content:center; align-items:flex-start; gap:18px; }}
   .dev {{ width:400px; height:auto; filter:drop-shadow(0 24px 48px rgba(11,45,34,0.22)); }}

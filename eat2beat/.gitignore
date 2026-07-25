@@ -39,3 +39,6 @@ yarn-error.*
 # generated native folders
 /ios
 /android
+
+# hero composite build artifact (screenshots/hero.png is the committed output)
+screenshots/_hero.html

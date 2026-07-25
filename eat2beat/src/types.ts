@@ -40,11 +40,34 @@ export type Goals = {
   waterMl: number;
 };
 
+export type Sex = 'male' | 'female';
+
+/** Activity multiplier keys for the TDEE calculation. */
+export type ActivityKey = 'sedentary' | 'light' | 'moderate' | 'active' | 'athlete';
+
+/** Direction of the calorie goal relative to maintenance. */
+export type GoalDir = 'lose' | 'maintain' | 'gain';
+
+/** The inputs a user enters during onboarding / goal editing. */
+export type Bio = {
+  sex: Sex;
+  heightCm: number;
+  weightKg: number;
+  age: number;
+  activity: ActivityKey;
+  goal: GoalDir;
+};
+
 export type Profile = {
   name: string;
   goals: Goals;
+  bio: Bio;
+  /** Target body weight in kg (used as the goal line on the weight chart). */
+  weightGoalKg: number;
   /** ml of water logged, keyed by date. */
   waterByDate: Record<string, number>;
+  /** body weight in kg, keyed by date. */
+  weightByDate: Record<string, number>;
 };
 
 export type Macros = {

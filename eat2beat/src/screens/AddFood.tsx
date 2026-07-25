@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Pressable, TextInput } from 'react-native';
-import { C, FONT, RADIUS, MACROS } from '../theme';
+import { FONT, RADIUS, MACROS, type Palette } from '../theme';
+import { useTheme, useStyles } from '../theme-context';
 import { fmt } from '../ui';
 import { MacroDonut } from '../components/charts';
 import { FoodListRow } from '../components/FoodRow';
@@ -17,6 +18,8 @@ export default function AddFood({
   initialFoodId?: string | null;
   onClose: () => void;
 }) {
+  const { C } = useTheme();
+  const styles = useStyles(makeStyles);
   const store = useStore();
   const [meal, setMeal] = useState<MealKey>(initialMeal);
   const [query, setQuery] = useState('');
@@ -140,6 +143,7 @@ export default function AddFood({
 }
 
 function Header({ title, onClose, closeLabel }: { title: string; onClose: () => void; closeLabel: string }) {
+  const styles = useStyles(makeStyles);
   return (
     <View style={styles.header}>
       <Pressable onPress={onClose} hitSlop={8}>
@@ -152,6 +156,7 @@ function Header({ title, onClose, closeLabel }: { title: string; onClose: () => 
 }
 
 function MacroLegend({ label, g, pct, color }: { label: string; g: number; pct: number; color: string }) {
+  const styles = useStyles(makeStyles);
   return (
     <View style={styles.legendRow}>
       <View style={[styles.legendDot, { backgroundColor: color }]} />
@@ -163,7 +168,8 @@ function MacroLegend({ label, g, pct, color }: { label: string; g: number; pct: 
   );
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (C: Palette) =>
+  StyleSheet.create({
   wrap: { flex: 1, backgroundColor: C.bg },
   header: {
     flexDirection: 'row',
