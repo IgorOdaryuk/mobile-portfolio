@@ -134,3 +134,23 @@ export function discountPct(product: Product): number {
 export function money(cents: number): string {
   return '$' + (cents / 100).toFixed(2);
 }
+
+export type CheckoutForm = { name: string; email: string; address: string; city: string };
+export type CheckoutErrors = Partial<Record<keyof CheckoutForm, string>>;
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+/** Validate the checkout form. Returns a per-field error map ({} when valid). */
+export function validateCheckout(form: CheckoutForm): CheckoutErrors {
+  const e: CheckoutErrors = {};
+  if (!form.name.trim()) e.name = 'Enter your name';
+  if (!form.email.trim()) e.email = 'Enter your email';
+  else if (!EMAIL_RE.test(form.email.trim())) e.email = 'Enter a valid email';
+  if (!form.address.trim()) e.address = 'Enter your address';
+  if (!form.city.trim()) e.city = 'Enter city, state and ZIP';
+  return e;
+}
+
+export function isCheckoutValid(form: CheckoutForm): boolean {
+  return Object.keys(validateCheckout(form)).length === 0;
+}

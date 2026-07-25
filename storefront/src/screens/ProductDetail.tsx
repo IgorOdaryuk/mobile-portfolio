@@ -48,7 +48,7 @@ export default function ProductDetail({
       <Header onBack={onBack} wished={wished} onWish={() => store.toggleWish(product.id)} />
       <ScrollView contentContainerStyle={styles.body} showsVerticalScrollIndicator={false}>
         <View style={styles.gallery}>
-          <ProductArt vessel={product.vessel} tint={product.tint} size={180} image={productImage(product.id)} />
+          <ProductArt vessel={product.vessel} tint={product.tint} size={180} image={productImage(product.id)} label={product.name} />
           {sale ? <View style={styles.saleTag}><Tag label={`-${discountPct(product)}% summer`} tone="terra" /></View> : null}
         </View>
 

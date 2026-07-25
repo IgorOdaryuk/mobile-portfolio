@@ -8,7 +8,7 @@ export const CATEGORIES: { key: Category; label: string }[] = [
 ];
 
 /** Illustration shape drawn in SVG for a product tile. */
-export type Vessel = 'bottle' | 'jar' | 'tube' | 'dropper' | 'pouch';
+export type Vessel = 'bottle' | 'jar' | 'tube' | 'dropper' | 'pouch' | 'pump' | 'mist' | 'stick';
 
 export type Variant = {
   id: string;

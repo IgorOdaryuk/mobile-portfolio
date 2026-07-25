@@ -50,22 +50,22 @@ export default function Category({
         />
       </View>
 
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.chips}>
+      <View style={styles.chips}>
         <Chip label="All" active={cat === 'all'} onPress={() => setCat('all')} />
         {CATEGORIES.map((c) => (
           <Chip key={c.key} label={c.label} active={cat === c.key} onPress={() => setCat(c.key)} />
         ))}
-      </ScrollView>
+      </View>
 
       <View style={styles.sortRow}>
         <Text style={styles.count}>{results.length} products</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.sorts}>
+        <View style={styles.sorts}>
           {SORTS.map((s) => (
             <Pressable key={s.key} onPress={() => setSort(s.key)}>
               <Text style={[styles.sort, sort === s.key && styles.sortOn]}>{s.label}</Text>
             </Pressable>
           ))}
-        </ScrollView>
+        </View>
       </View>
 
       <ScrollView contentContainerStyle={styles.list} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
@@ -105,7 +105,7 @@ const makeStyles = (C: Palette) =>
     searchWrap: { paddingHorizontal: 18, paddingBottom: 8 },
     search: { backgroundColor: C.card, borderColor: C.line, borderWidth: 1, borderRadius: RADIUS.md, paddingHorizontal: 14, paddingVertical: 11, fontFamily: FONT.body, fontSize: 15, color: C.ink },
 
-    chips: { gap: 8, paddingHorizontal: 18, paddingBottom: 4 },
+    chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, paddingHorizontal: 18, paddingVertical: 6 },
     chip: { borderRadius: RADIUS.pill, borderWidth: 1, borderColor: C.line, backgroundColor: C.card, paddingHorizontal: 15, paddingVertical: 8 },
     chipOn: { backgroundColor: C.ink, borderColor: C.ink },
     chipText: { fontFamily: FONT.bodySemi, fontSize: 13, color: C.inkDim },
@@ -113,7 +113,7 @@ const makeStyles = (C: Palette) =>
 
     sortRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 18, paddingVertical: 10, gap: 12 },
     count: { fontFamily: FONT.bodySemi, fontSize: 12, color: C.inkFaint },
-    sorts: { gap: 14 },
+    sorts: { flexDirection: 'row', gap: 14 },
     sort: { fontFamily: FONT.bodySemi, fontSize: 13, color: C.inkFaint },
     sortOn: { color: C.sage, textDecorationLine: 'underline' },
 

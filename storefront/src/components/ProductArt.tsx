@@ -28,17 +28,20 @@ export function ProductArt({
   tint,
   size = 120,
   image,
+  label,
 }: {
   vessel: Vessel;
   tint: string;
   size?: number;
   image?: ImageSourcePropType | null;
+  label?: string;
 }) {
   const h = size * 1.2;
   const uid = useId().replace(/[:]/g, '');
+  const a11y = label ? { accessible: true, accessibilityRole: 'image' as const, accessibilityLabel: `${label} product photo` } : { accessibilityElementsHidden: true, importantForAccessibility: 'no' as const };
 
   if (image) {
-    return <Image source={image} style={{ width: size, height: h, resizeMode: 'contain' }} />;
+    return <Image source={image} style={{ width: size, height: h, resizeMode: 'contain' }} {...a11y} />;
   }
 
   const t = PRODUCT_TINTS[tint] ?? PRODUCT_TINTS.sage;
@@ -46,7 +49,7 @@ export function ProductArt({
   const capGrad = `c${uid}`;
 
   return (
-    <View style={{ width: size, height: h, alignItems: 'center', justifyContent: 'center' }}>
+    <View style={{ width: size, height: h, alignItems: 'center', justifyContent: 'center' }} {...a11y}>
       <Svg width={size} height={h} viewBox="0 0 100 120">
         <Defs>
           <LinearGradient id={bodyGrad} x1="0" y1="0" x2="1" y2="1">
@@ -141,6 +144,39 @@ function shape(vessel: Vessel, t: { fill: string; cap: string }, body: string, c
           <Path d="M29 25 h42 v70 a4 4 0 0 1 -4 4 h-34 a4 4 0 0 1 -4 -4 z" fill={g} />
           <Sheen d="M35 32 q-3 3 -3 10 v42 q0 4 3 6 q-2 -30 -1 -58 z" />
           <Label x={35} y={44} w={30} h={34} accent={t.cap} />
+        </G>
+      );
+    case 'pump':
+      return (
+        <G>
+          <Rect x="47" y="8" width="7" height="9" rx="1.5" fill={c} />
+          <Rect x="40" y="14" width="24" height="8" rx="3" fill={c} />
+          <Rect x="62" y="16" width="9" height="6" rx="2" fill={darken(t.cap, 0.12)} />
+          <Rect x="43" y="22" width="14" height="8" rx="2" fill={t.cap} opacity={0.9} />
+          <Rect x="31" y="30" width="38" height="76" rx="11" fill={g} />
+          <Sheen d="M36 38 q-3 4 -3 12 v36 q0 6 4 8 q-2 -28 -1 -56 z" />
+          <Label x={35} y={58} w={30} h={30} accent={t.cap} />
+        </G>
+      );
+    case 'mist':
+      return (
+        <G>
+          <Rect x="45" y="9" width="14" height="8" rx="1.5" fill={c} />
+          <Rect x="41" y="16" width="6" height="4" rx="1" fill={darken(t.cap, 0.12)} />
+          <Rect x="43" y="19" width="18" height="8" rx="2" fill={t.cap} opacity={0.9} />
+          <Rect x="33" y="27" width="34" height="79" rx="9" fill={g} />
+          <Sheen d="M38 34 q-3 3 -3 11 v40 q0 6 4 8 q-2 -30 -1 -58 z" />
+          <Label x={36} y={56} w={28} h={32} accent={t.cap} />
+        </G>
+      );
+    case 'stick':
+      return (
+        <G>
+          <Rect x="39" y="18" width="22" height="36" rx="9" fill={c} />
+          <Ellipse cx="50" cy="20" rx="11" ry="3" fill={lighten(t.cap, 0.18)} opacity={0.6} />
+          <Rect x="41" y="50" width="18" height="56" rx="7" fill={g} />
+          <Sheen d="M44 56 q-2 3 -2 9 v32 q0 5 3 6 q-2 -24 -1 -47 z" />
+          <Label x={42} y={68} w={16} h={30} accent={t.cap} />
         </G>
       );
   }
