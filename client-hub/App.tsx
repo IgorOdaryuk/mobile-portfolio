@@ -4,12 +4,16 @@ import { StatusBar } from 'expo-status-bar';
 import { Feather } from '@expo/vector-icons';
 import {
   useFonts,
-  PlusJakartaSans_400Regular,
-  PlusJakartaSans_500Medium,
-  PlusJakartaSans_600SemiBold,
-  PlusJakartaSans_700Bold,
-} from '@expo-google-fonts/plus-jakarta-sans';
-import { SpaceGrotesk_500Medium, SpaceGrotesk_700Bold } from '@expo-google-fonts/space-grotesk';
+  Archivo_400Regular,
+  Archivo_500Medium,
+  Archivo_600SemiBold,
+  Archivo_700Bold,
+} from '@expo-google-fonts/archivo';
+import {
+  JetBrainsMono_500Medium,
+  JetBrainsMono_600SemiBold,
+  JetBrainsMono_700Bold,
+} from '@expo-google-fonts/jetbrains-mono';
 
 import { colors, font } from './src/theme';
 import { Seed } from './src/types';
@@ -79,8 +83,8 @@ function Shell() {
             const active = t.key === tab;
             return (
               <Pressable key={t.key} onPress={() => setTab(t.key)} style={styles.tab}>
-                <Feather name={t.icon as any} size={22} color={active ? colors.accent : colors.muted} />
-                <Text style={[styles.tabLabel, active && { color: colors.accent, fontFamily: font.bold }]}>{t.key}</Text>
+                <Feather name={t.icon as any} size={21} color={active ? colors.accent : colors.muted} />
+                <Text style={[styles.tabLabel, active && { color: colors.accent, fontFamily: font.monoBold }]}>{t.key}</Text>
               </Pressable>
             );
           })}
@@ -94,12 +98,13 @@ function Shell() {
 
 export default function App() {
   const [fontsLoaded] = useFonts({
-    PlusJakartaSans_400Regular,
-    PlusJakartaSans_500Medium,
-    PlusJakartaSans_600SemiBold,
-    PlusJakartaSans_700Bold,
-    SpaceGrotesk_500Medium,
-    SpaceGrotesk_700Bold,
+    Archivo_400Regular,
+    Archivo_500Medium,
+    Archivo_600SemiBold,
+    Archivo_700Bold,
+    JetBrainsMono_500Medium,
+    JetBrainsMono_600SemiBold,
+    JetBrainsMono_700Bold,
   });
   if (!fontsLoaded) return <View style={{ flex: 1, backgroundColor: colors.paper }} />;
 
@@ -153,7 +158,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     paddingBottom: 8,
   },
-  clock: { fontFamily: font.bold, fontSize: 15, color: colors.ink },
+  clock: { fontFamily: font.monoBold, fontSize: 14, color: colors.ink, letterSpacing: 0.5 },
   statusIcons: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   battery: { width: 24, height: 12, borderRadius: 3, borderWidth: 1, opacity: 0.9, padding: 1.5, justifyContent: 'center' },
   batteryFill: { width: '75%', height: '100%', borderRadius: 1 },
@@ -166,7 +171,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 6,
   },
-  tab: { flex: 1, alignItems: 'center', gap: 3 },
-  tabLabel: { fontFamily: font.med, fontSize: 11, color: colors.muted },
+  tab: { flex: 1, alignItems: 'center', gap: 4 },
+  tabLabel: { fontFamily: font.mono, fontSize: 9.5, color: colors.muted, textTransform: 'uppercase', letterSpacing: 0.6 },
   homeIndicator: { alignSelf: 'center', width: 134, height: 5, borderRadius: 3, backgroundColor: colors.ink, opacity: 0.85, marginVertical: 8 },
 });
