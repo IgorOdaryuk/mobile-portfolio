@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Igor Odaryuk — Mobile Portfolio</title>
+<meta name="description" content="Three shipped React Native apps — field-service CRM, health tracker, e-commerce. Live demos, tests, CI/CD." />
+<style>
+  :root {
+    --bg: #0f1216; --panel: #171b21; --line: #262c35;
+    --ink: #eef1f5; --dim: #9aa4b2; --faint: #6b7480;
+    --accent: #7fa080;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, 'Segoe UI', Roboto, Inter, sans-serif;
+    background: radial-gradient(1200px 600px at 70% -10%, #1b2942 0%, var(--bg) 55%);
+    color: var(--ink); -webkit-font-smoothing: antialiased; line-height: 1.5;
+    min-height: 100vh;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 72px 24px 96px; }
+  header { margin-bottom: 56px; }
+  .kicker { font-size: 13px; letter-spacing: 2px; color: var(--accent); font-weight: 700; text-transform: uppercase; }
+  h1 { font-size: clamp(34px, 6vw, 54px); font-weight: 800; letter-spacing: -1px; margin: 12px 0 14px; }
+  .lede { font-size: clamp(16px, 2.4vw, 20px); color: var(--dim); max-width: 680px; }
+  .lede b { color: var(--ink); font-weight: 700; }
+  .meta { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { font-size: 12.5px; color: var(--dim); border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; background: rgba(255,255,255,0.02); }
+
+  .apps { display: grid; gap: 22px; }
+  .app {
+    display: grid; grid-template-columns: 1.15fr 1fr; gap: 8px; align-items: center;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 22px;
+    overflow: hidden;
+  }
+  .app:nth-child(even) { grid-template-columns: 1fr 1.15fr; }
+  .app:nth-child(even) .shot { order: 2; }
+  .body { padding: 30px 30px 30px 34px; }
+  .app:nth-child(even) .body { padding-left: 30px; padding-right: 34px; }
+  .emoji { font-size: 26px; }
+  .app h2 { font-size: 26px; font-weight: 800; margin: 8px 0 6px; letter-spacing: -0.3px; }
+  .app p { color: var(--dim); font-size: 15px; margin-bottom: 14px; }
+  .stack { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+  .stack span { font-size: 11.5px; color: var(--faint); border: 1px solid var(--line); border-radius: 6px; padding: 3px 8px; }
+  .links { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn { text-decoration: none; font-size: 14px; font-weight: 700; border-radius: 999px; padding: 10px 18px; display: inline-flex; align-items: center; gap: 7px; }
+  .btn.primary { background: var(--accent); color: #0f1a12; }
+  .btn.ghost { border: 1px solid var(--line); color: var(--ink); }
+  .btn.ghost:hover { border-color: var(--accent); }
+  .shot { background: #0b0e12; padding: 22px; display: flex; align-items: center; justify-content: center; min-height: 220px; }
+  .shot img { width: 100%; height: auto; border-radius: 10px; display: block; }
+
+  footer { margin-top: 56px; color: var(--faint); font-size: 13px; text-align: center; }
+  footer a { color: var(--dim); }
+
+  @media (max-width: 720px) {
+    .app, .app:nth-child(even) { grid-template-columns: 1fr; }
+    .app:nth-child(even) .shot { order: 0; }
+    .shot { min-height: 0; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="kicker">Mobile Portfolio</div>
+      <h1>Igor Odaryuk</h1>
+      <p class="lede">
+        <b>Three shipped React&nbsp;Native apps</b>, each with a live web demo, tests and
+        CI/CD — built across three deliberately different domains so the range is obvious,
+        not one template reskinned.
+      </p>
+      <div class="meta">
+        <span class="chip">React Native · Expo SDK 57</span>
+        <span class="chip">TypeScript (strict)</span>
+        <span class="chip">Unit-tested logic</span>
+        <span class="chip">GitHub Actions CI/CD</span>
+      </div>
+    </header>
+
+    <main class="apps">
+      <!-- Client Hub -->
+      <article class="app">
+        <div class="shot"><img src="hub-assets/client-hub.png" alt="Client Hub — all screens" loading="lazy" /></div>
+        <div class="body">
+          <div class="emoji">🚀</div>
+          <h2>Client Hub</h2>
+          <p>Phone-first CRM for home-service businesses on Housecall Pro / Jobber — client 360, pipeline board, and auto-generated follow-up tasks in one place.</p>
+          <div class="stack"><span>Field-service CRM</span><span>SVG charts</span><span>AsyncStorage</span></div>
+          <div class="links">
+            <a class="btn primary" href="client-hub/">▶ Live demo</a>
+            <a class="btn ghost" href="https://github.com/IgorOdaryuk/mobile-portfolio/tree/master/client-hub">Code</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Eat2Beat -->
+      <article class="app">
+        <div class="shot"><img src="hub-assets/eat2beat.png" alt="Eat2Beat — all screens" loading="lazy" /></div>
+        <div class="body">
+          <div class="emoji">🥗</div>
+          <h2>Eat2Beat</h2>
+          <p>Calorie &amp; macro tracker — daily ring, macro bars, weight trend and plain-language insights. Full light / dark theme; every chart is data-driven SVG.</p>
+          <div class="stack"><span>Health &amp; fitness</span><span>Light/Dark</span><span>Mifflin-St Jeor</span></div>
+          <div class="links">
+            <a class="btn primary" href="eat2beat/">▶ Live demo</a>
+            <a class="btn ghost" href="https://github.com/IgorOdaryuk/mobile-portfolio/tree/master/eat2beat">Code</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Solva -->
+      <article class="app">
+        <div class="shot"><img src="hub-assets/solva.png" alt="Solva — all screens" loading="lazy" /></div>
+        <div class="body">
+          <div class="emoji">🧴</div>
+          <h2>Solva</h2>
+          <p>Premium clean-skincare storefront — browse, product with size variants + subscribe-and-save, cart, checkout. Its own serif identity and light / dark theme.</p>
+          <div class="stack"><span>E-commerce</span><span>Subscribe &amp; save</span><span>Serif + Dark</span></div>
+          <div class="links">
+            <a class="btn primary" href="storefront/">▶ Live demo</a>
+            <a class="btn ghost" href="https://github.com/IgorOdaryuk/mobile-portfolio/tree/master/storefront">Code</a>
+          </div>
+        </div>
+      </article>
+    </main>
+
+    <footer>
+      Built with React Native · Expo · TypeScript ·
+      <a href="https://github.com/IgorOdaryuk/mobile-portfolio">github.com/IgorOdaryuk/mobile-portfolio</a><br />
+      Every app ships with synthetic demo data and a real, runnable codebase.
+    </footer>
+  </div>
+</body>
+</html>

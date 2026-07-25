@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: 20
 
-      # Client Hub -> site root (/mobile-portfolio/)
+      # Client Hub -> /mobile-portfolio/client-hub/
       - name: Build Client Hub
         working-directory: client-hub
         run: |
@@ -45,14 +45,18 @@ jobs:
           npm ci
           npx expo export -p web
 
-      # Assemble one site: Client Hub at root, others under their subpaths.
+      # Assemble one site: a landing hub at root, each app under its subpath.
       - name: Assemble site
         run: |
-          mkdir -p _site
-          cp -r client-hub/dist/* _site/
-          mkdir -p _site/eat2beat
+          mkdir -p _site/client-hub _site/eat2beat _site/storefront _site/hub-assets
+          # landing hub at root
+          cp hub/index.html _site/index.html
+          cp client-hub/screenshots/hero.png _site/hub-assets/client-hub.png
+          cp eat2beat/screenshots/hero.png _site/hub-assets/eat2beat.png
+          cp storefront/screenshots/hero.png _site/hub-assets/solva.png
+          # apps under subpaths
+          cp -r client-hub/dist/* _site/client-hub/
           cp -r eat2beat/dist/* _site/eat2beat/
-          mkdir -p _site/storefront
           cp -r storefront/dist/* _site/storefront/
 
       - uses: actions/configure-pages@v5

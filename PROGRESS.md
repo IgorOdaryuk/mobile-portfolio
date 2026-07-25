@@ -10,7 +10,7 @@ https://github.com/IgorOdaryuk/mobile-portfolio
 Phone-first field-service CRM (appliance repair / HVAC / cleaning on Housecall Pro /
 Jobber). Folder: [`client-hub/`](./client-hub).
 
-- **Live demo:** https://igorodaryuk.github.io/mobile-portfolio/
+- **Live demo:** https://igorodaryuk.github.io/mobile-portfolio/client-hub/
 - **Stack:** Expo SDK 57 · React Native 0.86 · React 19 · TypeScript (strict)
 - **Screens (5):** Home (KPIs + charts) · Clients (search/filter) · Board (kanban) ·
   Tasks (auto-generated) · Client 360 (detail)
