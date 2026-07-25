@@ -1,4 +1,4 @@
-import { filterClients, sortByPriority, groupTasks, clientsByStage, computeKpis } from '../selectors';
+import { filterClients, sortByPriority, groupTasks, clientsByStage, computeKpis, revenueByMonth } from '../selectors';
 import { Client, Job, Task } from '../types';
 import seed from '../data/seed.json';
 import { Seed } from '../types';
@@ -102,6 +102,32 @@ describe('computeKpis', () => {
   });
   it('ranks lead sources by count', () => {
     expect(kpis.leadSources[0]).toEqual(['Tampa LSA', 2]);
+  });
+});
+
+describe('revenueByMonth', () => {
+  const job = (completedDate: string | null, amount: number): Job => ({
+    id: 'j', clientId: 'c', appliance: '', brand: '', description: '', status: '', stage: '',
+    stageOrder: 3, amount, outstanding: 0, tech: null, scheduledDate: null, completedDate,
+    createdDate: '', rating: null,
+  });
+  const clients: Client[] = [
+    mk({ id: 'c1', jobs: [job('2026-05-10', 200), job('2026-05-22', 100)] }),
+    mk({ id: 'c2', jobs: [job('2026-07-01', 300), job(null, 999), job('2026-07-15', 0)] }),
+  ];
+  it('sums revenue per month, chronological, with month labels', () => {
+    expect(revenueByMonth(clients)).toEqual([
+      { label: 'May', value: 300 },
+      { label: 'Jul', value: 300 },
+    ]);
+  });
+  it('ignores jobs with no completed date or zero amount', () => {
+    const r = revenueByMonth(clients);
+    expect(r.reduce((a, m) => a + m.value, 0)).toBe(600);
+  });
+  it('keeps only the most recent n months', () => {
+    const many: Client[] = [mk({ jobs: ['2026-01', '2026-02', '2026-03', '2026-04'].map((m) => job(`${m}-05`, 50)) })];
+    expect(revenueByMonth(many, 2).map((m) => m.label)).toEqual(['Mar', 'Apr']);
   });
 });
 
