@@ -8,7 +8,7 @@ through a dozen chat threads to answer "who owes what, and who do we call next?"
 Built as a **React Native + Expo + TypeScript** app. This repo is the UI layer of the
 product; it ships with a fully **synthetic** demo dataset so it runs with zero backend.
 
-![Client Hub — all screens](screenshots/00-hero.png)
+![Client Hub — all screens](screenshots/hero.png)
 
 ## Screens
 
