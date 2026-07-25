@@ -1,17 +1,11 @@
 import React, { useMemo, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
-import { C, FONT, RADIUS, SUBSCRIBE_DISCOUNT } from '../theme';
+import { FONT, RADIUS, SUBSCRIBE_DISCOUNT, BTN, type Palette } from '../theme';
+import { useTheme, useStyles } from '../theme-context';
 import { Stars, Tag, HeartButton, Divider } from '../ui';
 import { ProductArt } from '../components/ProductArt';
 import { useStore } from '../store';
-import {
-  money,
-  isOnSale,
-  discountPct,
-  unitPriceCents,
-  reviewsFor,
-  averageReviewRating,
-} from '../selectors';
+import { money, isOnSale, discountPct, unitPriceCents, reviewsFor, averageReviewRating } from '../selectors';
 
 export default function ProductDetail({
   productId,
@@ -22,6 +16,8 @@ export default function ProductDetail({
   onBack: () => void;
   onOpenCart: () => void;
 }) {
+  const { C } = useTheme();
+  const styles = useStyles(makeStyles);
   const store = useStore();
   const product = store.productsById[productId];
   const [variantId, setVariantId] = useState(product?.variants[0]?.id ?? '');
@@ -50,7 +46,6 @@ export default function ProductDetail({
     <View style={styles.wrap}>
       <Header onBack={onBack} wished={wished} onWish={() => store.toggleWish(product.id)} />
       <ScrollView contentContainerStyle={styles.body} showsVerticalScrollIndicator={false}>
-        {/* gallery */}
         <View style={styles.gallery}>
           <ProductArt vessel={product.vessel} tint={product.tint} size={150} />
           {sale ? <View style={styles.saleTag}><Tag label={`-${discountPct(product)}% summer`} tone="terra" /></View> : null}
@@ -87,9 +82,7 @@ export default function ProductDetail({
         {/* subscribe-and-save */}
         {product.subscribable ? (
           <Pressable style={[styles.sub, subscribe && styles.subOn]} onPress={() => setSubscribe((s) => !s)}>
-            <View style={[styles.check, subscribe && styles.checkOn]}>
-              {subscribe ? <Text style={styles.checkMark}>✓</Text> : null}
-            </View>
+            <View style={[styles.check, subscribe && styles.checkOn]}>{subscribe ? <Text style={styles.checkMark}>✓</Text> : null}</View>
             <View style={{ flex: 1 }}>
               <Text style={styles.subTitle}>Subscribe & save {Math.round(SUBSCRIBE_DISCOUNT * 100)}%</Text>
               <Text style={styles.subText}>Deliver every 4 weeks · skip or cancel anytime</Text>
@@ -100,7 +93,6 @@ export default function ProductDetail({
 
         <Divider />
 
-        {/* benefits */}
         <Text style={styles.label}>Why you'll love it</Text>
         <View style={styles.benefits}>
           {product.benefits.map((b) => (
@@ -116,7 +108,6 @@ export default function ProductDetail({
 
         <Divider />
 
-        {/* reviews */}
         <Text style={styles.label}>Reviews</Text>
         {reviews.map((r) => (
           <View key={r.id} style={styles.review}>
@@ -153,67 +144,69 @@ export default function ProductDetail({
 }
 
 function Header({ onBack, wished, onWish }: { onBack: () => void; wished: boolean; onWish: () => void }) {
+  const styles = useStyles(makeStyles);
   return (
     <View style={styles.header}>
-      <Pressable onPress={onBack} hitSlop={8}><Text style={styles.back}>‹ Shop</Text></Pressable>
+      <Pressable onPress={onBack} hitSlop={8}><Text style={styles.headerBack}>‹ Shop</Text></Pressable>
       <HeartButton active={wished} onPress={onWish} />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  wrap: { flex: 1, backgroundColor: C.bg },
-  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 18, paddingTop: 6, paddingBottom: 8 },
-  back: { fontFamily: FONT.bodySemi, fontSize: 15, color: C.sage },
-  missing: { fontFamily: FONT.body, fontSize: 14, color: C.inkDim, padding: 18 },
+const makeStyles = (C: Palette) =>
+  StyleSheet.create({
+    wrap: { flex: 1, backgroundColor: C.bg },
+    header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 18, paddingTop: 6, paddingBottom: 8 },
+    headerBack: { fontFamily: FONT.bodySemi, fontSize: 15, color: C.sage },
+    missing: { fontFamily: FONT.body, fontSize: 14, color: C.inkDim, padding: 18 },
 
-  body: { paddingHorizontal: 18, paddingBottom: 20 },
-  gallery: { backgroundColor: C.cardAlt, borderRadius: RADIUS.xl, height: 230, alignItems: 'center', justifyContent: 'center', marginBottom: 18 },
-  saleTag: { position: 'absolute', top: 14, left: 14 },
+    body: { paddingHorizontal: 18, paddingBottom: 20 },
+    gallery: { backgroundColor: C.cardAlt, borderRadius: RADIUS.xl, height: 230, alignItems: 'center', justifyContent: 'center', marginBottom: 18 },
+    saleTag: { position: 'absolute', top: 14, left: 14 },
 
-  headRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 10 },
-  name: { fontFamily: FONT.display, fontSize: 24, color: C.ink },
-  tagline: { fontFamily: FONT.bodyReg, fontSize: 14, color: C.inkDim, marginTop: 2 },
+    headRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 10 },
+    name: { fontFamily: FONT.display, fontSize: 25, color: C.ink },
+    tagline: { fontFamily: FONT.bodyReg, fontSize: 14, color: C.inkDim, marginTop: 2 },
 
-  ratingRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 10 },
-  ratingText: { fontFamily: FONT.bodyBold, fontSize: 13, color: C.ink },
-  ratingCount: { fontFamily: FONT.bodyReg, fontSize: 13, color: C.inkFaint },
+    ratingRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 10 },
+    ratingText: { fontFamily: FONT.bodyBold, fontSize: 13, color: C.ink },
+    ratingCount: { fontFamily: FONT.bodyReg, fontSize: 13, color: C.inkFaint },
 
-  label: { fontFamily: FONT.bodyBold, fontSize: 14, color: C.ink, marginTop: 20, marginBottom: 10 },
-  variants: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
-  variant: { borderWidth: 1.5, borderColor: C.line, borderRadius: RADIUS.md, paddingHorizontal: 16, paddingVertical: 10, alignItems: 'center' },
-  variantOn: { borderColor: C.sage, backgroundColor: C.sageSoft },
-  variantLabel: { fontFamily: FONT.bodySemi, fontSize: 14, color: C.ink },
-  variantLabelOn: { color: C.sage },
-  variantPrice: { fontFamily: FONT.bodyReg, fontSize: 12, color: C.inkFaint, marginTop: 2 },
+    label: { fontFamily: FONT.bodyBold, fontSize: 14, color: C.ink, marginTop: 20, marginBottom: 10 },
+    variants: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
+    variant: { borderWidth: 1.5, borderColor: C.line, borderRadius: RADIUS.md, paddingHorizontal: 16, paddingVertical: 10, alignItems: 'center' },
+    variantOn: { borderColor: C.sage, backgroundColor: C.sageSoft },
+    variantLabel: { fontFamily: FONT.bodySemi, fontSize: 14, color: C.ink },
+    variantLabelOn: { color: C.sage },
+    variantPrice: { fontFamily: FONT.bodyReg, fontSize: 12, color: C.inkFaint, marginTop: 2 },
 
-  sub: { flexDirection: 'row', alignItems: 'center', gap: 12, borderWidth: 1.5, borderColor: C.line, borderRadius: RADIUS.md, padding: 14, marginTop: 16 },
-  subOn: { borderColor: C.terra, backgroundColor: C.terraSoft },
-  check: { width: 22, height: 22, borderRadius: 6, borderWidth: 1.5, borderColor: C.inkFaint, alignItems: 'center', justifyContent: 'center' },
-  checkOn: { backgroundColor: C.terra, borderColor: C.terra },
-  checkMark: { color: C.white, fontSize: 13, fontFamily: FONT.bodyBold },
-  subTitle: { fontFamily: FONT.bodyBold, fontSize: 14, color: C.ink },
-  subText: { fontFamily: FONT.bodyReg, fontSize: 12, color: C.inkDim, marginTop: 2 },
-  subPrice: { fontFamily: FONT.display, fontSize: 15, color: C.terra },
+    sub: { flexDirection: 'row', alignItems: 'center', gap: 12, borderWidth: 1.5, borderColor: C.line, borderRadius: RADIUS.md, padding: 14, marginTop: 16 },
+    subOn: { borderColor: C.terra, backgroundColor: C.terraSoft },
+    check: { width: 22, height: 22, borderRadius: 6, borderWidth: 1.5, borderColor: C.inkFaint, alignItems: 'center', justifyContent: 'center' },
+    checkOn: { backgroundColor: C.terra, borderColor: C.terra },
+    checkMark: { color: '#FFFFFF', fontSize: 13, fontFamily: FONT.bodyBold },
+    subTitle: { fontFamily: FONT.bodyBold, fontSize: 14, color: C.ink },
+    subText: { fontFamily: FONT.bodyReg, fontSize: 12, color: C.inkDim, marginTop: 2 },
+    subPrice: { fontFamily: FONT.display, fontSize: 15, color: C.terra },
 
-  benefits: { gap: 9 },
-  benefit: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-  dot: { width: 6, height: 6, borderRadius: 3, backgroundColor: C.sage },
-  benefitText: { fontFamily: FONT.body, fontSize: 14, color: C.ink },
-  ingredients: { fontFamily: FONT.bodyReg, fontSize: 13, color: C.inkDim, lineHeight: 20 },
+    benefits: { gap: 9 },
+    benefit: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+    dot: { width: 6, height: 6, borderRadius: 3, backgroundColor: C.sage },
+    benefitText: { fontFamily: FONT.body, fontSize: 14, color: C.ink },
+    ingredients: { fontFamily: FONT.bodyReg, fontSize: 13, color: C.inkDim, lineHeight: 20 },
 
-  review: { marginTop: 14 },
-  reviewHead: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  reviewAuthor: { fontFamily: FONT.bodySemi, fontSize: 12, color: C.inkDim },
-  reviewTitle: { fontFamily: FONT.bodyBold, fontSize: 14, color: C.ink, marginTop: 4 },
-  reviewBody: { fontFamily: FONT.bodyReg, fontSize: 13, color: C.inkDim, marginTop: 2, lineHeight: 19 },
+    review: { marginTop: 14 },
+    reviewHead: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+    reviewAuthor: { fontFamily: FONT.bodySemi, fontSize: 12, color: C.inkDim },
+    reviewTitle: { fontFamily: FONT.bodyBold, fontSize: 14, color: C.ink, marginTop: 4 },
+    reviewBody: { fontFamily: FONT.bodyReg, fontSize: 13, color: C.inkDim, marginTop: 2, lineHeight: 19 },
 
-  bar: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 16, borderTopWidth: 1, borderTopColor: C.line, backgroundColor: C.card },
-  qty: { flexDirection: 'row', alignItems: 'center', gap: 12, borderWidth: 1, borderColor: C.line, borderRadius: RADIUS.pill, paddingHorizontal: 12, paddingVertical: 9 },
-  qtyBtn: { width: 22, alignItems: 'center' },
-  qtyBtnText: { fontFamily: FONT.display, fontSize: 18, color: C.ink },
-  qtyVal: { fontFamily: FONT.bodyBold, fontSize: 15, color: C.ink, minWidth: 16, textAlign: 'center' },
-  add: { flex: 1, backgroundColor: C.sage, borderRadius: RADIUS.pill, paddingVertical: 15, alignItems: 'center' },
-  addDone: { backgroundColor: C.ink },
-  addText: { fontFamily: FONT.bodyBold, fontSize: 15, color: C.white },
-});
+    bar: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 16, borderTopWidth: 1, borderTopColor: C.line, backgroundColor: C.card },
+    qty: { flexDirection: 'row', alignItems: 'center', gap: 12, borderWidth: 1, borderColor: C.line, borderRadius: RADIUS.pill, paddingHorizontal: 12, paddingVertical: 9 },
+    qtyBtn: { width: 22, alignItems: 'center' },
+    qtyBtnText: { fontFamily: FONT.display, fontSize: 18, color: C.ink },
+    qtyVal: { fontFamily: FONT.bodyBold, fontSize: 15, color: C.ink, minWidth: 16, textAlign: 'center' },
+    add: { flex: 1, backgroundColor: BTN.fill, borderRadius: RADIUS.pill, paddingVertical: 15, alignItems: 'center' },
+    addDone: { backgroundColor: BTN.done },
+    addText: { fontFamily: FONT.bodyBold, fontSize: 15, color: BTN.text },
+  });
