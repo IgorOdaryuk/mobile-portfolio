@@ -4,6 +4,7 @@ import { FONT, RADIUS, type Palette } from '../theme';
 import { useStyles } from '../theme-context';
 import { Stars, Tag, HeartButton } from '../ui';
 import { ProductArt } from './ProductArt';
+import { productImage } from '../data/productImages';
 import type { Product } from '../types';
 import { money, isOnSale, discountPct } from '../selectors';
 
@@ -24,7 +25,7 @@ export function ProductCard({
   return (
     <Pressable style={styles.card} onPress={onPress}>
       <View style={styles.art}>
-        <ProductArt vessel={product.vessel} tint={product.tint} size={88} />
+        <ProductArt vessel={product.vessel} tint={product.tint} size={110} image={productImage(product.id)} />
         <View style={styles.topRow}>
           {sale ? <Tag label={`-${discountPct(product)}%`} tone="terra" /> : <View />}
           <HeartButton active={wished} onPress={onWish} />

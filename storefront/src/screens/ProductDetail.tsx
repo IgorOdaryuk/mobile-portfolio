@@ -4,6 +4,7 @@ import { FONT, RADIUS, SUBSCRIBE_DISCOUNT, BTN, type Palette } from '../theme';
 import { useTheme, useStyles } from '../theme-context';
 import { Stars, Tag, HeartButton, Divider } from '../ui';
 import { ProductArt } from '../components/ProductArt';
+import { productImage } from '../data/productImages';
 import { useStore } from '../store';
 import { money, isOnSale, discountPct, unitPriceCents, reviewsFor, averageReviewRating } from '../selectors';
 
@@ -47,7 +48,7 @@ export default function ProductDetail({
       <Header onBack={onBack} wished={wished} onWish={() => store.toggleWish(product.id)} />
       <ScrollView contentContainerStyle={styles.body} showsVerticalScrollIndicator={false}>
         <View style={styles.gallery}>
-          <ProductArt vessel={product.vessel} tint={product.tint} size={150} />
+          <ProductArt vessel={product.vessel} tint={product.tint} size={180} image={productImage(product.id)} />
           {sale ? <View style={styles.saleTag}><Tag label={`-${discountPct(product)}% summer`} tone="terra" /></View> : null}
         </View>
 
