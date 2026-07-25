@@ -43,7 +43,7 @@ export default function Donut({
                 strokeWidth={stroke}
                 strokeDasharray={`${Math.max(0, dash - gap)} ${c - Math.max(0, dash - gap)}`}
                 strokeDashoffset={offset}
-                strokeLinecap="round"
+                strokeLinecap="butt"
                 fill="none"
               />
             );

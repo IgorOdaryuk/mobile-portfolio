@@ -36,12 +36,12 @@ export default function Clients({
             <Text style={styles.count}>{data.clients.length}</Text>
           </View>
           <Pressable style={styles.addBtn} onPress={() => setShowNew(true)}>
-            <Feather name="plus" size={17} color="#fff" />
-            <Text style={styles.addText}>New</Text>
+            <Feather name="plus" size={16} color="#fff" />
+            <Text style={styles.addText}>NEW</Text>
           </Pressable>
         </View>
         <View style={styles.search}>
-          <Feather name="search" size={17} color={colors.muted} />
+          <Feather name="search" size={16} color={colors.muted} />
           <TextInput
             value={q}
             onChangeText={setQ}
@@ -73,7 +73,7 @@ export default function Clients({
                 <View style={styles.rowTop}>
                   <Text style={styles.name}>{c.name}</Text>
                   {c.outstanding > 0 && (
-                    <Text style={styles.owed}>{money(c.outstanding)} due</Text>
+                    <Text style={styles.owed}>{money(c.outstanding)} DUE</Text>
                   )}
                 </View>
                 <Text style={styles.sub} numberOfLines={1}>
@@ -84,7 +84,7 @@ export default function Clients({
                   <Text style={styles.ltv}>LTV {money(c.lifetimeValue)}</Text>
                 </View>
               </View>
-              <Feather name="chevron-right" size={20} color={colors.muted} />
+              <Feather name="chevron-right" size={19} color={colors.muted} />
             </Pressable>
           );
         })}
@@ -100,30 +100,30 @@ const styles = StyleSheet.create({
   header: { paddingHorizontal: 20, paddingTop: 8, paddingBottom: 6, backgroundColor: colors.paper },
   headerRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 },
   titleWrap: { flexDirection: 'row', alignItems: 'baseline' },
-  title: { fontFamily: font.display, fontSize: 30, color: colors.ink, letterSpacing: -0.6 },
-  count: { fontFamily: font.displayMed, fontSize: 16, color: colors.muted, marginLeft: 10 },
-  addBtn: { flexDirection: 'row', alignItems: 'center', gap: 5, backgroundColor: colors.accent, paddingHorizontal: 14, height: 38, borderRadius: 999, ...shadow.soft },
-  addText: { fontFamily: font.bold, fontSize: 14, color: '#fff' },
+  title: { fontFamily: font.display, fontSize: 28, color: colors.ink, letterSpacing: -0.6 },
+  count: { fontFamily: font.monoSemi, fontSize: 14, color: colors.muted, marginLeft: 10 },
+  addBtn: { flexDirection: 'row', alignItems: 'center', gap: 5, backgroundColor: colors.accent, paddingHorizontal: 13, height: 36, borderRadius: radius.sm, ...shadow.soft },
+  addText: { fontFamily: font.monoBold, fontSize: 12.5, color: '#fff', letterSpacing: 0.5 },
   search: {
     flexDirection: 'row', alignItems: 'center', backgroundColor: colors.card,
-    borderRadius: radius.md, paddingHorizontal: 14, height: 46, ...shadow.soft,
+    borderRadius: radius.md, borderWidth: 1, borderColor: colors.line, paddingHorizontal: 13, height: 44, ...shadow.soft,
   },
-  searchInput: { flex: 1, marginLeft: 10, fontFamily: font.med, fontSize: 14.5, color: colors.ink, outlineStyle: 'none' as any },
-  chips: { paddingVertical: 14, gap: 8 },
-  chip: { paddingHorizontal: 14, height: 34, borderRadius: 999, backgroundColor: colors.card, alignItems: 'center', justifyContent: 'center', ...shadow.soft },
-  chipActive: { backgroundColor: colors.ink },
-  chipText: { fontFamily: font.semi, fontSize: 13, color: colors.inkSoft },
+  searchInput: { flex: 1, marginLeft: 10, fontFamily: font.med, fontSize: 14, color: colors.ink, outlineStyle: 'none' as any },
+  chips: { paddingVertical: 14, gap: 7 },
+  chip: { paddingHorizontal: 13, height: 32, borderRadius: radius.sm, backgroundColor: colors.card, borderWidth: 1, borderColor: colors.line, alignItems: 'center', justifyContent: 'center' },
+  chipActive: { backgroundColor: colors.ink, borderColor: colors.ink },
+  chipText: { fontFamily: font.monoSemi, fontSize: 11.5, color: colors.inkSoft, letterSpacing: 0.3 },
   chipTextActive: { color: '#FFF' },
 
   scroll: { paddingHorizontal: 20, paddingTop: 2, paddingBottom: 24 },
   row: {
     flexDirection: 'row', alignItems: 'center', backgroundColor: colors.card,
-    borderRadius: radius.lg, padding: 14, marginBottom: 10, ...shadow.soft,
+    borderRadius: radius.md, borderWidth: 1, borderColor: colors.line, padding: 13, marginBottom: 9, ...shadow.soft,
   },
   rowTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  name: { fontFamily: font.bold, fontSize: 15.5, color: colors.ink },
-  owed: { fontFamily: font.bold, fontSize: 13, color: colors.danger },
-  sub: { fontFamily: font.reg, fontSize: 13, color: colors.muted, marginTop: 2 },
+  name: { fontFamily: font.bold, fontSize: 15, color: colors.ink },
+  owed: { fontFamily: font.monoSemi, fontSize: 11.5, color: colors.danger, letterSpacing: 0.2 },
+  sub: { fontFamily: font.reg, fontSize: 12.5, color: colors.muted, marginTop: 3 },
   rowBottom: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 8 },
-  ltv: { fontFamily: font.semi, fontSize: 12.5, color: colors.inkSoft },
+  ltv: { fontFamily: font.mono, fontSize: 11.5, color: colors.inkSoft, letterSpacing: 0.2 },
 });
