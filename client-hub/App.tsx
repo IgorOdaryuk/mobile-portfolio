@@ -172,6 +172,6 @@ const styles = StyleSheet.create({
     paddingBottom: 6,
   },
   tab: { flex: 1, alignItems: 'center', gap: 4 },
-  tabLabel: { fontFamily: font.mono, fontSize: 9.5, color: colors.muted, textTransform: 'uppercase', letterSpacing: 0.6 },
+  tabLabel: { fontFamily: font.mono, fontSize: 10, color: colors.muted, textTransform: 'uppercase', letterSpacing: 0.4 },
   homeIndicator: { alignSelf: 'center', width: 134, height: 5, borderRadius: 3, backgroundColor: colors.ink, opacity: 0.85, marginVertical: 8 },
 });
