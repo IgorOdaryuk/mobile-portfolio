@@ -17,10 +17,10 @@ export const LIGHT = {
   line: '#E4DBCE',
   barBg: 'rgba(255,255,255,0.96)',
 
-  // text
+  // text (all pass WCAG AA on bg/card — faint darkened from #A79C8D which failed)
   ink: '#26221D', // near-black warm
   inkDim: '#6E655A',
-  inkFaint: '#A79C8D',
+  inkFaint: '#776E60',
   onSage: '#FFFFFF', // text on the sage hero / buttons
 
   // brand
@@ -43,10 +43,10 @@ export const DARK: typeof LIGHT = {
   line: '#3A2F27',
   barBg: 'rgba(24,19,16,0.96)',
 
-  // text
+  // text (faint bumped from #8A7E6F to pass AA on dark cards)
   ink: '#F4EEE6',
   inkDim: '#B7AB9C',
-  inkFaint: '#8A7E6F',
+  inkFaint: '#A29686',
   onSage: '#F4EEE6',
 
   // brand — a touch brighter so it reads on espresso

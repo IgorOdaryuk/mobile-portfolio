@@ -4,7 +4,7 @@ import { FONT, RADIUS, BTN, type Palette } from '../theme';
 import { useTheme, useStyles } from '../theme-context';
 import { ProductArt } from '../components/ProductArt';
 import { useStore } from '../store';
-import { resolveLines, cartSummary, money } from '../selectors';
+import { resolveLines, cartSummary, money, validateCheckout, isCheckoutValid } from '../selectors';
 
 const SHIPPING = [
   { key: 'standard', label: 'Standard', detail: '3–5 business days', cents: 0 },
@@ -18,10 +18,14 @@ export default function Checkout({ onBack, onDone }: { onBack: () => void; onDon
   const summary = cartSummary(store.lines, store.productsById);
   const [ship, setShip] = useState('standard');
   const [placed, setPlaced] = useState(false);
+  const [showErrors, setShowErrors] = useState(false);
   const [form, setForm] = useState({ name: 'Alex Morgan', email: 'alex@example.com', address: '742 Sunset Blvd', city: 'Austin, TX 78704' });
 
   const shipCents = SHIPPING.find((s) => s.key === ship)?.cents ?? 0;
   const total = summary.totalCents + shipCents;
+  const errors = validateCheckout(form);
+  const valid = isCheckoutValid(form);
+  const err = (k: 'name' | 'email' | 'address' | 'city') => (showErrors ? errors[k] : undefined);
 
   if (placed) {
     return (
@@ -53,10 +57,10 @@ export default function Checkout({ onBack, onDone }: { onBack: () => void; onDon
 
       <ScrollView contentContainerStyle={styles.body} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
         <Text style={styles.section}>Shipping to</Text>
-        <Field label="Full name" value={form.name} onChange={(v) => setForm({ ...form, name: v })} />
-        <Field label="Email" value={form.email} onChange={(v) => setForm({ ...form, email: v })} />
-        <Field label="Address" value={form.address} onChange={(v) => setForm({ ...form, address: v })} />
-        <Field label="City, State ZIP" value={form.city} onChange={(v) => setForm({ ...form, city: v })} />
+        <Field label="Full name" value={form.name} onChange={(v) => setForm({ ...form, name: v })} error={err('name')} />
+        <Field label="Email" value={form.email} onChange={(v) => setForm({ ...form, email: v })} error={err('email')} keyboardType="email-address" />
+        <Field label="Address" value={form.address} onChange={(v) => setForm({ ...form, address: v })} error={err('address')} />
+        <Field label="City, State ZIP" value={form.city} onChange={(v) => setForm({ ...form, city: v })} error={err('city')} />
 
         <Text style={styles.section}>Delivery</Text>
         {SHIPPING.map((s) => {
@@ -97,7 +101,12 @@ export default function Checkout({ onBack, onDone }: { onBack: () => void; onDon
           <Text style={styles.barLabel}>Total</Text>
           <Text style={styles.barTotal}>{money(total)}</Text>
         </View>
-        <Pressable style={styles.place} onPress={() => setPlaced(true)}>
+        <Pressable
+          style={[styles.place, !valid && styles.placeDisabled]}
+          onPress={() => (valid ? setPlaced(true) : setShowErrors(true))}
+          accessibilityRole="button"
+          accessibilityState={{ disabled: !valid }}
+        >
           <Text style={styles.placeText}>Place order</Text>
         </Pressable>
       </View>
@@ -105,13 +114,34 @@ export default function Checkout({ onBack, onDone }: { onBack: () => void; onDon
   );
 }
 
-function Field({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
+function Field({
+  label,
+  value,
+  onChange,
+  error,
+  keyboardType,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  error?: string;
+  keyboardType?: 'default' | 'email-address';
+}) {
   const { C } = useTheme();
   const styles = useStyles(makeStyles);
   return (
     <View style={styles.field}>
       <Text style={styles.fieldLabel}>{label}</Text>
-      <TextInput value={value} onChangeText={onChange} style={styles.input} placeholderTextColor={C.inkFaint} />
+      <TextInput
+        value={value}
+        onChangeText={onChange}
+        style={[styles.input, error ? styles.inputError : null]}
+        placeholderTextColor={C.inkFaint}
+        keyboardType={keyboardType ?? 'default'}
+        autoCapitalize={keyboardType === 'email-address' ? 'none' : 'words'}
+        accessibilityLabel={label}
+      />
+      {error ? <Text style={styles.errorText}>{error}</Text> : null}
     </View>
   );
 }
@@ -139,6 +169,8 @@ const makeStyles = (C: Palette) =>
     field: { marginBottom: 10 },
     fieldLabel: { fontFamily: FONT.bodySemi, fontSize: 12, color: C.inkDim, marginBottom: 5 },
     input: { backgroundColor: C.card, borderColor: C.line, borderWidth: 1, borderRadius: RADIUS.md, paddingHorizontal: 14, paddingVertical: 11, fontFamily: FONT.body, fontSize: 15, color: C.ink },
+    inputError: { borderColor: C.terra, borderWidth: 1.5 },
+    errorText: { fontFamily: FONT.bodySemi, fontSize: 12, color: C.terra, marginTop: 5 },
 
     ship: { flexDirection: 'row', alignItems: 'center', gap: 12, borderWidth: 1.5, borderColor: C.line, borderRadius: RADIUS.md, padding: 14, marginBottom: 10 },
     shipOn: { borderColor: C.sage, backgroundColor: C.sageSoft },
@@ -164,6 +196,7 @@ const makeStyles = (C: Palette) =>
     barLabel: { fontFamily: FONT.bodyReg, fontSize: 12, color: C.inkDim },
     barTotal: { fontFamily: FONT.display, fontSize: 20, color: C.ink },
     place: { backgroundColor: BTN.fill, borderRadius: RADIUS.pill, paddingHorizontal: 30, paddingVertical: 15 },
+    placeDisabled: { opacity: 0.45 },
     placeText: { fontFamily: FONT.bodyBold, fontSize: 15, color: BTN.text },
 
     doneWrap: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 28 },
