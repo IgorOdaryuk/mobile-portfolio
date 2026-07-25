@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
 import { colors, font, radius, shadow, stageColor, money } from '../theme';
 import { Avatar } from '../ui';
 import { Seed } from '../types';
+import { clientsByStage } from '../selectors';
 
 const COLUMNS = ['New Lead', 'Scheduled', 'In Progress', 'Completed'];
 
@@ -15,7 +16,7 @@ export default function Board({ data, onOpenClient }: { data: Seed; onOpenClient
       </View>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.cols}>
         {COLUMNS.map((col) => {
-          const items = data.clients.filter((c) => c.stage === col);
+          const items = clientsByStage(data.clients, col);
           const sc = stageColor[col];
           const total = items.reduce((a, c) => a + c.lifetimeValue, 0);
           return (
