@@ -4,7 +4,7 @@ import { FONT, RADIUS, MACROS, type Palette } from '../theme';
 import { useTheme, useStyles } from '../theme-context';
 import { fmt } from '../ui';
 import { MacroDonut } from '../components/charts';
-import { FoodListRow } from '../components/FoodRow';
+import { FoodListRow, FoodAvatar } from '../components/FoodRow';
 import { useStore } from '../store';
 import { entryMacros, macroCaloriePct } from '../selectors';
 import { MEAL_LABEL, MEAL_ORDER, MealKey, Food } from '../types';
@@ -48,7 +48,7 @@ export default function AddFood({
         <Header title="Add to log" onClose={() => setSelected(null)} closeLabel="Back" />
         <ScrollView contentContainerStyle={styles.body}>
           <View style={styles.foodHead}>
-            <Text style={styles.bigEmoji}>{selected.emoji}</Text>
+            <FoodAvatar emoji={selected.emoji} size={76} />
             <Text style={styles.foodName}>{selected.name}</Text>
             {selected.brand ? <Text style={styles.foodBrand}>{selected.brand}</Text> : null}
             <Text style={styles.foodServing}>{selected.serving}</Text>
@@ -89,10 +89,10 @@ export default function AddFood({
           </View>
 
           {/* nutrition preview */}
+          <Text style={styles.fieldLabel}>Nutrition preview</Text>
           <View style={styles.previewCard}>
-            <MacroDonut pct={pct} />
+            <MacroDonut pct={pct} centerValue={fmt(preview.kcal)} centerLabel="kcal" />
             <View style={styles.previewStats}>
-              <Text style={styles.previewKcal}>{fmt(preview.kcal)} kcal</Text>
               <MacroLegend label="Protein" g={preview.protein} pct={pct.protein} color={MACROS.protein.color} />
               <MacroLegend label="Carbs" g={preview.carbs} pct={pct.carbs} color={MACROS.carbs.color} />
               <MacroLegend label="Fat" g={preview.fat} pct={pct.fat} color={MACROS.fat.color} />
@@ -197,10 +197,9 @@ const makeStyles = (C: Palette) =>
   list: { paddingHorizontal: 18, paddingBottom: 24 },
   resultCount: { fontFamily: FONT.bodySemi, fontSize: 12, color: C.textFaint, marginVertical: 10 },
 
-  body: { padding: 18, paddingBottom: 20 },
+  body: { padding: 18, paddingBottom: 20, flexGrow: 1, justifyContent: 'center' },
   foodHead: { alignItems: 'center', marginBottom: 8 },
-  bigEmoji: { fontSize: 52 },
-  foodName: { fontFamily: FONT.display, fontSize: 22, color: C.text, marginTop: 6, textAlign: 'center' },
+  foodName: { fontFamily: FONT.display, fontSize: 22, color: C.text, marginTop: 10, textAlign: 'center' },
   foodBrand: { fontFamily: FONT.bodySemi, fontSize: 13, color: C.textDim, marginTop: 2 },
   foodServing: { fontFamily: FONT.body, fontSize: 13, color: C.textFaint, marginTop: 4 },
 
@@ -234,8 +233,7 @@ const makeStyles = (C: Palette) =>
     borderRadius: RADIUS.lg,
     padding: 16,
   },
-  previewStats: { flex: 1, gap: 7 },
-  previewKcal: { fontFamily: FONT.display, fontSize: 22, color: C.text, marginBottom: 2 },
+  previewStats: { flex: 1, gap: 10 },
   legendRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   legendDot: { width: 9, height: 9, borderRadius: 5 },
   legendLabel: { fontFamily: FONT.bodySemi, fontSize: 13, color: C.text, width: 56 },

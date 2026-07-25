@@ -4,6 +4,7 @@ import { FONT, RADIUS, MACROS, type Palette } from '../theme';
 import { useStyles } from '../theme-context';
 import { fmt } from '../ui';
 import { MacroDonut } from '../components/charts';
+import { FoodAvatar } from '../components/FoodRow';
 import { useStore } from '../store';
 import { macroCaloriePct } from '../selectors';
 
@@ -34,7 +35,7 @@ export default function FoodDetail({
       <Header onBack={onBack} />
       <ScrollView contentContainerStyle={styles.body}>
         <View style={styles.hero}>
-          <Text style={styles.emoji}>{food.emoji}</Text>
+          <FoodAvatar emoji={food.emoji} size={84} />
           <Text style={styles.name}>{food.name}</Text>
           {food.brand ? <Text style={styles.brand}>{food.brand}</Text> : null}
           <Text style={styles.serving}>per {food.serving}</Text>
@@ -110,8 +111,7 @@ const makeStyles = (C: Palette) =>
 
     body: { padding: 18, paddingBottom: 20 },
     hero: { alignItems: 'center', marginBottom: 6 },
-    emoji: { fontSize: 60 },
-    name: { fontFamily: FONT.display, fontSize: 24, color: C.text, marginTop: 8, textAlign: 'center' },
+    name: { fontFamily: FONT.display, fontSize: 24, color: C.text, marginTop: 12, textAlign: 'center' },
     brand: { fontFamily: FONT.bodySemi, fontSize: 14, color: C.textDim, marginTop: 3 },
     serving: { fontFamily: FONT.body, fontSize: 13, color: C.textFaint, marginTop: 4 },
 
