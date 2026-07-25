@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Pressable, Platform } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { FONT, RADIUS, type Palette } from '../theme';
 import { useTheme, useStyles } from '../theme-context';
@@ -190,7 +190,15 @@ const makeStyles = (C: Palette) =>
     borderColor: C.cardBorder,
   },
 
-  hero: { flexDirection: 'row', alignItems: 'center', paddingVertical: 18 },
+  hero: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 18,
+    // The one clearly-primary card: a faint brand wash sets it above the rest.
+    ...(Platform.OS === 'web'
+      ? ({ backgroundImage: `linear-gradient(135deg, ${C.card} 60%, ${C.primarySoft})` } as any)
+      : { backgroundColor: C.primarySoft }),
+  },
   heroLeft: { width: 152, alignItems: 'center' },
   heroRight: { flex: 1, gap: 14, paddingLeft: 10 },
   heroStat: {},

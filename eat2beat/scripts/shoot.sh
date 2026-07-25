@@ -29,7 +29,7 @@ shoot () {
     --run-all-compositor-stages-before-draw \
     --user-data-dir="$prof" \
     --screenshot="$DIR/$OUT/$name.png" \
-    "$BASE/?$query" >/dev/null 2>&1 || true
+    "$BASE/?static=1&$query" >/dev/null 2>&1 || true
   rm -rf "$prof"
   echo "  ✓ $OUT/$name.png  ($query)"
 }

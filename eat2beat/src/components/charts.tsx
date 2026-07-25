@@ -1,9 +1,24 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Text, StyleSheet, Animated, Easing } from 'react-native';
 import Svg, { Circle, Rect, Path, G, Line, Defs, LinearGradient, Stop, Text as SvgText } from 'react-native-svg';
 import { FONT, MACROS, type Palette } from '../theme';
 import { useTheme, useStyles } from '../theme-context';
+import { ANIMATE } from '../motion';
 import { fmt } from '../ui';
+
+const AnimatedCircle = Animated.createAnimatedComponent(Circle);
+
+/** Ease a value 0→1 once on mount (and whenever `key` changes). When animations
+ *  are disabled (screenshot pass) the value rests at 1 — the settled state. */
+function useMountProgress(key: number, duration = 850) {
+  const t = useRef(new Animated.Value(ANIMATE ? 0 : 1)).current;
+  useEffect(() => {
+    if (!ANIMATE) return;
+    t.setValue(0);
+    Animated.timing(t, { toValue: 1, duration, easing: Easing.out(Easing.cubic), useNativeDriver: false }).start();
+  }, [key, duration, t]);
+  return t;
+}
 
 /* ------------------------------------------------------------------ */
 /* Calorie ring — circular progress with a big number in the middle.   */
@@ -27,13 +42,26 @@ export function CalorieRing({
   const circ = 2 * Math.PI * r;
   const ratio = goal > 0 ? Math.min(1, consumed / goal) : 0;
   const over = consumed > goal;
-  const remaining = goal - consumed;
   const numberSize = Math.round(size * 0.25);
   const labelSize = Math.round(size * 0.082);
   // Signature emerald→mint sweep for on-track; a warm coral sweep when over.
   const gradId = 'e2bRing';
   const g0 = over ? C.over : C.primary;
   const g1 = over ? C.over : C.accent;
+
+  // Sweep the arc up and count the number down to its final value on mount.
+  const t = useMountProgress(Math.round(consumed) * 100000 + Math.round(goal));
+  const finalShown = Math.round(Math.abs(goal - consumed));
+  const [shown, setShown] = useState(ANIMATE ? goal : finalShown);
+  useEffect(() => {
+    if (!ANIMATE) {
+      setShown(finalShown);
+      return;
+    }
+    const id = t.addListener(({ value }) => setShown(Math.round(Math.abs(goal - consumed * value))));
+    return () => t.removeListener(id);
+  }, [t, consumed, goal, finalShown]);
+  const dashoffset = t.interpolate({ inputRange: [0, 1], outputRange: [circ, circ * (1 - ratio)] });
 
   return (
     <View style={{ width: size, height: size, alignItems: 'center', justifyContent: 'center' }}>
@@ -46,7 +74,7 @@ export function CalorieRing({
         </Defs>
         <G rotation={-90} origin={`${cx}, ${cy}`}>
           <Circle cx={cx} cy={cy} r={r} stroke={C.ring} strokeWidth={stroke} fill="none" />
-          <Circle
+          <AnimatedCircle
             cx={cx}
             cy={cy}
             r={r}
@@ -55,13 +83,13 @@ export function CalorieRing({
             fill="none"
             strokeLinecap="round"
             strokeDasharray={`${circ} ${circ}`}
-            strokeDashoffset={circ * (1 - ratio)}
+            strokeDashoffset={dashoffset}
           />
         </G>
       </Svg>
       <View style={styles.ringCenter}>
         <Text style={[styles.ringNumber, { fontSize: numberSize }, over && { color: C.over }]}>
-          {fmt(Math.abs(remaining))}
+          {fmt(shown)}
         </Text>
         <Text style={[styles.ringLabel, { fontSize: labelSize }]}>{over ? 'kcal over' : 'kcal left'}</Text>
       </View>
@@ -85,6 +113,8 @@ export function MacroBar({
   const styles = useStyles(makeStyles);
   const m = MACROS[which];
   const ratio = goal > 0 ? Math.min(1, value / goal) : 0;
+  const t = useMountProgress(Math.round(ratio * 1000));
+  const width = t.interpolate({ inputRange: [0, 1], outputRange: ['0%', `${ratio * 100}%`] });
   return (
     <View style={styles.macroRow}>
       <View style={styles.macroHead}>
@@ -95,7 +125,7 @@ export function MacroBar({
         </Text>
       </View>
       <View style={styles.macroTrack}>
-        <View style={[styles.macroFill, { width: `${ratio * 100}%`, backgroundColor: m.color }]} />
+        <Animated.View style={[styles.macroFill, { width, backgroundColor: m.color }]} />
       </View>
     </View>
   );
