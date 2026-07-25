@@ -107,6 +107,39 @@ app *type*): 1) Client Hub — CRM ✅ · 2) Eat2Beat — health ✅ · 3) `loca
 5) `premium-course-hub` → e-learning. Swift repos (`Eat2Beat`, `MusicianPracticeTracker`)
 deferred until native tooling/Mac upgrade.
 
-## Next up — App #3
+## App #4 — Solva storefront ✅ COMPLETE (portfolio-ready)
+
+Premium DTC **clean-skincare e-commerce** app. Folder: [`storefront/`](./storefront).
+Niche chosen from summer-2026 trend research (health/beauty is the fastest-growing DTC
+category with repeat-purchase behaviour). Built for a real goal (Igor's friend Sasha's
+future store) **and** as the Upwork-facing showcase — e-commerce is the most-requested RN
+gig type and the portfolio had no shop.
+
+- **Live demo:** https://igorodaryuk.github.io/mobile-portfolio/storefront/
+- **Stack:** Expo SDK 57 · React Native 0.86 · React 19 · TypeScript (strict)
+- **Screens (6):** Shop (hero + categories + bestsellers) · Product (SVG gallery, size
+  variants, subscribe-and-save, reviews) · Category (search + filter + sort) · Cart ·
+  Checkout (form + delivery + order-placed) · Saved (wishlist).
+
+### What's done / why it reads well to a client
+- **Real commerce logic:** size variants drive price everywhere; **subscribe-and-save**
+  (15% off per line); cart add/merge/qty/remove with a **tab badge**; live
+  subtotal/savings/total; wishlist; filter + sort + search. All pure + unit-tested.
+- **Persistence:** AsyncStorage cart + wishlist survive reload.
+- **Design:** premium warm palette, **inline-SVG product illustrations** (bottle/jar/tube/
+  dropper/pouch, tinted per product) — cohesive boutique look with zero image assets.
+- **Quality gates:** 27 Jest tests + `tsc --noEmit` (strict). CI matrix now covers all
+  three apps; deploy builds all three (Client Hub at root, Eat2Beat + Solva at subpaths).
+- **Data:** 100% synthetic catalog (`scripts/gen_catalog.py`, fixed seed). Fictional brand
+  "Solva", 17 products, 54 reviews, SAMPLE STORE badge. No real brand/customer data.
+
+### Honest limitations
+- Web build verified; native iOS/Android not built in this env.
+- No backend/auth/payments — local synthetic catalog + AsyncStorage. Front-end demo.
+- Custom `useState` navigation; light theme only.
+
+---
+
+## Next up — App #5
 `local-seo-pulse-mobile` → **Local SEO / GBP tracker** (rank grid, GBP insights, reviews).
-Same bar. Then App #4 = e-commerce (ReactStore port).
+Same bar. Genre plan for Upwork now covers: CRM · health · **e-commerce** · (SEO next).

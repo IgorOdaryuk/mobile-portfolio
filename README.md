@@ -25,13 +25,22 @@ are SVG.
 
 ![Eat2Beat — all screens](./eat2beat/screenshots/hero.png)
 
+### 🧴 Solva — [`/storefront`](./storefront)
+Premium clean-skincare storefront. Browse → product (size variants + subscribe-and-save)
+→ cart → checkout, with wishlist, search/filter and a persistent bag. All product art is
+inline SVG (no stock photos).
+**React Native · Expo · TypeScript.**
+
+**▶ [Live demo](https://igorodaryuk.github.io/mobile-portfolio/storefront/)** · [code & README](./storefront)
+
+![Solva — all screens](./storefront/screenshots/hero.png)
+
 ## On deck
 
 Candidates drawn from real client problems, in build order:
 
 1. **Local SEO Pulse** — rank tracking, GBP insights & reviews for local businesses, RN.
-2. **Storefront** — RN e-commerce (catalog / cart / checkout), the most-requested gig type.
-3. **Course Hub** — RN e-learning app (lessons / progress / video).
+2. **Course Hub** — RN e-learning app (lessons / progress / video).
 
 ---
 *Each app ships with synthetic demo data and a real, runnable codebase.*

@@ -1,0 +1,967 @@
+{
+  "products": [
+    {
+      "id": "p00",
+      "name": "Dew Veil",
+      "tagline": "Hydrating essence",
+      "category": "skincare",
+      "vessel": "dropper",
+      "tint": "sky",
+      "priceCents": 3400,
+      "rating": 4.5,
+      "reviewCount": 611,
+      "subscribable": true,
+      "bestseller": true,
+      "benefits": [
+        "Plumps + hydrates",
+        "Barrier support",
+        "Fragrance-free"
+      ],
+      "ingredients": "Hyaluronic acid, panthenol, glycerin, squalane.",
+      "variants": [
+        {
+          "id": "p00v0",
+          "label": "30 ml",
+          "priceCents": 3400
+        },
+        {
+          "id": "p00v1",
+          "label": "50 ml",
+          "priceCents": 4800
+        }
+      ]
+    },
+    {
+      "id": "p01",
+      "name": "Midnight Repair",
+      "tagline": "Retinal night serum",
+      "category": "skincare",
+      "vessel": "dropper",
+      "tint": "lilac",
+      "priceCents": 5200,
+      "rating": 4.8,
+      "reviewCount": 514,
+      "subscribable": true,
+      "bestseller": true,
+      "benefits": [
+        "Smooths fine lines",
+        "Evens tone",
+        "Encapsulated retinal"
+      ],
+      "ingredients": "0.1% retinal, bakuchiol, niacinamide, ceramides.",
+      "variants": [
+        {
+          "id": "p01v0",
+          "label": "15 ml",
+          "priceCents": 3600
+        },
+        {
+          "id": "p01v1",
+          "label": "30 ml",
+          "priceCents": 5200
+        }
+      ]
+    },
+    {
+      "id": "p02",
+      "name": "Calm Balm",
+      "tagline": "Barrier repair cream",
+      "category": "skincare",
+      "vessel": "jar",
+      "tint": "sage",
+      "priceCents": 4200,
+      "compareAtCents": 4800,
+      "rating": 4.5,
+      "reviewCount": 639,
+      "subscribable": true,
+      "bestseller": true,
+      "benefits": [
+        "Soothes redness",
+        "48h moisture",
+        "For sensitive skin"
+      ],
+      "ingredients": "Colloidal oatmeal, shea butter, ceramide NP, allantoin.",
+      "variants": [
+        {
+          "id": "p02v0",
+          "label": "50 ml",
+          "priceCents": 4200
+        }
+      ]
+    },
+    {
+      "id": "p03",
+      "name": "Clear Ritual",
+      "tagline": "Gentle gel cleanser",
+      "category": "skincare",
+      "vessel": "bottle",
+      "tint": "sage",
+      "priceCents": 2600,
+      "rating": 4.3,
+      "reviewCount": 562,
+      "subscribable": true,
+      "bestseller": false,
+      "benefits": [
+        "Non-stripping",
+        "Removes SPF",
+        "pH balanced"
+      ],
+      "ingredients": "Coco-glucoside, glycerin, green tea, aloe.",
+      "variants": [
+        {
+          "id": "p03v0",
+          "label": "150 ml",
+          "priceCents": 2600
+        },
+        {
+          "id": "p03v1",
+          "label": "250 ml",
+          "priceCents": 3600
+        }
+      ]
+    },
+    {
+      "id": "p04",
+      "name": "Rosewater Mist",
+      "tagline": "Toning face mist",
+      "category": "skincare",
+      "vessel": "bottle",
+      "tint": "blush",
+      "priceCents": 2200,
+      "rating": 4.5,
+      "reviewCount": 228,
+      "subscribable": false,
+      "bestseller": false,
+      "benefits": [
+        "Refreshes midday",
+        "Preps skin",
+        "Antioxidant boost"
+      ],
+      "ingredients": "Rosa damascena water, panthenol, vitamin B5.",
+      "variants": [
+        {
+          "id": "p04v0",
+          "label": "100 ml",
+          "priceCents": 2200
+        }
+      ]
+    },
+    {
+      "id": "p05",
+      "name": "Bright Eyes",
+      "tagline": "Caffeine eye gel",
+      "category": "skincare",
+      "vessel": "tube",
+      "tint": "sky",
+      "priceCents": 2900,
+      "rating": 4.3,
+      "reviewCount": 348,
+      "subscribable": true,
+      "bestseller": false,
+      "benefits": [
+        "De-puffs",
+        "Brightens circles",
+        "Cooling roller"
+      ],
+      "ingredients": "Caffeine, peptides, hyaluronic acid, cucumber.",
+      "variants": [
+        {
+          "id": "p05v0",
+          "label": "15 ml",
+          "priceCents": 2900
+        }
+      ]
+    },
+    {
+      "id": "p06",
+      "name": "Silk Body Oil",
+      "tagline": "Nourishing dry oil",
+      "category": "body",
+      "vessel": "dropper",
+      "tint": "sand",
+      "priceCents": 3800,
+      "rating": 4.3,
+      "reviewCount": 589,
+      "subscribable": true,
+      "bestseller": true,
+      "benefits": [
+        "Fast-absorbing",
+        "Softens skin",
+        "Subtle glow"
+      ],
+      "ingredients": "Jojoba, squalane, sweet almond, vitamin E.",
+      "variants": [
+        {
+          "id": "p06v0",
+          "label": "100 ml",
+          "priceCents": 3800
+        }
+      ]
+    },
+    {
+      "id": "p07",
+      "name": "Renew Scrub",
+      "tagline": "Sugar body polish",
+      "category": "body",
+      "vessel": "jar",
+      "tint": "terra",
+      "priceCents": 3200,
+      "rating": 4.8,
+      "reviewCount": 80,
+      "subscribable": false,
+      "bestseller": false,
+      "benefits": [
+        "Buffs smooth",
+        "No microplastics",
+        "Leaves no residue"
+      ],
+      "ingredients": "Cane sugar, shea, coconut oil, sweet orange.",
+      "variants": [
+        {
+          "id": "p07v0",
+          "label": "200 ml",
+          "priceCents": 3200
+        }
+      ]
+    },
+    {
+      "id": "p08",
+      "name": "Everyday Lotion",
+      "tagline": "Whipped body cream",
+      "category": "body",
+      "vessel": "tube",
+      "tint": "sage",
+      "priceCents": 2800,
+      "rating": 4.6,
+      "reviewCount": 443,
+      "subscribable": true,
+      "bestseller": false,
+      "benefits": [
+        "Lightweight",
+        "24h softness",
+        "Fragrance-free"
+      ],
+      "ingredients": "Shea, glycerin, oat lipids, ceramides.",
+      "variants": [
+        {
+          "id": "p08v0",
+          "label": "200 ml",
+          "priceCents": 2800
+        },
+        {
+          "id": "p08v1",
+          "label": "400 ml",
+          "priceCents": 4200
+        }
+      ]
+    },
+    {
+      "id": "p09",
+      "name": "Hand Salve",
+      "tagline": "Repair hand cream",
+      "category": "body",
+      "vessel": "tube",
+      "tint": "blush",
+      "priceCents": 1800,
+      "rating": 4.9,
+      "reviewCount": 199,
+      "subscribable": true,
+      "bestseller": false,
+      "benefits": [
+        "Rescues dry hands",
+        "Non-greasy",
+        "Pocket size"
+      ],
+      "ingredients": "Shea, beeswax, panthenol, chamomile.",
+      "variants": [
+        {
+          "id": "p09v0",
+          "label": "50 ml",
+          "priceCents": 1800
+        }
+      ]
+    },
+    {
+      "id": "p10",
+      "name": "Glow Within",
+      "tagline": "Skin + hair gummies",
+      "category": "wellness",
+      "vessel": "pouch",
+      "tint": "sand",
+      "priceCents": 3000,
+      "rating": 4.6,
+      "reviewCount": 579,
+      "subscribable": true,
+      "bestseller": true,
+      "benefits": [
+        "Biotin + zinc",
+        "Vegan",
+        "Berry flavor"
+      ],
+      "ingredients": "Biotin, zinc, vitamin C, folate.",
+      "variants": [
+        {
+          "id": "p10v0",
+          "label": "30-day",
+          "priceCents": 3000
+        },
+        {
+          "id": "p10v1",
+          "label": "60-day",
+          "priceCents": 5400
+        }
+      ]
+    },
+    {
+      "id": "p11",
+      "name": "Deep Calm",
+      "tagline": "Magnesium sleep drink",
+      "category": "wellness",
+      "vessel": "pouch",
+      "tint": "lilac",
+      "priceCents": 3400,
+      "rating": 4.2,
+      "reviewCount": 74,
+      "subscribable": true,
+      "bestseller": true,
+      "benefits": [
+        "Eases into sleep",
+        "Magnesium glycinate",
+        "Caffeine-free"
+      ],
+      "ingredients": "Magnesium glycinate, L-theanine, chamomile.",
+      "variants": [
+        {
+          "id": "p11v0",
+          "label": "30 servings",
+          "priceCents": 3400
+        }
+      ]
+    },
+    {
+      "id": "p12",
+      "name": "Daily Greens",
+      "tagline": "Adaptogen blend",
+      "category": "wellness",
+      "vessel": "pouch",
+      "tint": "sage",
+      "priceCents": 4400,
+      "compareAtCents": 4900,
+      "rating": 4.3,
+      "reviewCount": 285,
+      "subscribable": true,
+      "bestseller": false,
+      "benefits": [
+        "Energy + focus",
+        "Mushroom blend",
+        "No jitters"
+      ],
+      "ingredients": "Lion's mane, ashwagandha, matcha, spirulina.",
+      "variants": [
+        {
+          "id": "p12v0",
+          "label": "30 servings",
+          "priceCents": 4400
+        }
+      ]
+    },
+    {
+      "id": "p13",
+      "name": "Inner Light",
+      "tagline": "Marine collagen",
+      "category": "wellness",
+      "vessel": "pouch",
+      "tint": "blush",
+      "priceCents": 3900,
+      "rating": 4.6,
+      "reviewCount": 513,
+      "subscribable": true,
+      "bestseller": false,
+      "benefits": [
+        "Skin elasticity",
+        "Unflavored",
+        "Type I + III"
+      ],
+      "ingredients": "Hydrolyzed marine collagen, vitamin C.",
+      "variants": [
+        {
+          "id": "p13v0",
+          "label": "30 servings",
+          "priceCents": 3900
+        }
+      ]
+    },
+    {
+      "id": "p14",
+      "name": "Sun Fluid SPF50",
+      "tagline": "Invisible daily sunscreen",
+      "category": "suncare",
+      "vessel": "tube",
+      "tint": "sand",
+      "priceCents": 3000,
+      "rating": 4.4,
+      "reviewCount": 238,
+      "subscribable": true,
+      "bestseller": true,
+      "benefits": [
+        "No white cast",
+        "Broad spectrum",
+        "Under makeup"
+      ],
+      "ingredients": "Zinc oxide 12%, niacinamide, vitamin E.",
+      "variants": [
+        {
+          "id": "p14v0",
+          "label": "50 ml",
+          "priceCents": 3000
+        }
+      ]
+    },
+    {
+      "id": "p15",
+      "name": "After Sun Gel",
+      "tagline": "Cooling aloe gel",
+      "category": "suncare",
+      "vessel": "tube",
+      "tint": "sky",
+      "priceCents": 2000,
+      "compareAtCents": 2600,
+      "rating": 4.6,
+      "reviewCount": 339,
+      "subscribable": false,
+      "bestseller": false,
+      "benefits": [
+        "Soothes heat",
+        "Instant cool",
+        "Aloe + cucumber"
+      ],
+      "ingredients": "Aloe vera 90%, cucumber, panthenol, menthol.",
+      "variants": [
+        {
+          "id": "p15v0",
+          "label": "150 ml",
+          "priceCents": 2000
+        }
+      ]
+    },
+    {
+      "id": "p16",
+      "name": "Lip Shield SPF30",
+      "tagline": "Tinted lip balm",
+      "category": "suncare",
+      "vessel": "tube",
+      "tint": "terra",
+      "priceCents": 1400,
+      "rating": 4.5,
+      "reviewCount": 125,
+      "subscribable": true,
+      "bestseller": false,
+      "benefits": [
+        "Sun protection",
+        "Sheer tint",
+        "Non-waxy"
+      ],
+      "ingredients": "Zinc oxide, shea, raspberry seed oil.",
+      "variants": [
+        {
+          "id": "p16v0",
+          "label": "Rose",
+          "priceCents": 1400
+        },
+        {
+          "id": "p16v1",
+          "label": "Clear",
+          "priceCents": 1400
+        }
+      ]
+    }
+  ],
+  "reviews": [
+    {
+      "id": "r000",
+      "productId": "p00",
+      "author": "Diego V.",
+      "rating": 4,
+      "title": "Repurchasing",
+      "body": "Noticed less redness after a month. Sticking with it.",
+      "date": "2026-05-17"
+    },
+    {
+      "id": "r001",
+      "productId": "p00",
+      "author": "Marcus M.",
+      "rating": 5,
+      "title": "Repurchasing",
+      "body": "My partner keeps stealing it, had to order a second.",
+      "date": "2026-03-22"
+    },
+    {
+      "id": "r002",
+      "productId": "p00",
+      "author": "Marcus L.",
+      "rating": 4,
+      "title": "Repurchasing",
+      "body": "Two weeks in and my skin looks calmer. No irritation at all.",
+      "date": "2026-03-16"
+    },
+    {
+      "id": "r003",
+      "productId": "p01",
+      "author": "Owen L.",
+      "rating": 4,
+      "title": "Worth it",
+      "body": "Subscribed and save is a no-brainer for a daily product.",
+      "date": "2026-03-28"
+    },
+    {
+      "id": "r004",
+      "productId": "p01",
+      "author": "Jonah H.",
+      "rating": 5,
+      "title": "Gentle + effective",
+      "body": "Texture is lovely, not greasy. Fits my morning routine.",
+      "date": "2026-03-19"
+    },
+    {
+      "id": "r005",
+      "productId": "p02",
+      "author": "Diego K.",
+      "rating": 4,
+      "title": "Better than expected",
+      "body": "Fragrance-free and my sensitive skin is happy. Big win.",
+      "date": "2026-03-10"
+    },
+    {
+      "id": "r006",
+      "productId": "p02",
+      "author": "Nina P.",
+      "rating": 4,
+      "title": "Better than expected",
+      "body": "Great for travel, didn't leak. Doing the job.",
+      "date": "2026-04-24"
+    },
+    {
+      "id": "r007",
+      "productId": "p02",
+      "author": "Aisha N.",
+      "rating": 5,
+      "title": "Better than expected",
+      "body": "Subscribed and save is a no-brainer for a daily product.",
+      "date": "2026-06-13"
+    },
+    {
+      "id": "r008",
+      "productId": "p03",
+      "author": "Aisha M.",
+      "rating": 4,
+      "title": "Gentle + effective",
+      "body": "My partner keeps stealing it, had to order a second.",
+      "date": "2026-05-10"
+    },
+    {
+      "id": "r009",
+      "productId": "p03",
+      "author": "Devon L.",
+      "rating": 4,
+      "title": "Finally something that works",
+      "body": "My partner keeps stealing it, had to order a second.",
+      "date": "2026-03-11"
+    },
+    {
+      "id": "r010",
+      "productId": "p03",
+      "author": "Aisha P.",
+      "rating": 4,
+      "title": "Gentle + effective",
+      "body": "Two weeks in and my skin looks calmer. No irritation at all.",
+      "date": "2026-07-20"
+    },
+    {
+      "id": "r011",
+      "productId": "p04",
+      "author": "Priya K.",
+      "rating": 4,
+      "title": "Repurchasing",
+      "body": "Fragrance-free and my sensitive skin is happy. Big win.",
+      "date": "2026-07-17"
+    },
+    {
+      "id": "r012",
+      "productId": "p04",
+      "author": "Ivan T.",
+      "rating": 4,
+      "title": "My skin loves this",
+      "body": "My partner keeps stealing it, had to order a second.",
+      "date": "2026-06-14"
+    },
+    {
+      "id": "r013",
+      "productId": "p04",
+      "author": "Owen C.",
+      "rating": 5,
+      "title": "Better than expected",
+      "body": "Subscribed and save is a no-brainer for a daily product.",
+      "date": "2026-04-14"
+    },
+    {
+      "id": "r014",
+      "productId": "p05",
+      "author": "Ivan S.",
+      "rating": 4,
+      "title": "A staple now",
+      "body": "A little goes a long way — the bottle lasts forever.",
+      "date": "2026-07-16"
+    },
+    {
+      "id": "r015",
+      "productId": "p05",
+      "author": "Owen C.",
+      "rating": 4,
+      "title": "Repurchasing",
+      "body": "Subscribed and save is a no-brainer for a daily product.",
+      "date": "2026-03-13"
+    },
+    {
+      "id": "r016",
+      "productId": "p05",
+      "author": "Jordan V.",
+      "rating": 3,
+      "title": "Gentle + effective",
+      "body": "Fragrance-free and my sensitive skin is happy. Big win.",
+      "date": "2026-06-18"
+    },
+    {
+      "id": "r017",
+      "productId": "p06",
+      "author": "Owen B.",
+      "rating": 5,
+      "title": "Perfect for summer",
+      "body": "A little goes a long way — the bottle lasts forever.",
+      "date": "2026-03-14"
+    },
+    {
+      "id": "r018",
+      "productId": "p06",
+      "author": "Owen V.",
+      "rating": 4,
+      "title": "Finally something that works",
+      "body": "My partner keeps stealing it, had to order a second.",
+      "date": "2026-03-18"
+    },
+    {
+      "id": "r019",
+      "productId": "p06",
+      "author": "Aisha N.",
+      "rating": 4,
+      "title": "Holy grail",
+      "body": "Absorbs fast and doesn't pill under sunscreen. Been repurchasing.",
+      "date": "2026-05-23"
+    },
+    {
+      "id": "r020",
+      "productId": "p07",
+      "author": "Jordan M.",
+      "rating": 5,
+      "title": "Better than expected",
+      "body": "Noticed less redness after a month. Sticking with it.",
+      "date": "2026-05-26"
+    },
+    {
+      "id": "r021",
+      "productId": "p07",
+      "author": "Chloe K.",
+      "rating": 5,
+      "title": "My skin loves this",
+      "body": "A little goes a long way — the bottle lasts forever.",
+      "date": "2026-06-20"
+    },
+    {
+      "id": "r022",
+      "productId": "p07",
+      "author": "Grace R.",
+      "rating": 5,
+      "title": "Finally something that works",
+      "body": "Two weeks in and my skin looks calmer. No irritation at all.",
+      "date": "2026-03-25"
+    },
+    {
+      "id": "r023",
+      "productId": "p08",
+      "author": "Jordan M.",
+      "rating": 5,
+      "title": "Finally something that works",
+      "body": "Absorbs fast and doesn't pill under sunscreen. Been repurchasing.",
+      "date": "2026-06-12"
+    },
+    {
+      "id": "r024",
+      "productId": "p08",
+      "author": "Sofia R.",
+      "rating": 5,
+      "title": "Repurchasing",
+      "body": "Absorbs fast and doesn't pill under sunscreen. Been repurchasing.",
+      "date": "2026-06-27"
+    },
+    {
+      "id": "r025",
+      "productId": "p08",
+      "author": "Mila M.",
+      "rating": 5,
+      "title": "Better than expected",
+      "body": "Texture is lovely, not greasy. Fits my morning routine.",
+      "date": "2026-05-12"
+    },
+    {
+      "id": "r026",
+      "productId": "p09",
+      "author": "Priya L.",
+      "rating": 5,
+      "title": "Holy grail",
+      "body": "Packaging is minimal and it actually works. Recommend.",
+      "date": "2026-07-10"
+    },
+    {
+      "id": "r027",
+      "productId": "p09",
+      "author": "Ruby L.",
+      "rating": 5,
+      "title": "Worth it",
+      "body": "My partner keeps stealing it, had to order a second.",
+      "date": "2026-03-12"
+    },
+    {
+      "id": "r028",
+      "productId": "p09",
+      "author": "Priya H.",
+      "rating": 4,
+      "title": "Repurchasing",
+      "body": "Noticed less redness after a month. Sticking with it.",
+      "date": "2026-06-20"
+    },
+    {
+      "id": "r029",
+      "productId": "p09",
+      "author": "Mila N.",
+      "rating": 5,
+      "title": "Finally something that works",
+      "body": "Packaging is minimal and it actually works. Recommend.",
+      "date": "2026-06-24"
+    },
+    {
+      "id": "r030",
+      "productId": "p10",
+      "author": "Leah V.",
+      "rating": 4,
+      "title": "Holy grail",
+      "body": "Noticed less redness after a month. Sticking with it.",
+      "date": "2026-07-12"
+    },
+    {
+      "id": "r031",
+      "productId": "p10",
+      "author": "Maya S.",
+      "rating": 5,
+      "title": "Repurchasing",
+      "body": "Packaging is minimal and it actually works. Recommend.",
+      "date": "2026-07-25"
+    },
+    {
+      "id": "r032",
+      "productId": "p10",
+      "author": "Maya T.",
+      "rating": 5,
+      "title": "Gentle + effective",
+      "body": "A little goes a long way — the bottle lasts forever.",
+      "date": "2026-07-16"
+    },
+    {
+      "id": "r033",
+      "productId": "p10",
+      "author": "Devon T.",
+      "rating": 5,
+      "title": "Subtle but real",
+      "body": "Packaging is minimal and it actually works. Recommend.",
+      "date": "2026-04-20"
+    },
+    {
+      "id": "r034",
+      "productId": "p11",
+      "author": "Aisha H.",
+      "rating": 4,
+      "title": "Worth it",
+      "body": "Fragrance-free and my sensitive skin is happy. Big win.",
+      "date": "2026-04-22"
+    },
+    {
+      "id": "r035",
+      "productId": "p11",
+      "author": "Grace T.",
+      "rating": 4,
+      "title": "A staple now",
+      "body": "A little goes a long way — the bottle lasts forever.",
+      "date": "2026-04-25"
+    },
+    {
+      "id": "r036",
+      "productId": "p11",
+      "author": "Jordan N.",
+      "rating": 4,
+      "title": "Repurchasing",
+      "body": "Noticed less redness after a month. Sticking with it.",
+      "date": "2026-04-13"
+    },
+    {
+      "id": "r037",
+      "productId": "p12",
+      "author": "Elena S.",
+      "rating": 4,
+      "title": "Worth it",
+      "body": "Subscribed and save is a no-brainer for a daily product.",
+      "date": "2026-07-25"
+    },
+    {
+      "id": "r038",
+      "productId": "p12",
+      "author": "Theo C.",
+      "rating": 4,
+      "title": "Subtle but real",
+      "body": "Texture is lovely, not greasy. Fits my morning routine.",
+      "date": "2026-03-11"
+    },
+    {
+      "id": "r039",
+      "productId": "p12",
+      "author": "Ivan M.",
+      "rating": 4,
+      "title": "Gentle + effective",
+      "body": "My partner keeps stealing it, had to order a second.",
+      "date": "2026-05-19"
+    },
+    {
+      "id": "r040",
+      "productId": "p13",
+      "author": "Maya H.",
+      "rating": 5,
+      "title": "Better than expected",
+      "body": "Subscribed and save is a no-brainer for a daily product.",
+      "date": "2026-06-16"
+    },
+    {
+      "id": "r041",
+      "productId": "p13",
+      "author": "Jonah B.",
+      "rating": 4,
+      "title": "A staple now",
+      "body": "A little goes a long way — the bottle lasts forever.",
+      "date": "2026-03-13"
+    },
+    {
+      "id": "r042",
+      "productId": "p13",
+      "author": "Sam H.",
+      "rating": 5,
+      "title": "Perfect for summer",
+      "body": "Texture is lovely, not greasy. Fits my morning routine.",
+      "date": "2026-03-16"
+    },
+    {
+      "id": "r043",
+      "productId": "p13",
+      "author": "Owen B.",
+      "rating": 5,
+      "title": "Better than expected",
+      "body": "Two weeks in and my skin looks calmer. No irritation at all.",
+      "date": "2026-06-27"
+    },
+    {
+      "id": "r044",
+      "productId": "p14",
+      "author": "Devon S.",
+      "rating": 3,
+      "title": "Gentle + effective",
+      "body": "Texture is lovely, not greasy. Fits my morning routine.",
+      "date": "2026-07-26"
+    },
+    {
+      "id": "r045",
+      "productId": "p14",
+      "author": "Ivan R.",
+      "rating": 5,
+      "title": "Worth it",
+      "body": "Fragrance-free and my sensitive skin is happy. Big win.",
+      "date": "2026-03-23"
+    },
+    {
+      "id": "r046",
+      "productId": "p14",
+      "author": "Chloe P.",
+      "rating": 4,
+      "title": "Subtle but real",
+      "body": "Fragrance-free and my sensitive skin is happy. Big win.",
+      "date": "2026-03-22"
+    },
+    {
+      "id": "r047",
+      "productId": "p14",
+      "author": "Grace H.",
+      "rating": 5,
+      "title": "Perfect for summer",
+      "body": "Texture is lovely, not greasy. Fits my morning routine.",
+      "date": "2026-06-20"
+    },
+    {
+      "id": "r048",
+      "productId": "p15",
+      "author": "Sam N.",
+      "rating": 5,
+      "title": "Repurchasing",
+      "body": "Fragrance-free and my sensitive skin is happy. Big win.",
+      "date": "2026-04-22"
+    },
+    {
+      "id": "r049",
+      "productId": "p15",
+      "author": "Marcus V.",
+      "rating": 4,
+      "title": "My skin loves this",
+      "body": "Noticed less redness after a month. Sticking with it.",
+      "date": "2026-03-21"
+    },
+    {
+      "id": "r050",
+      "productId": "p15",
+      "author": "Priya M.",
+      "rating": 5,
+      "title": "Subtle but real",
+      "body": "Texture is lovely, not greasy. Fits my morning routine.",
+      "date": "2026-07-23"
+    },
+    {
+      "id": "r051",
+      "productId": "p15",
+      "author": "Owen M.",
+      "rating": 5,
+      "title": "A staple now",
+      "body": "Absorbs fast and doesn't pill under sunscreen. Been repurchasing.",
+      "date": "2026-06-11"
+    },
+    {
+      "id": "r052",
+      "productId": "p16",
+      "author": "Sofia H.",
+      "rating": 5,
+      "title": "Better than expected",
+      "body": "Packaging is minimal and it actually works. Recommend.",
+      "date": "2026-04-26"
+    },
+    {
+      "id": "r053",
+      "productId": "p16",
+      "author": "Ruby N.",
+      "rating": 5,
+      "title": "Subtle but real",
+      "body": "Packaging is minimal and it actually works. Recommend.",
+      "date": "2026-07-12"
+    }
+  ]
+}
