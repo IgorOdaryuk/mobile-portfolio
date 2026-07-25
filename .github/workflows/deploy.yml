@@ -17,28 +17,40 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: client-hub
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
-          cache-dependency-path: client-hub/package-lock.json
 
-      - run: npm ci
+      # Client Hub -> site root (/mobile-portfolio/)
+      - name: Build Client Hub
+        working-directory: client-hub
+        run: |
+          npm ci
+          npx expo export -p web
 
-      - name: Export web build
-        run: npx expo export -p web
+      # Eat2Beat -> /mobile-portfolio/eat2beat/
+      - name: Build Eat2Beat
+        working-directory: eat2beat
+        run: |
+          npm ci
+          npx expo export -p web
+
+      # Assemble a single site: Client Hub at root, Eat2Beat under /eat2beat.
+      - name: Assemble site
+        run: |
+          mkdir -p _site
+          cp -r client-hub/dist/* _site/
+          mkdir -p _site/eat2beat
+          cp -r eat2beat/dist/* _site/eat2beat/
 
       - uses: actions/configure-pages@v5
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: client-hub/dist
+          path: _site
 
   deploy:
     needs: build

@@ -60,8 +60,53 @@ live demo,"* not as a shipped SaaS.
 
 ---
 
-## Next up — App #2 (TBD)
-Add a **second, distinct** mobile app to this portfolio (different domain from Client Hub;
-two varied finished apps read stronger than one). App idea to be decided at kickoff —
-**not** Practice Tracker (Flutter/Dart) for now; its scope isn't settled yet. Follow the
-same bar: clean TS, several screens, nothing crashes, tests + CI, live demo, screenshots.
+## App #2 — Eat2Beat ✅ COMPLETE (portfolio-ready)
+
+Calorie & macro tracker (food diary). Folder: [`eat2beat/`](./eat2beat). Chosen as a
+**distinct** second domain (health/fitness) vs. Client Hub's CRM, so the portfolio spans
+two clearly different app types. Originally an empty Expo scaffold + a Swift repo on
+GitHub — rebuilt in RN to the same bar (the Swift port is deferred until Igor upgrades his
+Mac; this RN version is its design reference).
+
+- **Live demo:** https://igorodaryuk.github.io/mobile-portfolio/eat2beat/
+- **Stack:** Expo SDK 57 · React Native 0.86 · React 19 · TypeScript (strict)
+- **Screens (5):** Today (calorie ring + macros + water + meals) · Add Food (search →
+  meal/servings → live nutrition preview) · Diary (14-day strip + per-day breakdown) ·
+  Trends (14-day bars vs goal, streak, macro donut) · Food detail.
+
+### What's done
+- **Interactive:** add-food flow writes a real entry (Today ring/macros/subtotals update
+  live); remove entry; +1 cup water. AsyncStorage store → logs persist across reload.
+- **Pure logic in `src/selectors.ts`** (day totals, macro-calorie split, streak, daily
+  series) — framework-free, unit-tested. Dates via pure `src/dateutil.ts` (no clock reads).
+- **Real SVG charts** (`react-native-svg`): calorie ring, macro bars, weekly bars w/ goal
+  line, macro donut. No static chart images.
+- **Quality gates:** 23 Jest tests + `tsc --noEmit` (strict). CI now runs a **matrix** over
+  both apps (client-hub + eat2beat).
+- **Auto-deploy:** deploy workflow builds **both** apps → Client Hub at Pages root,
+  Eat2Beat at `/eat2beat`.
+- **Data:** 100% synthetic 14-day log (`scripts/gen_seed.py`, fixed seed), fictional user
+  "Alex Rivera", visible SAMPLE DATA badge. No real health data.
+
+### Screenshots
+`eat2beat/screenshots/` — `hero.png` (4-device composite) + `01`–`06` per screen
+(transparent iPhone-frame PNGs, same headless-Chrome pipeline as Client Hub; capture
+script committed at `scripts/shoot.sh`, hero builder at `scripts/hero.py`).
+
+### Honest limitations
+- Web build verified only; native iOS/Android not built in this env.
+- No backend/auth — local synthetic data + AsyncStorage. Functional front-end demo.
+- Custom `useState` tab nav (not react-navigation); light theme only.
+
+---
+
+## GitHub candidate scan (for RN-freelance portfolio, Upwork RN goal)
+Reviewed Igor's repos for apps portable to RN. Portfolio genre plan (recruiters search by
+app *type*): 1) Client Hub — CRM ✅ · 2) Eat2Beat — health ✅ · 3) `local-seo-pulse-mobile`
+→ SEO/GBP tracker · 4) `ReactStore` → **e-commerce** (top Upwork category, missing) ·
+5) `premium-course-hub` → e-learning. Swift repos (`Eat2Beat`, `MusicianPracticeTracker`)
+deferred until native tooling/Mac upgrade.
+
+## Next up — App #3
+`local-seo-pulse-mobile` → **Local SEO / GBP tracker** (rank grid, GBP insights, reviews).
+Same bar. Then App #4 = e-commerce (ReactStore port).
