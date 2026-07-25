@@ -110,7 +110,7 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  backdrop: { flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#D9D2C7', padding: 24 },
+  backdrop: { flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent', padding: 56 },
   phone: {
     width: 393,
     height: 852,
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     borderWidth: 11,
     borderColor: '#0B0B0D',
-    ...(isWeb ? ({ boxShadow: '0 40px 120px rgba(30,20,10,0.35)' } as any) : {}),
+    ...(isWeb ? ({ boxShadow: '0 28px 70px rgba(20,14,8,0.30)' } as any) : {}),
   },
   island: {
     position: 'absolute',
