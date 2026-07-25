@@ -1,12 +1,14 @@
 /**
  * Component (render) tests — React Testing Library on top of the existing pure
- * logic tests. These mount real components in the theme (and store) context and
- * assert what a shopper actually sees + that presses fire the right callbacks.
+ * logic tests. These mount real components in the theme context and assert what
+ * a shopper actually sees + that presses fire the right callbacks.
  *
- * Note: RTL v14 (React 19) `render` is async — always `await` it.
+ * Note: RTL v14 (React 19) `render` is async — always `await` it. Interactions
+ * use `userEvent` (also async), which wraps updates in act() so no "overlapping
+ * act()" warnings leak into the output.
  */
 import React from 'react';
-import { render, fireEvent, act } from '@testing-library/react-native';
+import { render, userEvent } from '@testing-library/react-native';
 
 import { ThemeProvider } from '../theme-context';
 import { ProductCard } from '../components/ProductCard';
@@ -34,34 +36,35 @@ describe('ProductCard', () => {
   });
 
   it('fires onPress when the card is tapped', async () => {
+    const user = userEvent.setup();
     const onPress = jest.fn();
     const { getByText } = await withTheme(
       <ProductCard product={product} onPress={onPress} wished={false} onWish={jest.fn()} />,
     );
-    fireEvent.press(getByText(product.name));
+    await user.press(getByText(product.name));
     expect(onPress).toHaveBeenCalledTimes(1);
   });
 
   it('fires onWish from the heart button', async () => {
+    const user = userEvent.setup();
     const onWish = jest.fn();
     const { getByLabelText } = await withTheme(
       <ProductCard product={product} onPress={jest.fn()} wished={false} onWish={onWish} />,
     );
-    fireEvent.press(getByLabelText('Save for later'));
+    await user.press(getByLabelText('Save for later'));
     expect(onWish).toHaveBeenCalledTimes(1);
   });
 
   it('quick-add calls back and flips the label to "Added"', async () => {
+    const user = userEvent.setup();
     const onQuickAdd = jest.fn();
-    const { getByText, getByLabelText, findByText, queryByText } = await withTheme(
+    const { getByText, getByLabelText, queryByText } = await withTheme(
       <ProductCard product={product} onPress={jest.fn()} wished={false} onWish={jest.fn()} onQuickAdd={onQuickAdd} />,
     );
     expect(getByText('Add to bag')).toBeTruthy();
-    await act(async () => {
-      fireEvent.press(getByLabelText(`Add ${product.name} to bag`));
-    });
+    await user.press(getByLabelText(`Add ${product.name} to bag`));
     expect(onQuickAdd).toHaveBeenCalledTimes(1);
-    expect(await findByText('✓ Added')).toBeTruthy();
+    expect(getByText('✓ Added')).toBeTruthy();
     expect(queryByText('Add to bag')).toBeNull();
   });
 
@@ -93,19 +96,18 @@ describe('UI primitives', () => {
   });
 
   it('HeartButton reflects active state via accessibility label', async () => {
+    const user = userEvent.setup();
     const onPress = jest.fn();
     const { getByLabelText, findByLabelText, rerender } = await withTheme(
       <HeartButton active={false} onPress={onPress} />,
     );
-    fireEvent.press(getByLabelText('Save for later'));
+    await user.press(getByLabelText('Save for later'));
     expect(onPress).toHaveBeenCalledTimes(1);
-    await act(async () => {
-      rerender(
-        <ThemeProvider>
-          <HeartButton active onPress={onPress} />
-        </ThemeProvider>,
-      );
-    });
+    rerender(
+      <ThemeProvider>
+        <HeartButton active onPress={onPress} />
+      </ThemeProvider>,
+    );
     expect(await findByLabelText('Remove from saved')).toBeTruthy();
   });
 });

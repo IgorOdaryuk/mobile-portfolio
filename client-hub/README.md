@@ -28,9 +28,12 @@ product; it ships with a fully **synthetic** demo dataset so it runs with zero b
 
 ## Stack
 
-- **React Native 0.81 / Expo SDK 57 / React 19 / TypeScript**
+- **React Native 0.86 / Expo SDK 57 / React 19 / TypeScript**
 - `expo-linear-gradient`, `react-native-svg`, `@expo/vector-icons`
-- Type pairing: **Space Grotesk** (display / figures) + **Plus Jakarta Sans** (body)
+- **"Field-ops console" identity:** dense grotesque **Archivo** for text + **JetBrains
+  Mono** for every number, label and status tag (tabular alignment); cool graphite/steel
+  surfaces with hairline rules, sharp near-square corners, a single burnt-orange signal
+  accent — deliberately a utilitarian pro-tool look, distinct from the other demos.
 - Runs on iOS, Android and web from one codebase
 
 ## Structure

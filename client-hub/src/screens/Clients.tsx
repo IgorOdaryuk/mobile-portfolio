@@ -50,7 +50,12 @@ export default function Clients({
             style={styles.searchInput}
           />
         </View>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.chips}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={styles.chipsRow}
+          contentContainerStyle={styles.chips}
+        >
           {FILTERS.map((f) => {
             const active = f === filter;
             return (
@@ -109,6 +114,9 @@ const styles = StyleSheet.create({
     borderRadius: radius.md, borderWidth: 1, borderColor: colors.line, paddingHorizontal: 13, height: 44, ...shadow.soft,
   },
   searchInput: { flex: 1, marginLeft: 10, fontFamily: font.med, fontSize: 14, color: colors.ink, outlineStyle: 'none' as any },
+  // Explicit height: a horizontal ScrollView on RN-web collapses its height and
+  // clips the chips otherwise (chip 32 + 14*2 vertical padding = 60).
+  chipsRow: { flexGrow: 0, height: 60 },
   chips: { paddingVertical: 14, gap: 7 },
   chip: { paddingHorizontal: 13, height: 32, borderRadius: radius.sm, backgroundColor: colors.card, borderWidth: 1, borderColor: colors.line, alignItems: 'center', justifyContent: 'center' },
   chipActive: { backgroundColor: colors.ink, borderColor: colors.ink },
