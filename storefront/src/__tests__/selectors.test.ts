@@ -12,6 +12,7 @@ import {
   money,
   validateCheckout,
   isCheckoutValid,
+  relatedProducts,
 } from '../selectors';
 import { SUBSCRIBE_DISCOUNT } from '../theme';
 import type { Product, Review, CartLine } from '../types';
@@ -136,6 +137,27 @@ describe('money', () => {
     expect(money(3400)).toBe('$34.00');
     expect(money(1530)).toBe('$15.30');
     expect(money(0)).toBe('$0.00');
+  });
+});
+
+describe('relatedProducts', () => {
+  const cat = [
+    mk({ id: 'p1', category: 'skincare', bestseller: true, rating: 4.9 }),
+    mk({ id: 'p2', category: 'skincare', bestseller: false, rating: 4.2 }),
+    mk({ id: 'p3', category: 'body', bestseller: true, rating: 4.8 }),
+    mk({ id: 'p4', category: 'body', bestseller: false, rating: 4.1 }),
+  ];
+  it('excludes the current product', () => {
+    const r = relatedProducts(cat, cat[0], 4);
+    expect(r.map((p) => p.id)).not.toContain('p1');
+  });
+  it('prefers same category first, bestsellers ranked up', () => {
+    const r = relatedProducts(cat, cat[0], 4);
+    expect(r[0].id).toBe('p2'); // only other skincare comes first
+    expect(r[1].id).toBe('p3'); // then bestseller from other category
+  });
+  it('caps the result at n', () => {
+    expect(relatedProducts(cat, cat[0], 2)).toHaveLength(2);
   });
 });
 

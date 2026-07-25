@@ -113,6 +113,27 @@ export function reviewsFor(reviews: Review[], productId: string): Review[] {
   return reviews.filter((r) => r.productId === productId);
 }
 
+/**
+ * "You may also like" — same-category products first (bestsellers ranked up),
+ * topped up with other bestsellers, excluding the current product. Up to `n`.
+ */
+export function relatedProducts(products: Product[], current: Product, n = 4): Product[] {
+  const rank = (p: Product) => Number(p.bestseller);
+  const notSelf = products.filter((p) => p.id !== current.id);
+  const sameCat = notSelf
+    .filter((p) => p.category === current.category)
+    .sort((a, b) => rank(b) - rank(a) || b.rating - a.rating);
+  const rest = notSelf
+    .filter((p) => p.category !== current.category)
+    .sort((a, b) => rank(b) - rank(a) || b.rating - a.rating);
+  const out: Product[] = [];
+  for (const p of [...sameCat, ...rest]) {
+    if (out.length >= n) break;
+    out.push(p);
+  }
+  return out;
+}
+
 /** Average of a product's actual review entries (falls back to catalog rating). */
 export function averageReviewRating(reviews: Review[], productId: string, fallback: number): number {
   const rs = reviewsFor(reviews, productId);

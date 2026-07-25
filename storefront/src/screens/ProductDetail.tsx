@@ -3,19 +3,22 @@ import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
 import { FONT, RADIUS, SUBSCRIBE_DISCOUNT, BTN, type Palette } from '../theme';
 import { useTheme, useStyles } from '../theme-context';
 import { Stars, Tag, HeartButton, Divider } from '../ui';
+import { ProductGallery } from '../components/ProductGallery';
 import { ProductArt } from '../components/ProductArt';
 import { productImage } from '../data/productImages';
 import { useStore } from '../store';
-import { money, isOnSale, discountPct, unitPriceCents, reviewsFor, averageReviewRating } from '../selectors';
+import { money, isOnSale, discountPct, unitPriceCents, reviewsFor, averageReviewRating, relatedProducts } from '../selectors';
 
 export default function ProductDetail({
   productId,
   onBack,
   onOpenCart,
+  onOpenProduct,
 }: {
   productId: string;
   onBack: () => void;
   onOpenCart: () => void;
+  onOpenProduct: (id: string) => void;
 }) {
   const { C } = useTheme();
   const styles = useStyles(makeStyles);
@@ -27,6 +30,7 @@ export default function ProductDetail({
   const [added, setAdded] = useState(false);
 
   const reviews = useMemo(() => reviewsFor(store.reviews, productId), [store.reviews, productId]);
+  const related = useMemo(() => (product ? relatedProducts(store.products, product, 4) : []), [store.products, product]);
 
   if (!product) {
     return (
@@ -47,8 +51,8 @@ export default function ProductDetail({
     <View style={styles.wrap}>
       <Header onBack={onBack} wished={wished} onWish={() => store.toggleWish(product.id)} />
       <ScrollView contentContainerStyle={styles.body} showsVerticalScrollIndicator={false}>
-        <View style={styles.gallery}>
-          <ProductArt vessel={product.vessel} tint={product.tint} size={180} image={productImage(product.id)} label={product.name} />
+        <View style={styles.galleryWrap}>
+          <ProductGallery vessel={product.vessel} tint={product.tint} name={product.name} image={productImage(product.id)} />
           {sale ? <View style={styles.saleTag}><Tag label={`-${discountPct(product)}% summer`} tone="terra" /></View> : null}
         </View>
 
@@ -120,6 +124,24 @@ export default function ProductDetail({
             <Text style={styles.reviewBody}>{r.body}</Text>
           </View>
         ))}
+
+        {related.length > 0 ? (
+          <>
+            <Divider />
+            <Text style={styles.label}>You may also like</Text>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.railScroll} contentContainerStyle={styles.rail}>
+              {related.map((rp) => (
+                <Pressable key={rp.id} style={styles.relTile} onPress={() => onOpenProduct(rp.id)}>
+                  <View style={styles.relArt}>
+                    <ProductArt vessel={rp.vessel} tint={rp.tint} size={64} image={productImage(rp.id)} label={rp.name} />
+                  </View>
+                  <Text style={styles.relName} numberOfLines={1}>{rp.name}</Text>
+                  <Text style={styles.relPrice}>{money(rp.priceCents)}</Text>
+                </Pressable>
+              ))}
+            </ScrollView>
+          </>
+        ) : null}
       </ScrollView>
 
       {/* sticky add bar */}
@@ -162,8 +184,8 @@ const makeStyles = (C: Palette) =>
     missing: { fontFamily: FONT.body, fontSize: 14, color: C.inkDim, padding: 18 },
 
     body: { paddingHorizontal: 18, paddingBottom: 20 },
-    gallery: { backgroundColor: C.cardAlt, borderRadius: RADIUS.xl, height: 230, alignItems: 'center', justifyContent: 'center', marginBottom: 18 },
-    saleTag: { position: 'absolute', top: 14, left: 14 },
+    galleryWrap: { marginBottom: 6 },
+    saleTag: { position: 'absolute', top: 14, left: 14, zIndex: 5 },
 
     headRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 10 },
     name: { fontFamily: FONT.display, fontSize: 25, color: C.ink },
@@ -201,6 +223,13 @@ const makeStyles = (C: Palette) =>
     reviewAuthor: { fontFamily: FONT.bodySemi, fontSize: 12, color: C.inkDim },
     reviewTitle: { fontFamily: FONT.bodyBold, fontSize: 14, color: C.ink, marginTop: 4 },
     reviewBody: { fontFamily: FONT.bodyReg, fontSize: 13, color: C.inkDim, marginTop: 2, lineHeight: 19 },
+
+    railScroll: { height: 150 },
+    rail: { gap: 12, paddingVertical: 2 },
+    relTile: { width: 104 },
+    relArt: { width: 104, height: 96, borderRadius: RADIUS.md, backgroundColor: C.cardAlt, alignItems: 'center', justifyContent: 'center', marginBottom: 7, overflow: 'hidden' },
+    relName: { fontFamily: FONT.bodySemi, fontSize: 12, color: C.ink },
+    relPrice: { fontFamily: FONT.display, fontSize: 13, color: C.ink, marginTop: 1 },
 
     bar: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 16, borderTopWidth: 1, borderTopColor: C.line, backgroundColor: C.card },
     qty: { flexDirection: 'row', alignItems: 'center', gap: 12, borderWidth: 1, borderColor: C.line, borderRadius: RADIUS.pill, paddingHorizontal: 12, paddingVertical: 9 },

@@ -53,7 +53,7 @@ function Shell() {
   if (checkout) {
     content = <Checkout onBack={() => setCheckout(false)} onDone={() => { setCheckout(false); setTab('Shop'); }} />;
   } else if (productId) {
-    content = <ProductDetail productId={productId} onBack={() => setProductId(null)} onOpenCart={() => { setProductId(null); setTab('Bag'); }} />;
+    content = <ProductDetail key={productId} productId={productId} onBack={() => setProductId(null)} onOpenCart={() => { setProductId(null); setTab('Bag'); }} onOpenProduct={setProductId} />;
   } else if (tab === 'Shop') {
     content = <Shop onOpenProduct={openProduct} onOpenCategory={openCategory} />;
   } else if (tab === 'Search') {
