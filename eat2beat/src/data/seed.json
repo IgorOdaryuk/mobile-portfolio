@@ -1,0 +1,1486 @@
+{
+  "today": "2026-07-25",
+  "profile": {
+    "name": "Alex Rivera",
+    "goals": {
+      "kcal": 2200,
+      "protein": 150,
+      "carbs": 220,
+      "fat": 70,
+      "waterMl": 2500
+    },
+    "waterByDate": {
+      "2026-07-12": 2000,
+      "2026-07-13": 2000,
+      "2026-07-14": 1600,
+      "2026-07-15": 1800,
+      "2026-07-16": 2200,
+      "2026-07-17": 2500,
+      "2026-07-18": 2200,
+      "2026-07-19": 1800,
+      "2026-07-20": 2000,
+      "2026-07-21": 2500,
+      "2026-07-22": 2500,
+      "2026-07-23": 2000,
+      "2026-07-24": 2000,
+      "2026-07-25": 1400
+    }
+  },
+  "foods": [
+    {
+      "id": "f00",
+      "name": "Oatmeal",
+      "emoji": "🥣",
+      "serving": "1 cup cooked (234 g)",
+      "kcal": 307,
+      "protein": 11,
+      "carbs": 55,
+      "fat": 5,
+      "brand": "Quaker"
+    },
+    {
+      "id": "f01",
+      "name": "Greek Yogurt",
+      "emoji": "🥛",
+      "serving": "1 container (200 g)",
+      "kcal": 146,
+      "protein": 20,
+      "carbs": 8,
+      "fat": 4,
+      "brand": "Fage 2%"
+    },
+    {
+      "id": "f02",
+      "name": "Blueberries",
+      "emoji": "🫐",
+      "serving": "1 cup (148 g)",
+      "kcal": 84,
+      "protein": 1,
+      "carbs": 21,
+      "fat": 0
+    },
+    {
+      "id": "f03",
+      "name": "Banana",
+      "emoji": "🍌",
+      "serving": "1 medium (118 g)",
+      "kcal": 105,
+      "protein": 1,
+      "carbs": 27,
+      "fat": 0
+    },
+    {
+      "id": "f04",
+      "name": "Scrambled Eggs",
+      "emoji": "🍳",
+      "serving": "2 large eggs",
+      "kcal": 182,
+      "protein": 12,
+      "carbs": 2,
+      "fat": 13
+    },
+    {
+      "id": "f05",
+      "name": "Whole Wheat Toast",
+      "emoji": "🍞",
+      "serving": "2 slices",
+      "kcal": 160,
+      "protein": 8,
+      "carbs": 28,
+      "fat": 2
+    },
+    {
+      "id": "f06",
+      "name": "Peanut Butter",
+      "emoji": "🥜",
+      "serving": "2 tbsp (32 g)",
+      "kcal": 190,
+      "protein": 7,
+      "carbs": 8,
+      "fat": 16,
+      "brand": "Jif"
+    },
+    {
+      "id": "f07",
+      "name": "Black Coffee",
+      "emoji": "☕",
+      "serving": "1 mug (355 ml)",
+      "kcal": 5,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0
+    },
+    {
+      "id": "f08",
+      "name": "Grilled Chicken Breast",
+      "emoji": "🍗",
+      "serving": "1 breast (170 g)",
+      "kcal": 281,
+      "protein": 53,
+      "carbs": 0,
+      "fat": 6
+    },
+    {
+      "id": "f09",
+      "name": "Brown Rice",
+      "emoji": "🍚",
+      "serving": "1 cup cooked (195 g)",
+      "kcal": 216,
+      "protein": 5,
+      "carbs": 45,
+      "fat": 2
+    },
+    {
+      "id": "f10",
+      "name": "Mixed Green Salad",
+      "emoji": "🥗",
+      "serving": "1 bowl (200 g)",
+      "kcal": 90,
+      "protein": 3,
+      "carbs": 10,
+      "fat": 5
+    },
+    {
+      "id": "f11",
+      "name": "Olive Oil",
+      "emoji": "🫒",
+      "serving": "1 tbsp (14 g)",
+      "kcal": 119,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 14
+    },
+    {
+      "id": "f12",
+      "name": "Salmon Fillet",
+      "emoji": "🐟",
+      "serving": "1 fillet (170 g)",
+      "kcal": 367,
+      "protein": 40,
+      "carbs": 0,
+      "fat": 22
+    },
+    {
+      "id": "f13",
+      "name": "Sweet Potato",
+      "emoji": "🍠",
+      "serving": "1 medium (130 g)",
+      "kcal": 112,
+      "protein": 2,
+      "carbs": 26,
+      "fat": 0
+    },
+    {
+      "id": "f14",
+      "name": "Broccoli",
+      "emoji": "🥦",
+      "serving": "1 cup (156 g)",
+      "kcal": 55,
+      "protein": 4,
+      "carbs": 11,
+      "fat": 1
+    },
+    {
+      "id": "f15",
+      "name": "Avocado",
+      "emoji": "🥑",
+      "serving": "1/2 fruit (100 g)",
+      "kcal": 160,
+      "protein": 2,
+      "carbs": 9,
+      "fat": 15
+    },
+    {
+      "id": "f16",
+      "name": "Almonds",
+      "emoji": "🌰",
+      "serving": "1 oz (28 g)",
+      "kcal": 164,
+      "protein": 6,
+      "carbs": 6,
+      "fat": 14
+    },
+    {
+      "id": "f17",
+      "name": "Protein Shake",
+      "emoji": "🥤",
+      "serving": "1 scoop (32 g)",
+      "kcal": 120,
+      "protein": 24,
+      "carbs": 3,
+      "fat": 2,
+      "brand": "Optimum"
+    },
+    {
+      "id": "f18",
+      "name": "Apple",
+      "emoji": "🍎",
+      "serving": "1 medium (182 g)",
+      "kcal": 95,
+      "protein": 0,
+      "carbs": 25,
+      "fat": 0
+    },
+    {
+      "id": "f19",
+      "name": "Ground Beef 90%",
+      "emoji": "🥩",
+      "serving": "1 patty (113 g)",
+      "kcal": 199,
+      "protein": 22,
+      "carbs": 0,
+      "fat": 12
+    },
+    {
+      "id": "f20",
+      "name": "Whole Wheat Pasta",
+      "emoji": "🍝",
+      "serving": "1 cup cooked (140 g)",
+      "kcal": 174,
+      "protein": 7,
+      "carbs": 37,
+      "fat": 1
+    },
+    {
+      "id": "f21",
+      "name": "Marinara Sauce",
+      "emoji": "🍅",
+      "serving": "1/2 cup (125 g)",
+      "kcal": 70,
+      "protein": 2,
+      "carbs": 12,
+      "fat": 2
+    },
+    {
+      "id": "f22",
+      "name": "Cheddar Cheese",
+      "emoji": "🧀",
+      "serving": "1 slice (28 g)",
+      "kcal": 113,
+      "protein": 7,
+      "carbs": 0,
+      "fat": 9
+    },
+    {
+      "id": "f23",
+      "name": "Turkey Sandwich",
+      "emoji": "🥪",
+      "serving": "1 sandwich",
+      "kcal": 320,
+      "protein": 22,
+      "carbs": 34,
+      "fat": 10
+    },
+    {
+      "id": "f24",
+      "name": "Dark Chocolate",
+      "emoji": "🍫",
+      "serving": "3 squares (30 g)",
+      "kcal": 170,
+      "protein": 2,
+      "carbs": 13,
+      "fat": 12,
+      "brand": "Lindt 70%"
+    },
+    {
+      "id": "f25",
+      "name": "Cottage Cheese",
+      "emoji": "🧀",
+      "serving": "1/2 cup (113 g)",
+      "kcal": 92,
+      "protein": 12,
+      "carbs": 5,
+      "fat": 3
+    },
+    {
+      "id": "f26",
+      "name": "Hummus",
+      "emoji": "🧆",
+      "serving": "2 tbsp (30 g)",
+      "kcal": 70,
+      "protein": 2,
+      "carbs": 6,
+      "fat": 5
+    },
+    {
+      "id": "f27",
+      "name": "Carrot Sticks",
+      "emoji": "🥕",
+      "serving": "1 cup (128 g)",
+      "kcal": 52,
+      "protein": 1,
+      "carbs": 12,
+      "fat": 0
+    },
+    {
+      "id": "f28",
+      "name": "Orange Juice",
+      "emoji": "🧃",
+      "serving": "1 cup (248 ml)",
+      "kcal": 112,
+      "protein": 2,
+      "carbs": 26,
+      "fat": 0
+    },
+    {
+      "id": "f29",
+      "name": "Quinoa",
+      "emoji": "🌾",
+      "serving": "1 cup cooked (185 g)",
+      "kcal": 222,
+      "protein": 8,
+      "carbs": 39,
+      "fat": 4
+    }
+  ],
+  "entries": [
+    {
+      "id": "e0000",
+      "date": "2026-07-12",
+      "meal": "breakfast",
+      "foodId": "f00",
+      "servings": 1.5
+    },
+    {
+      "id": "e0001",
+      "date": "2026-07-12",
+      "meal": "breakfast",
+      "foodId": "f06",
+      "servings": 1
+    },
+    {
+      "id": "e0002",
+      "date": "2026-07-12",
+      "meal": "lunch",
+      "foodId": "f11",
+      "servings": 0.5
+    },
+    {
+      "id": "e0003",
+      "date": "2026-07-12",
+      "meal": "lunch",
+      "foodId": "f09",
+      "servings": 2
+    },
+    {
+      "id": "e0004",
+      "date": "2026-07-12",
+      "meal": "lunch",
+      "foodId": "f27",
+      "servings": 1
+    },
+    {
+      "id": "e0005",
+      "date": "2026-07-12",
+      "meal": "dinner",
+      "foodId": "f21",
+      "servings": 0.5
+    },
+    {
+      "id": "e0006",
+      "date": "2026-07-12",
+      "meal": "dinner",
+      "foodId": "f12",
+      "servings": 1.5
+    },
+    {
+      "id": "e0007",
+      "date": "2026-07-12",
+      "meal": "dinner",
+      "foodId": "f19",
+      "servings": 1.5
+    },
+    {
+      "id": "e0008",
+      "date": "2026-07-12",
+      "meal": "dinner",
+      "foodId": "f08",
+      "servings": 1
+    },
+    {
+      "id": "e0009",
+      "date": "2026-07-12",
+      "meal": "snack",
+      "foodId": "f17",
+      "servings": 1
+    },
+    {
+      "id": "e0010",
+      "date": "2026-07-12",
+      "meal": "snack",
+      "foodId": "f25",
+      "servings": 1
+    },
+    {
+      "id": "e0011",
+      "date": "2026-07-13",
+      "meal": "breakfast",
+      "foodId": "f05",
+      "servings": 1
+    },
+    {
+      "id": "e0012",
+      "date": "2026-07-13",
+      "meal": "breakfast",
+      "foodId": "f02",
+      "servings": 1.5
+    },
+    {
+      "id": "e0013",
+      "date": "2026-07-13",
+      "meal": "breakfast",
+      "foodId": "f28",
+      "servings": 1
+    },
+    {
+      "id": "e0014",
+      "date": "2026-07-13",
+      "meal": "breakfast",
+      "foodId": "f00",
+      "servings": 1
+    },
+    {
+      "id": "e0015",
+      "date": "2026-07-13",
+      "meal": "lunch",
+      "foodId": "f27",
+      "servings": 2
+    },
+    {
+      "id": "e0016",
+      "date": "2026-07-13",
+      "meal": "lunch",
+      "foodId": "f11",
+      "servings": 1.5
+    },
+    {
+      "id": "e0017",
+      "date": "2026-07-13",
+      "meal": "lunch",
+      "foodId": "f10",
+      "servings": 1
+    },
+    {
+      "id": "e0018",
+      "date": "2026-07-13",
+      "meal": "lunch",
+      "foodId": "f29",
+      "servings": 1
+    },
+    {
+      "id": "e0019",
+      "date": "2026-07-13",
+      "meal": "dinner",
+      "foodId": "f08",
+      "servings": 1.5
+    },
+    {
+      "id": "e0020",
+      "date": "2026-07-13",
+      "meal": "dinner",
+      "foodId": "f29",
+      "servings": 1
+    },
+    {
+      "id": "e0021",
+      "date": "2026-07-13",
+      "meal": "dinner",
+      "foodId": "f13",
+      "servings": 2
+    },
+    {
+      "id": "e0022",
+      "date": "2026-07-13",
+      "meal": "dinner",
+      "foodId": "f15",
+      "servings": 1
+    },
+    {
+      "id": "e0023",
+      "date": "2026-07-13",
+      "meal": "snack",
+      "foodId": "f24",
+      "servings": 1
+    },
+    {
+      "id": "e0024",
+      "date": "2026-07-13",
+      "meal": "snack",
+      "foodId": "f27",
+      "servings": 2
+    },
+    {
+      "id": "e0025",
+      "date": "2026-07-13",
+      "meal": "snack",
+      "foodId": "f02",
+      "servings": 1.5
+    },
+    {
+      "id": "e0026",
+      "date": "2026-07-14",
+      "meal": "breakfast",
+      "foodId": "f00",
+      "servings": 1
+    },
+    {
+      "id": "e0027",
+      "date": "2026-07-14",
+      "meal": "breakfast",
+      "foodId": "f04",
+      "servings": 1.5
+    },
+    {
+      "id": "e0028",
+      "date": "2026-07-14",
+      "meal": "breakfast",
+      "foodId": "f05",
+      "servings": 2
+    },
+    {
+      "id": "e0029",
+      "date": "2026-07-14",
+      "meal": "breakfast",
+      "foodId": "f03",
+      "servings": 0.5
+    },
+    {
+      "id": "e0030",
+      "date": "2026-07-14",
+      "meal": "lunch",
+      "foodId": "f23",
+      "servings": 1
+    },
+    {
+      "id": "e0031",
+      "date": "2026-07-14",
+      "meal": "lunch",
+      "foodId": "f29",
+      "servings": 2
+    },
+    {
+      "id": "e0032",
+      "date": "2026-07-14",
+      "meal": "lunch",
+      "foodId": "f09",
+      "servings": 1
+    },
+    {
+      "id": "e0033",
+      "date": "2026-07-14",
+      "meal": "dinner",
+      "foodId": "f13",
+      "servings": 0.5
+    },
+    {
+      "id": "e0034",
+      "date": "2026-07-14",
+      "meal": "dinner",
+      "foodId": "f20",
+      "servings": 0.5
+    },
+    {
+      "id": "e0035",
+      "date": "2026-07-14",
+      "meal": "dinner",
+      "foodId": "f29",
+      "servings": 1
+    },
+    {
+      "id": "e0036",
+      "date": "2026-07-14",
+      "meal": "snack",
+      "foodId": "f27",
+      "servings": 2
+    },
+    {
+      "id": "e0037",
+      "date": "2026-07-15",
+      "meal": "breakfast",
+      "foodId": "f01",
+      "servings": 1.5
+    },
+    {
+      "id": "e0038",
+      "date": "2026-07-15",
+      "meal": "breakfast",
+      "foodId": "f07",
+      "servings": 1
+    },
+    {
+      "id": "e0039",
+      "date": "2026-07-15",
+      "meal": "breakfast",
+      "foodId": "f06",
+      "servings": 1
+    },
+    {
+      "id": "e0040",
+      "date": "2026-07-15",
+      "meal": "lunch",
+      "foodId": "f27",
+      "servings": 1.5
+    },
+    {
+      "id": "e0041",
+      "date": "2026-07-15",
+      "meal": "lunch",
+      "foodId": "f26",
+      "servings": 1
+    },
+    {
+      "id": "e0042",
+      "date": "2026-07-15",
+      "meal": "lunch",
+      "foodId": "f10",
+      "servings": 1
+    },
+    {
+      "id": "e0043",
+      "date": "2026-07-15",
+      "meal": "dinner",
+      "foodId": "f13",
+      "servings": 2
+    },
+    {
+      "id": "e0044",
+      "date": "2026-07-15",
+      "meal": "dinner",
+      "foodId": "f12",
+      "servings": 1
+    },
+    {
+      "id": "e0045",
+      "date": "2026-07-15",
+      "meal": "dinner",
+      "foodId": "f15",
+      "servings": 0.5
+    },
+    {
+      "id": "e0046",
+      "date": "2026-07-15",
+      "meal": "dinner",
+      "foodId": "f19",
+      "servings": 0.5
+    },
+    {
+      "id": "e0047",
+      "date": "2026-07-15",
+      "meal": "snack",
+      "foodId": "f18",
+      "servings": 1
+    },
+    {
+      "id": "e0048",
+      "date": "2026-07-15",
+      "meal": "snack",
+      "foodId": "f03",
+      "servings": 1.5
+    },
+    {
+      "id": "e0049",
+      "date": "2026-07-15",
+      "meal": "snack",
+      "foodId": "f02",
+      "servings": 1.5
+    },
+    {
+      "id": "e0050",
+      "date": "2026-07-16",
+      "meal": "breakfast",
+      "foodId": "f01",
+      "servings": 2
+    },
+    {
+      "id": "e0051",
+      "date": "2026-07-16",
+      "meal": "breakfast",
+      "foodId": "f00",
+      "servings": 2
+    },
+    {
+      "id": "e0052",
+      "date": "2026-07-16",
+      "meal": "breakfast",
+      "foodId": "f05",
+      "servings": 0.5
+    },
+    {
+      "id": "e0053",
+      "date": "2026-07-16",
+      "meal": "lunch",
+      "foodId": "f23",
+      "servings": 1
+    },
+    {
+      "id": "e0054",
+      "date": "2026-07-16",
+      "meal": "lunch",
+      "foodId": "f11",
+      "servings": 2
+    },
+    {
+      "id": "e0055",
+      "date": "2026-07-16",
+      "meal": "lunch",
+      "foodId": "f10",
+      "servings": 1
+    },
+    {
+      "id": "e0056",
+      "date": "2026-07-16",
+      "meal": "lunch",
+      "foodId": "f29",
+      "servings": 1
+    },
+    {
+      "id": "e0057",
+      "date": "2026-07-16",
+      "meal": "dinner",
+      "foodId": "f21",
+      "servings": 1
+    },
+    {
+      "id": "e0058",
+      "date": "2026-07-16",
+      "meal": "dinner",
+      "foodId": "f08",
+      "servings": 1
+    },
+    {
+      "id": "e0059",
+      "date": "2026-07-16",
+      "meal": "dinner",
+      "foodId": "f29",
+      "servings": 1
+    },
+    {
+      "id": "e0060",
+      "date": "2026-07-16",
+      "meal": "snack",
+      "foodId": "f25",
+      "servings": 1
+    },
+    {
+      "id": "e0061",
+      "date": "2026-07-16",
+      "meal": "snack",
+      "foodId": "f18",
+      "servings": 1
+    },
+    {
+      "id": "e0062",
+      "date": "2026-07-16",
+      "meal": "snack",
+      "foodId": "f02",
+      "servings": 1
+    },
+    {
+      "id": "e0063",
+      "date": "2026-07-17",
+      "meal": "breakfast",
+      "foodId": "f06",
+      "servings": 0.5
+    },
+    {
+      "id": "e0064",
+      "date": "2026-07-17",
+      "meal": "breakfast",
+      "foodId": "f01",
+      "servings": 1
+    },
+    {
+      "id": "e0065",
+      "date": "2026-07-17",
+      "meal": "breakfast",
+      "foodId": "f00",
+      "servings": 1
+    },
+    {
+      "id": "e0066",
+      "date": "2026-07-17",
+      "meal": "lunch",
+      "foodId": "f29",
+      "servings": 0.5
+    },
+    {
+      "id": "e0067",
+      "date": "2026-07-17",
+      "meal": "lunch",
+      "foodId": "f08",
+      "servings": 1
+    },
+    {
+      "id": "e0068",
+      "date": "2026-07-17",
+      "meal": "dinner",
+      "foodId": "f20",
+      "servings": 1.5
+    },
+    {
+      "id": "e0069",
+      "date": "2026-07-17",
+      "meal": "dinner",
+      "foodId": "f21",
+      "servings": 1
+    },
+    {
+      "id": "e0070",
+      "date": "2026-07-17",
+      "meal": "dinner",
+      "foodId": "f29",
+      "servings": 2
+    },
+    {
+      "id": "e0071",
+      "date": "2026-07-17",
+      "meal": "dinner",
+      "foodId": "f12",
+      "servings": 1.5
+    },
+    {
+      "id": "e0072",
+      "date": "2026-07-17",
+      "meal": "snack",
+      "foodId": "f27",
+      "servings": 2
+    },
+    {
+      "id": "e0073",
+      "date": "2026-07-17",
+      "meal": "snack",
+      "foodId": "f24",
+      "servings": 0.5
+    },
+    {
+      "id": "e0074",
+      "date": "2026-07-18",
+      "meal": "breakfast",
+      "foodId": "f03",
+      "servings": 1
+    },
+    {
+      "id": "e0075",
+      "date": "2026-07-18",
+      "meal": "breakfast",
+      "foodId": "f06",
+      "servings": 1
+    },
+    {
+      "id": "e0076",
+      "date": "2026-07-18",
+      "meal": "breakfast",
+      "foodId": "f07",
+      "servings": 1
+    },
+    {
+      "id": "e0077",
+      "date": "2026-07-18",
+      "meal": "lunch",
+      "foodId": "f09",
+      "servings": 1
+    },
+    {
+      "id": "e0078",
+      "date": "2026-07-18",
+      "meal": "lunch",
+      "foodId": "f26",
+      "servings": 0.5
+    },
+    {
+      "id": "e0079",
+      "date": "2026-07-18",
+      "meal": "dinner",
+      "foodId": "f21",
+      "servings": 1.5
+    },
+    {
+      "id": "e0080",
+      "date": "2026-07-18",
+      "meal": "dinner",
+      "foodId": "f20",
+      "servings": 1
+    },
+    {
+      "id": "e0081",
+      "date": "2026-07-18",
+      "meal": "dinner",
+      "foodId": "f22",
+      "servings": 1.5
+    },
+    {
+      "id": "e0082",
+      "date": "2026-07-18",
+      "meal": "dinner",
+      "foodId": "f08",
+      "servings": 1
+    },
+    {
+      "id": "e0083",
+      "date": "2026-07-18",
+      "meal": "snack",
+      "foodId": "f02",
+      "servings": 1
+    },
+    {
+      "id": "e0084",
+      "date": "2026-07-18",
+      "meal": "snack",
+      "foodId": "f17",
+      "servings": 0.5
+    },
+    {
+      "id": "e0085",
+      "date": "2026-07-18",
+      "meal": "snack",
+      "foodId": "f27",
+      "servings": 2
+    },
+    {
+      "id": "e0086",
+      "date": "2026-07-19",
+      "meal": "breakfast",
+      "foodId": "f03",
+      "servings": 1
+    },
+    {
+      "id": "e0087",
+      "date": "2026-07-19",
+      "meal": "breakfast",
+      "foodId": "f07",
+      "servings": 1.5
+    },
+    {
+      "id": "e0088",
+      "date": "2026-07-19",
+      "meal": "breakfast",
+      "foodId": "f01",
+      "servings": 0.5
+    },
+    {
+      "id": "e0089",
+      "date": "2026-07-19",
+      "meal": "breakfast",
+      "foodId": "f28",
+      "servings": 1.5
+    },
+    {
+      "id": "e0090",
+      "date": "2026-07-19",
+      "meal": "lunch",
+      "foodId": "f29",
+      "servings": 0.5
+    },
+    {
+      "id": "e0091",
+      "date": "2026-07-19",
+      "meal": "lunch",
+      "foodId": "f27",
+      "servings": 0.5
+    },
+    {
+      "id": "e0092",
+      "date": "2026-07-19",
+      "meal": "lunch",
+      "foodId": "f10",
+      "servings": 1
+    },
+    {
+      "id": "e0093",
+      "date": "2026-07-19",
+      "meal": "dinner",
+      "foodId": "f21",
+      "servings": 1
+    },
+    {
+      "id": "e0094",
+      "date": "2026-07-19",
+      "meal": "dinner",
+      "foodId": "f20",
+      "servings": 1
+    },
+    {
+      "id": "e0095",
+      "date": "2026-07-19",
+      "meal": "dinner",
+      "foodId": "f19",
+      "servings": 1
+    },
+    {
+      "id": "e0096",
+      "date": "2026-07-19",
+      "meal": "dinner",
+      "foodId": "f13",
+      "servings": 2
+    },
+    {
+      "id": "e0097",
+      "date": "2026-07-19",
+      "meal": "snack",
+      "foodId": "f27",
+      "servings": 1
+    },
+    {
+      "id": "e0098",
+      "date": "2026-07-19",
+      "meal": "snack",
+      "foodId": "f24",
+      "servings": 0.5
+    },
+    {
+      "id": "e0099",
+      "date": "2026-07-20",
+      "meal": "breakfast",
+      "foodId": "f06",
+      "servings": 1
+    },
+    {
+      "id": "e0100",
+      "date": "2026-07-20",
+      "meal": "breakfast",
+      "foodId": "f00",
+      "servings": 1.5
+    },
+    {
+      "id": "e0101",
+      "date": "2026-07-20",
+      "meal": "lunch",
+      "foodId": "f09",
+      "servings": 2
+    },
+    {
+      "id": "e0102",
+      "date": "2026-07-20",
+      "meal": "lunch",
+      "foodId": "f11",
+      "servings": 1
+    },
+    {
+      "id": "e0103",
+      "date": "2026-07-20",
+      "meal": "dinner",
+      "foodId": "f29",
+      "servings": 1
+    },
+    {
+      "id": "e0104",
+      "date": "2026-07-20",
+      "meal": "dinner",
+      "foodId": "f20",
+      "servings": 1
+    },
+    {
+      "id": "e0105",
+      "date": "2026-07-20",
+      "meal": "dinner",
+      "foodId": "f15",
+      "servings": 1
+    },
+    {
+      "id": "e0106",
+      "date": "2026-07-20",
+      "meal": "dinner",
+      "foodId": "f12",
+      "servings": 1
+    },
+    {
+      "id": "e0107",
+      "date": "2026-07-20",
+      "meal": "dinner",
+      "foodId": "f21",
+      "servings": 1
+    },
+    {
+      "id": "e0108",
+      "date": "2026-07-20",
+      "meal": "snack",
+      "foodId": "f03",
+      "servings": 2
+    },
+    {
+      "id": "e0109",
+      "date": "2026-07-20",
+      "meal": "snack",
+      "foodId": "f17",
+      "servings": 1
+    },
+    {
+      "id": "e0110",
+      "date": "2026-07-20",
+      "meal": "snack",
+      "foodId": "f02",
+      "servings": 1
+    },
+    {
+      "id": "e0111",
+      "date": "2026-07-21",
+      "meal": "breakfast",
+      "foodId": "f01",
+      "servings": 0.5
+    },
+    {
+      "id": "e0112",
+      "date": "2026-07-21",
+      "meal": "breakfast",
+      "foodId": "f07",
+      "servings": 1
+    },
+    {
+      "id": "e0113",
+      "date": "2026-07-21",
+      "meal": "breakfast",
+      "foodId": "f02",
+      "servings": 1
+    },
+    {
+      "id": "e0114",
+      "date": "2026-07-21",
+      "meal": "breakfast",
+      "foodId": "f28",
+      "servings": 1.5
+    },
+    {
+      "id": "e0115",
+      "date": "2026-07-21",
+      "meal": "lunch",
+      "foodId": "f09",
+      "servings": 2
+    },
+    {
+      "id": "e0116",
+      "date": "2026-07-21",
+      "meal": "lunch",
+      "foodId": "f11",
+      "servings": 1.5
+    },
+    {
+      "id": "e0117",
+      "date": "2026-07-21",
+      "meal": "lunch",
+      "foodId": "f29",
+      "servings": 1
+    },
+    {
+      "id": "e0118",
+      "date": "2026-07-21",
+      "meal": "dinner",
+      "foodId": "f22",
+      "servings": 1
+    },
+    {
+      "id": "e0119",
+      "date": "2026-07-21",
+      "meal": "dinner",
+      "foodId": "f14",
+      "servings": 1.5
+    },
+    {
+      "id": "e0120",
+      "date": "2026-07-21",
+      "meal": "dinner",
+      "foodId": "f21",
+      "servings": 1
+    },
+    {
+      "id": "e0121",
+      "date": "2026-07-21",
+      "meal": "snack",
+      "foodId": "f27",
+      "servings": 1.5
+    },
+    {
+      "id": "e0122",
+      "date": "2026-07-21",
+      "meal": "snack",
+      "foodId": "f16",
+      "servings": 1
+    },
+    {
+      "id": "e0123",
+      "date": "2026-07-22",
+      "meal": "breakfast",
+      "foodId": "f04",
+      "servings": 1.5
+    },
+    {
+      "id": "e0124",
+      "date": "2026-07-22",
+      "meal": "breakfast",
+      "foodId": "f28",
+      "servings": 1
+    },
+    {
+      "id": "e0125",
+      "date": "2026-07-22",
+      "meal": "breakfast",
+      "foodId": "f07",
+      "servings": 2
+    },
+    {
+      "id": "e0126",
+      "date": "2026-07-22",
+      "meal": "lunch",
+      "foodId": "f11",
+      "servings": 1.5
+    },
+    {
+      "id": "e0127",
+      "date": "2026-07-22",
+      "meal": "lunch",
+      "foodId": "f27",
+      "servings": 2
+    },
+    {
+      "id": "e0128",
+      "date": "2026-07-22",
+      "meal": "dinner",
+      "foodId": "f14",
+      "servings": 1
+    },
+    {
+      "id": "e0129",
+      "date": "2026-07-22",
+      "meal": "dinner",
+      "foodId": "f08",
+      "servings": 0.5
+    },
+    {
+      "id": "e0130",
+      "date": "2026-07-22",
+      "meal": "dinner",
+      "foodId": "f20",
+      "servings": 1
+    },
+    {
+      "id": "e0131",
+      "date": "2026-07-22",
+      "meal": "snack",
+      "foodId": "f18",
+      "servings": 2
+    },
+    {
+      "id": "e0132",
+      "date": "2026-07-22",
+      "meal": "snack",
+      "foodId": "f16",
+      "servings": 0.5
+    },
+    {
+      "id": "e0133",
+      "date": "2026-07-22",
+      "meal": "snack",
+      "foodId": "f27",
+      "servings": 1
+    },
+    {
+      "id": "e0134",
+      "date": "2026-07-23",
+      "meal": "breakfast",
+      "foodId": "f00",
+      "servings": 1.5
+    },
+    {
+      "id": "e0135",
+      "date": "2026-07-23",
+      "meal": "breakfast",
+      "foodId": "f05",
+      "servings": 1
+    },
+    {
+      "id": "e0136",
+      "date": "2026-07-23",
+      "meal": "breakfast",
+      "foodId": "f03",
+      "servings": 0.5
+    },
+    {
+      "id": "e0137",
+      "date": "2026-07-23",
+      "meal": "breakfast",
+      "foodId": "f02",
+      "servings": 0.5
+    },
+    {
+      "id": "e0138",
+      "date": "2026-07-23",
+      "meal": "lunch",
+      "foodId": "f23",
+      "servings": 1
+    },
+    {
+      "id": "e0139",
+      "date": "2026-07-23",
+      "meal": "lunch",
+      "foodId": "f11",
+      "servings": 1.5
+    },
+    {
+      "id": "e0140",
+      "date": "2026-07-23",
+      "meal": "dinner",
+      "foodId": "f22",
+      "servings": 1
+    },
+    {
+      "id": "e0141",
+      "date": "2026-07-23",
+      "meal": "dinner",
+      "foodId": "f15",
+      "servings": 1
+    },
+    {
+      "id": "e0142",
+      "date": "2026-07-23",
+      "meal": "dinner",
+      "foodId": "f08",
+      "servings": 1.5
+    },
+    {
+      "id": "e0143",
+      "date": "2026-07-23",
+      "meal": "dinner",
+      "foodId": "f14",
+      "servings": 1
+    },
+    {
+      "id": "e0144",
+      "date": "2026-07-23",
+      "meal": "snack",
+      "foodId": "f02",
+      "servings": 1
+    },
+    {
+      "id": "e0145",
+      "date": "2026-07-23",
+      "meal": "snack",
+      "foodId": "f27",
+      "servings": 0.5
+    },
+    {
+      "id": "e0146",
+      "date": "2026-07-24",
+      "meal": "breakfast",
+      "foodId": "f03",
+      "servings": 1
+    },
+    {
+      "id": "e0147",
+      "date": "2026-07-24",
+      "meal": "breakfast",
+      "foodId": "f05",
+      "servings": 1.5
+    },
+    {
+      "id": "e0148",
+      "date": "2026-07-24",
+      "meal": "breakfast",
+      "foodId": "f00",
+      "servings": 0.5
+    },
+    {
+      "id": "e0149",
+      "date": "2026-07-24",
+      "meal": "lunch",
+      "foodId": "f10",
+      "servings": 2
+    },
+    {
+      "id": "e0150",
+      "date": "2026-07-24",
+      "meal": "lunch",
+      "foodId": "f09",
+      "servings": 1
+    },
+    {
+      "id": "e0151",
+      "date": "2026-07-24",
+      "meal": "lunch",
+      "foodId": "f08",
+      "servings": 1
+    },
+    {
+      "id": "e0152",
+      "date": "2026-07-24",
+      "meal": "dinner",
+      "foodId": "f15",
+      "servings": 0.5
+    },
+    {
+      "id": "e0153",
+      "date": "2026-07-24",
+      "meal": "dinner",
+      "foodId": "f20",
+      "servings": 1
+    },
+    {
+      "id": "e0154",
+      "date": "2026-07-24",
+      "meal": "dinner",
+      "foodId": "f12",
+      "servings": 1.5
+    },
+    {
+      "id": "e0155",
+      "date": "2026-07-24",
+      "meal": "snack",
+      "foodId": "f02",
+      "servings": 1
+    },
+    {
+      "id": "e0156",
+      "date": "2026-07-24",
+      "meal": "snack",
+      "foodId": "f25",
+      "servings": 0.5
+    },
+    {
+      "id": "e0157",
+      "date": "2026-07-25",
+      "meal": "breakfast",
+      "foodId": "f04",
+      "servings": 1.5
+    },
+    {
+      "id": "e0158",
+      "date": "2026-07-25",
+      "meal": "breakfast",
+      "foodId": "f07",
+      "servings": 1
+    },
+    {
+      "id": "e0159",
+      "date": "2026-07-25",
+      "meal": "lunch",
+      "foodId": "f27",
+      "servings": 1
+    },
+    {
+      "id": "e0160",
+      "date": "2026-07-25",
+      "meal": "lunch",
+      "foodId": "f10",
+      "servings": 1
+    },
+    {
+      "id": "e0161",
+      "date": "2026-07-25",
+      "meal": "lunch",
+      "foodId": "f11",
+      "servings": 1
+    },
+    {
+      "id": "e0162",
+      "date": "2026-07-25",
+      "meal": "snack",
+      "foodId": "f03",
+      "servings": 0.5
+    },
+    {
+      "id": "e0163",
+      "date": "2026-07-25",
+      "meal": "snack",
+      "foodId": "f18",
+      "servings": 0.5
+    }
+  ]
+}
