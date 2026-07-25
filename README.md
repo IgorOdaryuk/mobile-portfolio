@@ -1,10 +1,15 @@
 # Mobile Portfolio — Igor Odaryuk
 
-Mobile apps built from **real operational pain**, not toy demos. Each one starts from a
-problem seen in a live business (field service, local SEO, lead ops) and is built to
-production-grade UI quality.
+**Three shipped React Native apps, each with a live web demo, tests and CI/CD.** Built
+from **real operational pain**, not toy demos — and across three deliberately different
+domains (field-service CRM · health tracker · e-commerce) so the range is obvious at a
+glance, not one template reskinned.
 
-## Apps
+**React Native · Expo SDK 57 · TypeScript (strict).** Every app: several screens,
+interactive with local persistence, unit-tested pure logic, GitHub Actions CI, and a
+one-tap live demo.
+
+## Apps (3 shipped)
 
 ### 🚀 Client Hub — [`/client-hub`](./client-hub)
 Phone-first CRM for home-service businesses on Housecall Pro / Jobber. Client 360,
@@ -27,20 +32,18 @@ are SVG.
 
 ### 🧴 Solva — [`/storefront`](./storefront)
 Premium clean-skincare storefront. Browse → product (size variants + subscribe-and-save)
-→ cart → checkout, with wishlist, search/filter and a persistent bag. All product art is
-inline SVG (no stock photos).
+→ cart → checkout, with wishlist, search/filter and a persistent bag. Its own **serif
+identity + light/dark theme**; product art is layered SVG (photo drop-in ready).
 **React Native · Expo · TypeScript.**
 
 **▶ [Live demo](https://igorodaryuk.github.io/mobile-portfolio/storefront/)** · [code & README](./storefront)
 
 ![Solva — all screens](./storefront/screenshots/hero.png)
 
-## On deck
+## What's next
 
-Candidates drawn from real client problems, in build order:
-
-1. **Local SEO Pulse** — rank tracking, GBP insights & reviews for local businesses, RN.
-2. **Course Hub** — RN e-learning app (lessons / progress / video).
+Possible future additions (not yet built): a **Local SEO / GBP tracker** and an
+**e-learning** app. The three above are the shipped portfolio.
 
 ---
 *Each app ships with synthetic demo data and a real, runnable codebase.*

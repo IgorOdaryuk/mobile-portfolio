@@ -25,7 +25,7 @@ export function ProductCard({
   return (
     <Pressable style={styles.card} onPress={onPress}>
       <View style={styles.art}>
-        <ProductArt vessel={product.vessel} tint={product.tint} size={110} image={productImage(product.id)} />
+        <ProductArt vessel={product.vessel} tint={product.tint} size={110} image={productImage(product.id)} label={product.name} />
         <View style={styles.topRow}>
           {sale ? <Tag label={`-${discountPct(product)}%`} tone="terra" /> : <View />}
           <HeartButton active={wished} onPress={onWish} />

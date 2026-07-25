@@ -8,7 +8,12 @@ import { useTheme, useStyles } from './theme-context';
 export function Stars({ rating, size = 13 }: { rating: number; size?: number }) {
   const { C } = useTheme();
   return (
-    <View style={{ flexDirection: 'row', gap: 1 }}>
+    <View
+      style={{ flexDirection: 'row', gap: 1 }}
+      accessible
+      accessibilityRole="image"
+      accessibilityLabel={`Rated ${rating.toFixed(1)} out of 5 stars`}
+    >
       {[0, 1, 2, 3, 4].map((i) => {
         const fill = Math.max(0, Math.min(1, rating - i));
         return <Star key={i} size={size} fill={fill} track={C.line} gold={C.gold} />;

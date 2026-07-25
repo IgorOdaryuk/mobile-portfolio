@@ -10,6 +10,8 @@ import {
   isOnSale,
   discountPct,
   money,
+  validateCheckout,
+  isCheckoutValid,
 } from '../selectors';
 import { SUBSCRIBE_DISCOUNT } from '../theme';
 import type { Product, Review, CartLine } from '../types';
@@ -134,5 +136,23 @@ describe('money', () => {
     expect(money(3400)).toBe('$34.00');
     expect(money(1530)).toBe('$15.30');
     expect(money(0)).toBe('$0.00');
+  });
+});
+
+describe('validateCheckout', () => {
+  const ok = { name: 'Alex Morgan', email: 'alex@example.com', address: '742 Sunset Blvd', city: 'Austin, TX 78704' };
+  it('passes a complete valid form', () => {
+    expect(validateCheckout(ok)).toEqual({});
+    expect(isCheckoutValid(ok)).toBe(true);
+  });
+  it('flags empty required fields', () => {
+    const e = validateCheckout({ name: '  ', email: '', address: '', city: '' });
+    expect(Object.keys(e).sort()).toEqual(['address', 'city', 'email', 'name']);
+    expect(isCheckoutValid({ ...ok, name: '' })).toBe(false);
+  });
+  it('rejects a malformed email', () => {
+    expect(validateCheckout({ ...ok, email: 'alex@' }).email).toBeDefined();
+    expect(validateCheckout({ ...ok, email: 'alex.example.com' }).email).toBeDefined();
+    expect(validateCheckout({ ...ok, email: 'a@b.co' }).email).toBeUndefined();
   });
 });
