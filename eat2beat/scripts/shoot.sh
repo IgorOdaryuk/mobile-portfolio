@@ -3,11 +3,11 @@
 # The app draws its own iPhone frame on a transparent backdrop, so headless
 # Chrome with a transparent default background yields clean framed PNGs.
 #
-# Usage:  bash scripts/shoot.sh            (server must be on :8082)
+# Usage:  bash scripts/shoot.sh            (server must be on :8083)
 set -euo pipefail
 
 CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-BASE="http://localhost:8082"
+BASE="http://localhost:8083"
 OUT="screenshots"
 DIR="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$DIR"
@@ -35,10 +35,15 @@ shoot () {
 }
 
 echo "Capturing Eat2Beat screens…"
-shoot 01-today   "tab=Today"
-shoot 02-add     "modal=add&meal=lunch&addfood=f08"
-shoot 03-diary   "tab=Diary"
-shoot 04-trends  "tab=Trends"
-shoot 05-food    "food=f12"
-shoot 06-search  "modal=add&meal=breakfast"
+shoot 01-today       "tab=Today"
+shoot 02-add         "modal=add&meal=lunch&addfood=f08"
+shoot 03-diary       "tab=Diary"
+shoot 04-trends      "tab=Trends"
+shoot 05-food        "food=f12"
+shoot 06-search      "modal=add&meal=breakfast"
+shoot 07-weight      "tab=Weight"
+shoot 08-goals       "screen=goals"
+shoot 09-today-dark  "tab=Today&theme=dark"
+shoot 10-trends-dark "tab=Trends&theme=dark"
+shoot 11-weight-dark "tab=Weight&theme=dark"
 echo "Done."
