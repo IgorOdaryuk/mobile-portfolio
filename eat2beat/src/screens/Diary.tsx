@@ -117,6 +117,6 @@ const makeStyles = (C: Palette) =>
 
     meal: { marginTop: 20 },
     mealHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 2 },
-    mealName: { fontFamily: FONT.bodyBold, fontSize: 15, color: C.text },
+    mealName: { fontFamily: FONT.bodyBold, fontSize: 16, color: C.text },
     mealKcal: { fontFamily: FONT.bodySemi, fontSize: 13, color: C.textDim },
   });
