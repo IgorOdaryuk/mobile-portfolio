@@ -15,13 +15,23 @@ pipeline board, and auto-generated follow-up tasks in one place.
 
 ![Client Hub — all screens](./client-hub/screenshots/hero.png)
 
+### 🥗 Eat2Beat — [`/eat2beat`](./eat2beat)
+Calorie & macro tracker. Log meals, watch a daily calorie ring and macro bars against
+your goal, and see the 14-day trend. Interactive (add/remove logs persist), all charts
+are SVG.
+**React Native · Expo · TypeScript.**
+
+**▶ [Live demo](https://igorodaryuk.github.io/mobile-portfolio/eat2beat/)** · [code & README](./eat2beat)
+
+![Eat2Beat — all screens](./eat2beat/screenshots/hero.png)
+
 ## On deck
 
 Candidates drawn from real client problems, in build order:
 
-1. **Owner Cockpit** — revenue / leads / "where I'm losing bookings", RN dashboard.
-2. **Callback Conveyor** — push reminders to call back stalled leads (working backend).
-3. **Honest Falcon Maps** — geo-grid map of local Google Maps ranking.
+1. **Local SEO Pulse** — rank tracking, GBP insights & reviews for local businesses, RN.
+2. **Storefront** — RN e-commerce (catalog / cart / checkout), the most-requested gig type.
+3. **Course Hub** — RN e-learning app (lessons / progress / video).
 
 ---
 *Each app ships with synthetic demo data and a real, runnable codebase.*
