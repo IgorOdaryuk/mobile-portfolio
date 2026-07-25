@@ -34,7 +34,12 @@ export default function Dashboard({ data, go, onOpenClient }: { data: Seed; go: 
     <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
       <View style={styles.topbar}>
         <View>
-          <Text style={styles.brand}>Northline</Text>
+          <View style={styles.brandRow}>
+            <Text style={styles.brand}>Northline</Text>
+            <View style={styles.demoPill}>
+              <Text style={styles.demoText}>SAMPLE DATA</Text>
+            </View>
+          </View>
           <Text style={styles.date}>Thursday · Jul 25</Text>
         </View>
         <View style={styles.bell}>
@@ -129,6 +134,9 @@ export default function Dashboard({ data, go, onOpenClient }: { data: Seed; go: 
 const styles = StyleSheet.create({
   scroll: { padding: 20, paddingTop: 8, paddingBottom: 28 },
   topbar: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 },
+  brandRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  demoPill: { backgroundColor: colors.paperDeep, borderRadius: 999, paddingHorizontal: 8, paddingVertical: 3 },
+  demoText: { fontFamily: font.bold, fontSize: 9, letterSpacing: 1, color: colors.muted },
   brand: { fontFamily: font.display, fontSize: 24, color: colors.ink, letterSpacing: -0.5 },
   date: { fontFamily: font.med, fontSize: 13, color: colors.muted, marginTop: 2 },
   bell: { width: 42, height: 42, borderRadius: 21, backgroundColor: colors.card, alignItems: 'center', justifyContent: 'center', ...shadow.soft },
