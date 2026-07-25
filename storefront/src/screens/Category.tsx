@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Pressable, TextInput } from 'react-native';
-import { C, FONT, RADIUS } from '../theme';
+import { FONT, RADIUS, type Palette } from '../theme';
+import { useTheme, useStyles } from '../theme-context';
 import { ProductCard } from '../components/ProductCard';
 import { useStore } from '../store';
 import { filterAndSort, SortKey } from '../selectors';
@@ -22,15 +23,14 @@ export default function Category({
   onBack: () => void;
   onOpenProduct: (id: string) => void;
 }) {
+  const { C } = useTheme();
+  const styles = useStyles(makeStyles);
   const store = useStore();
   const [cat, setCat] = useState<Cat | 'all'>(initial);
   const [sort, setSort] = useState<SortKey>('featured');
   const [query, setQuery] = useState('');
 
-  const results = useMemo(
-    () => filterAndSort(store.products, cat, sort, query),
-    [store.products, cat, sort, query],
-  );
+  const results = useMemo(() => filterAndSort(store.products, cat, sort, query), [store.products, cat, sort, query]);
 
   return (
     <View style={styles.wrap}>
@@ -50,7 +50,6 @@ export default function Category({
         />
       </View>
 
-      {/* category filter */}
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.chips}>
         <Chip label="All" active={cat === 'all'} onPress={() => setCat('all')} />
         {CATEGORIES.map((c) => (
@@ -58,7 +57,6 @@ export default function Category({
         ))}
       </ScrollView>
 
-      {/* sort + count */}
       <View style={styles.sortRow}>
         <Text style={styles.count}>{results.length} products</Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.sorts}>
@@ -89,6 +87,7 @@ export default function Category({
 }
 
 function Chip({ label, active, onPress }: { label: string; active: boolean; onPress: () => void }) {
+  const styles = useStyles(makeStyles);
   return (
     <Pressable onPress={onPress} style={[styles.chip, active && styles.chipOn]}>
       <Text style={[styles.chipText, active && styles.chipTextOn]}>{label}</Text>
@@ -96,28 +95,29 @@ function Chip({ label, active, onPress }: { label: string; active: boolean; onPr
   );
 }
 
-const styles = StyleSheet.create({
-  wrap: { flex: 1, backgroundColor: C.bg },
-  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 18, paddingTop: 6, paddingBottom: 8 },
-  back: { fontFamily: FONT.bodySemi, fontSize: 15, color: C.sage, width: 54 },
-  title: { fontFamily: FONT.display, fontSize: 18, color: C.ink },
+const makeStyles = (C: Palette) =>
+  StyleSheet.create({
+    wrap: { flex: 1, backgroundColor: C.bg },
+    header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 18, paddingTop: 6, paddingBottom: 8 },
+    back: { fontFamily: FONT.bodySemi, fontSize: 15, color: C.sage, width: 54 },
+    title: { fontFamily: FONT.display, fontSize: 19, color: C.ink },
 
-  searchWrap: { paddingHorizontal: 18, paddingBottom: 8 },
-  search: { backgroundColor: C.card, borderColor: C.line, borderWidth: 1, borderRadius: RADIUS.md, paddingHorizontal: 14, paddingVertical: 11, fontFamily: FONT.body, fontSize: 15, color: C.ink },
+    searchWrap: { paddingHorizontal: 18, paddingBottom: 8 },
+    search: { backgroundColor: C.card, borderColor: C.line, borderWidth: 1, borderRadius: RADIUS.md, paddingHorizontal: 14, paddingVertical: 11, fontFamily: FONT.body, fontSize: 15, color: C.ink },
 
-  chips: { gap: 8, paddingHorizontal: 18, paddingBottom: 4 },
-  chip: { borderRadius: RADIUS.pill, borderWidth: 1, borderColor: C.line, backgroundColor: C.card, paddingHorizontal: 15, paddingVertical: 8 },
-  chipOn: { backgroundColor: C.ink, borderColor: C.ink },
-  chipText: { fontFamily: FONT.bodySemi, fontSize: 13, color: C.inkDim },
-  chipTextOn: { color: C.bg },
+    chips: { gap: 8, paddingHorizontal: 18, paddingBottom: 4 },
+    chip: { borderRadius: RADIUS.pill, borderWidth: 1, borderColor: C.line, backgroundColor: C.card, paddingHorizontal: 15, paddingVertical: 8 },
+    chipOn: { backgroundColor: C.ink, borderColor: C.ink },
+    chipText: { fontFamily: FONT.bodySemi, fontSize: 13, color: C.inkDim },
+    chipTextOn: { color: C.bg },
 
-  sortRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 18, paddingVertical: 10, gap: 12 },
-  count: { fontFamily: FONT.bodySemi, fontSize: 12, color: C.inkFaint },
-  sorts: { gap: 14 },
-  sort: { fontFamily: FONT.bodySemi, fontSize: 13, color: C.inkFaint },
-  sortOn: { color: C.sage, textDecorationLine: 'underline' },
+    sortRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 18, paddingVertical: 10, gap: 12 },
+    count: { fontFamily: FONT.bodySemi, fontSize: 12, color: C.inkFaint },
+    sorts: { gap: 14 },
+    sort: { fontFamily: FONT.bodySemi, fontSize: 13, color: C.inkFaint },
+    sortOn: { color: C.sage, textDecorationLine: 'underline' },
 
-  list: { paddingHorizontal: 18, paddingBottom: 24 },
-  grid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' },
-  none: { fontFamily: FONT.bodyReg, fontSize: 14, color: C.inkDim, textAlign: 'center', marginTop: 30 },
-});
+    list: { paddingHorizontal: 18, paddingBottom: 24 },
+    grid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' },
+    none: { fontFamily: FONT.bodyReg, fontSize: 14, color: C.inkDim, textAlign: 'center', marginTop: 30 },
+  });

@@ -9,9 +9,10 @@ import {
   PlusJakartaSans_600SemiBold,
   PlusJakartaSans_700Bold,
 } from '@expo-google-fonts/plus-jakarta-sans';
-import { SpaceGrotesk_500Medium, SpaceGrotesk_700Bold } from '@expo-google-fonts/space-grotesk';
+import { Fraunces_500Medium, Fraunces_600SemiBold } from '@expo-google-fonts/fraunces';
 
-import { C, FONT } from './src/theme';
+import { FONT, LIGHT, type Palette } from './src/theme';
+import { ThemeProvider, useTheme, useStyles } from './src/theme-context';
 import { StoreProvider, useStore } from './src/store';
 import { cartCount } from './src/selectors';
 import { Category as Cat } from './src/types';
@@ -32,6 +33,8 @@ const TABS = [
 ] as const;
 
 function Shell() {
+  const { C, mode } = useTheme();
+  const styles = useStyles(makeStyles);
   const store = useStore();
   const params = isWeb && typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
   const [tab, setTab] = useState<string>(params?.get('tab') || 'Shop');
@@ -46,18 +49,11 @@ function Shell() {
     setTab('Search');
   };
 
-  // overlays win over tabs
   let content: React.ReactNode;
   if (checkout) {
     content = <Checkout onBack={() => setCheckout(false)} onDone={() => { setCheckout(false); setTab('Shop'); }} />;
   } else if (productId) {
-    content = (
-      <ProductDetail
-        productId={productId}
-        onBack={() => setProductId(null)}
-        onOpenCart={() => { setProductId(null); setTab('Bag'); }}
-      />
-    );
+    content = <ProductDetail productId={productId} onBack={() => setProductId(null)} onOpenCart={() => { setProductId(null); setTab('Bag'); }} />;
   } else if (tab === 'Shop') {
     content = <Shop onOpenProduct={openProduct} onOpenCategory={openCategory} />;
   } else if (tab === 'Search') {
@@ -65,16 +61,13 @@ function Shell() {
   } else if (tab === 'Saved') {
     content = <Wishlist onOpenProduct={openProduct} onBrowse={() => setTab('Shop')} />;
   } else {
-    content = (
-      <Cart onBack={() => setTab('Shop')} onCheckout={() => setCheckout(true)} onOpenProduct={openProduct} />
-    );
+    content = <Cart onBack={() => setTab('Shop')} onCheckout={() => setCheckout(true)} onOpenProduct={openProduct} />;
   }
 
   const showTabs = !checkout && !productId;
 
   return (
     <View style={styles.app}>
-      {/* faux iOS status bar */}
       <View style={styles.statusBar}>
         <Text style={styles.clock}>9:41</Text>
         <View style={styles.statusIcons}>
@@ -91,12 +84,10 @@ function Shell() {
             const active = t.key === tab;
             const isBag = t.key === 'Bag';
             return (
-              <Pressable key={t.key} onPress={() => setTab(t.key)} style={styles.tab}>
+              <Pressable key={t.key} onPress={() => setTab(t.key)} style={styles.tab} accessibilityRole="button" accessibilityLabel={t.key}>
                 <View>
                   <Feather name={t.icon as any} size={22} color={active ? C.sage : C.inkFaint} />
-                  {isBag && count > 0 ? (
-                    <View style={styles.badge}><Text style={styles.badgeText}>{count}</Text></View>
-                  ) : null}
+                  {isBag && count > 0 ? <View style={styles.badge}><Text style={styles.badgeText}>{count}</Text></View> : null}
                 </View>
                 <Text style={[styles.tabLabel, active && { color: C.sage, fontFamily: FONT.bodyBold }]}>{t.key}</Text>
               </Pressable>
@@ -105,29 +96,19 @@ function Shell() {
         </View>
       )}
       <View style={styles.homeIndicator} />
-      <StatusBar style="dark" />
+      <StatusBar style={mode === 'dark' ? 'light' : 'dark'} />
     </View>
   );
 }
 
-export default function App() {
-  const [fontsLoaded] = useFonts({
-    PlusJakartaSans_400Regular,
-    PlusJakartaSans_500Medium,
-    PlusJakartaSans_600SemiBold,
-    PlusJakartaSans_700Bold,
-    SpaceGrotesk_500Medium,
-    SpaceGrotesk_700Bold,
-  });
-  if (!fontsLoaded) return <View style={{ flex: 1, backgroundColor: C.bg }} />;
-
+function Root() {
+  const styles = useStyles(makeStyles);
   const app = (
     <StoreProvider>
       <Shell />
     </StoreProvider>
   );
   if (!isWeb) return app;
-
   return (
     <View style={styles.backdrop}>
       <View style={styles.phone}>
@@ -138,31 +119,49 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
-  backdrop: { flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent', padding: 56 },
-  phone: {
-    width: 393,
-    height: 852,
-    borderRadius: 54,
-    backgroundColor: C.bg,
-    overflow: 'hidden',
-    borderWidth: 11,
-    borderColor: '#0B0B0D',
-    ...(isWeb ? ({ boxShadow: '0 28px 70px rgba(38,34,29,0.28)' } as any) : {}),
-  },
-  island: { position: 'absolute', top: 11, alignSelf: 'center', width: 118, height: 34, borderRadius: 20, backgroundColor: '#000', zIndex: 50 },
-  app: { flex: 1, backgroundColor: C.bg },
-  statusBar: { height: 54, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', paddingHorizontal: 30, paddingBottom: 8 },
-  clock: { fontFamily: FONT.bodyBold, fontSize: 15, color: C.ink },
-  statusIcons: { flexDirection: 'row', alignItems: 'center', gap: 6 },
-  battery: { width: 24, height: 12, borderRadius: 3, borderWidth: 1, borderColor: C.ink, opacity: 0.9, padding: 1.5, justifyContent: 'center' },
-  batteryFill: { width: '75%', height: '100%', borderRadius: 1, backgroundColor: C.ink },
+export default function App() {
+  const [fontsLoaded] = useFonts({
+    PlusJakartaSans_400Regular,
+    PlusJakartaSans_500Medium,
+    PlusJakartaSans_600SemiBold,
+    PlusJakartaSans_700Bold,
+    Fraunces_500Medium,
+    Fraunces_600SemiBold,
+  });
+  if (!fontsLoaded) return <View style={{ flex: 1, backgroundColor: LIGHT.bg }} />;
+  return (
+    <ThemeProvider>
+      <Root />
+    </ThemeProvider>
+  );
+}
 
-  content: { flex: 1 },
-  tabbar: { flexDirection: 'row', backgroundColor: 'rgba(255,255,255,0.96)', borderTopWidth: 1, borderTopColor: C.line, paddingTop: 10, paddingBottom: 6 },
-  tab: { flex: 1, alignItems: 'center', gap: 3 },
-  tabLabel: { fontFamily: FONT.body, fontSize: 11, color: C.inkFaint },
-  badge: { position: 'absolute', top: -6, right: -10, minWidth: 17, height: 17, borderRadius: 9, backgroundColor: C.terra, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4 },
-  badgeText: { fontFamily: FONT.bodyBold, fontSize: 10, color: C.white },
-  homeIndicator: { alignSelf: 'center', width: 134, height: 5, borderRadius: 3, backgroundColor: C.ink, opacity: 0.85, marginVertical: 8 },
-});
+const makeStyles = (C: Palette) =>
+  StyleSheet.create({
+    backdrop: { flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent', padding: 56 },
+    phone: {
+      width: 393,
+      height: 852,
+      borderRadius: 54,
+      backgroundColor: C.bg,
+      overflow: 'hidden',
+      borderWidth: 11,
+      borderColor: '#0B0B0D',
+      ...(isWeb ? ({ boxShadow: '0 28px 70px rgba(38,34,29,0.28)' } as any) : {}),
+    },
+    island: { position: 'absolute', top: 11, alignSelf: 'center', width: 118, height: 34, borderRadius: 20, backgroundColor: '#000', zIndex: 50 },
+    app: { flex: 1, backgroundColor: C.bg },
+    statusBar: { height: 54, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', paddingHorizontal: 30, paddingBottom: 8 },
+    clock: { fontFamily: FONT.bodyBold, fontSize: 15, color: C.ink },
+    statusIcons: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+    battery: { width: 24, height: 12, borderRadius: 3, borderWidth: 1, borderColor: C.ink, opacity: 0.9, padding: 1.5, justifyContent: 'center' },
+    batteryFill: { width: '75%', height: '100%', borderRadius: 1, backgroundColor: C.ink },
+
+    content: { flex: 1 },
+    tabbar: { flexDirection: 'row', backgroundColor: C.barBg, borderTopWidth: 1, borderTopColor: C.line, paddingTop: 10, paddingBottom: 6 },
+    tab: { flex: 1, alignItems: 'center', gap: 3 },
+    tabLabel: { fontFamily: FONT.body, fontSize: 11, color: C.inkFaint },
+    badge: { position: 'absolute', top: -6, right: -10, minWidth: 17, height: 17, borderRadius: 9, backgroundColor: C.terra, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4 },
+    badgeText: { fontFamily: FONT.bodyBold, fontSize: 10, color: '#FFFFFF' },
+    homeIndicator: { alignSelf: 'center', width: 134, height: 5, borderRadius: 3, backgroundColor: C.ink, opacity: 0.85, marginVertical: 8 },
+  });

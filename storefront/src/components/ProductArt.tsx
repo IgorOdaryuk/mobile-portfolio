@@ -1,8 +1,12 @@
 import React from 'react';
 import { View } from 'react-native';
 import Svg, { Rect, Path, Circle, Ellipse, G, Line } from 'react-native-svg';
-import { PRODUCT_TINTS, C } from '../theme';
+import { PRODUCT_TINTS } from '../theme';
 import type { Vessel } from '../types';
+
+// Illustrations are brand assets — identical in light & dark. The label
+// highlight is a fixed white, independent of the active theme.
+const HL = '#FFFFFF';
 
 /**
  * Minimalist SVG product illustrations, tinted per product. Gives the whole
@@ -30,7 +34,7 @@ export function ProductArt({
 }
 
 function shape(vessel: Vessel, t: { fill: string; cap: string }) {
-  const label = <Rect x="34" y="62" width="32" height="26" rx="4" fill={C.white} opacity={0.55} />;
+  const label = <Rect x="34" y="62" width="32" height="26" rx="4" fill={HL} opacity={0.55} />;
   switch (vessel) {
     case 'bottle':
       return (
@@ -56,7 +60,7 @@ function shape(vessel: Vessel, t: { fill: string; cap: string }) {
         <G>
           <Rect x="26" y="30" width="48" height="12" rx="4" fill={t.cap} />
           <Path d="M28 42 h44 v46 a12 12 0 0 1 -12 12 h-20 a12 12 0 0 1 -12 -12 z" fill={t.fill} />
-          <Ellipse cx="50" cy="42" rx="22" ry="5" fill={C.white} opacity={0.35} />
+          <Ellipse cx="50" cy="42" rx="22" ry="5" fill={HL} opacity={0.35} />
         </G>
       );
     case 'tube':
@@ -73,7 +77,7 @@ function shape(vessel: Vessel, t: { fill: string; cap: string }) {
         <G>
           <Path d="M28 20 h44 v6 h-44 z" fill={t.cap} />
           <Path d="M30 26 h40 v70 a4 4 0 0 1 -4 4 h-32 a4 4 0 0 1 -4 -4 z" fill={t.fill} />
-          <Circle cx="50" cy="40" r="8" fill={C.white} opacity={0.4} />
+          <Circle cx="50" cy="40" r="8" fill={HL} opacity={0.4} />
         </G>
       );
   }

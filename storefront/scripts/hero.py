@@ -7,7 +7,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SHOTS = ROOT / "screenshots"
-PANELS = ["01-shop", "02-product", "04-cart", "05-checkout"]
+PANELS = ["01-shop", "02-product", "04-cart", "07-shop-dark"]
 
 
 def data_uri(name: str) -> str:
