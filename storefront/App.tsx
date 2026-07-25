@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, Pressable, Platform } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Feather } from '@expo/vector-icons';
@@ -48,6 +48,39 @@ function Shell() {
     setCatInitial(c);
     setTab('Search');
   };
+
+  // Web: mirror nav state into browser history so Back/Forward actually work.
+  const skipFirst = useRef(true);
+  useEffect(() => {
+    if (!isWeb || typeof window === 'undefined') return;
+    if (skipFirst.current) {
+      skipFirst.current = false;
+      return;
+    }
+    const p = new URLSearchParams(window.location.search);
+    ['tab', 'product', 'checkout', 'cat'].forEach((k) => p.delete(k));
+    if (checkout) p.set('checkout', '1');
+    else if (productId) p.set('product', productId);
+    else {
+      p.set('tab', tab);
+      if (tab === 'Search' && catInitial !== 'all') p.set('cat', catInitial);
+    }
+    const qs = p.toString();
+    window.history.pushState({}, '', qs ? `?${qs}` : window.location.pathname);
+  }, [tab, productId, checkout, catInitial]);
+
+  useEffect(() => {
+    if (!isWeb || typeof window === 'undefined') return;
+    const onPop = () => {
+      const p = new URLSearchParams(window.location.search);
+      setCheckout(p.get('checkout') === '1');
+      setProductId(p.get('product'));
+      setTab(p.get('tab') || 'Shop');
+      setCatInitial((p.get('cat') as Cat) || 'all');
+    };
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, []);
 
   let content: React.ReactNode;
   if (checkout) {

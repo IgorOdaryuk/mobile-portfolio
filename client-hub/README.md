@@ -4,7 +4,7 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6)
 ![Expo](https://img.shields.io/badge/Expo-SDK%2057-000)
 
-**▶ [Live demo](https://igorodaryuk.github.io/mobile-portfolio/)** — the app running in your browser (Expo web build).
+**▶ [Live demo](https://igorodaryuk.github.io/mobile-portfolio/client-hub/)** — the app running in your browser (Expo web build).
 
 A phone-first CRM for home-service businesses (appliance repair, HVAC, cleaning) that
 run on Housecall Pro / Jobber. It puts the whole client 360 — jobs, money, pipeline
