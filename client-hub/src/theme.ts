@@ -32,7 +32,7 @@ export const colors = {
 export const hero = {
   grad: ['#1B2027', '#2B333F'] as const,
   detailGrad: ['#191E25', '#313A47'] as const,
-  muted: '#8E99A8',
+  muted: '#AEB7C4', // brighter than before for legible small labels on graphite
   line: 'rgba(255,255,255,0.10)',
   fill: 'rgba(255,255,255,0.06)',
   accent: '#F6A567',
