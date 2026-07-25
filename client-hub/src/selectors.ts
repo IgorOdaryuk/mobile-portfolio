@@ -1,6 +1,25 @@
 // Pure, framework-free selectors. Kept out of components so they can be unit-tested
 // and reused across screens.
-import { Client, Task } from './types';
+import { Client, Job, Task, Kpis } from './types';
+
+/** Derive dashboard KPIs from the live client list (so adding a client updates them). */
+export function computeKpis(clients: Client[], tasks: Task[]): Kpis {
+  const jobs: Job[] = clients.flatMap((c) => c.jobs);
+  const paid = jobs.filter((j) => j.amount > 0);
+  const leadCounts: Record<string, number> = {};
+  for (const c of clients) leadCounts[c.leadSource] = (leadCounts[c.leadSource] || 0) + 1;
+  return {
+    revenue: jobs.reduce((a, j) => a + j.amount, 0),
+    outstanding: jobs.reduce((a, j) => a + j.outstanding, 0),
+    openJobs: jobs.filter((j) => j.stageOrder >= 0 && j.stageOrder <= 2).length,
+    completed: jobs.filter((j) => j.stage === 'Completed').length,
+    clients: clients.length,
+    jobs: jobs.length,
+    avgTicket: paid.length ? Math.round(paid.reduce((a, j) => a + j.amount, 0) / paid.length) : 0,
+    leadSources: Object.entries(leadCounts).sort((a, b) => b[1] - a[1]),
+    reviewsPending: tasks.filter((t) => t.type === 'review').length,
+  };
+}
 
 export const CLIENT_FILTERS = ['All', 'New Lead', 'Scheduled', 'In Progress', 'Completed', 'Canceled'] as const;
 export type ClientFilter = (typeof CLIENT_FILTERS)[number];

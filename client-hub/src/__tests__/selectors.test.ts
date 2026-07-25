@@ -1,5 +1,7 @@
-import { filterClients, sortByPriority, groupTasks, clientsByStage } from '../selectors';
-import { Client, Task } from '../types';
+import { filterClients, sortByPriority, groupTasks, clientsByStage, computeKpis } from '../selectors';
+import { Client, Job, Task } from '../types';
+import seed from '../data/seed.json';
+import { Seed } from '../types';
 
 const mk = (over: Partial<Client>): Client => ({
   id: 'c1', firstName: 'A', lastName: 'B', name: 'Alice Brown', phone: '', email: '',
@@ -72,5 +74,47 @@ describe('groupTasks', () => {
   });
   it('returns [] for no tasks', () => {
     expect(groupTasks([])).toEqual([]);
+  });
+});
+
+describe('computeKpis', () => {
+  const job = (over: Partial<Job>): Job => ({
+    id: 'j', clientId: 'c', appliance: 'Dishwasher', brand: 'Bosch', description: '',
+    status: 'complete unrated', stage: 'Completed', stageOrder: 3, amount: 0, outstanding: 0,
+    tech: null, scheduledDate: null, completedDate: null, createdDate: '', rating: null, ...over,
+  });
+  const clients: Client[] = [
+    mk({ id: 'c1', leadSource: 'Tampa LSA', jobs: [job({ amount: 200, outstanding: 0, stage: 'Completed', stageOrder: 3 })] }),
+    mk({ id: 'c2', leadSource: 'Tampa LSA', jobs: [job({ amount: 100, outstanding: 100, stage: 'Scheduled', stageOrder: 1 })] }),
+    mk({ id: 'c3', leadSource: 'Miami LSA', jobs: [job({ amount: 0, outstanding: 0, stage: 'New Lead', stageOrder: 0 })] }),
+  ];
+  const kpis = computeKpis(clients, []);
+  it('sums revenue and outstanding across all jobs', () => {
+    expect(kpis.revenue).toBe(300);
+    expect(kpis.outstanding).toBe(100);
+  });
+  it('counts open jobs (stageOrder 0..2) and completed', () => {
+    expect(kpis.openJobs).toBe(2);
+    expect(kpis.completed).toBe(1);
+  });
+  it('averages ticket over priced jobs only', () => {
+    expect(kpis.avgTicket).toBe(150); // (200+100)/2, the $0 job excluded
+  });
+  it('ranks lead sources by count', () => {
+    expect(kpis.leadSources[0]).toEqual(['Tampa LSA', 2]);
+  });
+});
+
+describe('computeKpis parity with generated seed', () => {
+  const s = seed as unknown as Seed;
+  it('matches the Python generator revenue/outstanding/counts', () => {
+    const k = computeKpis(s.clients, s.tasks);
+    expect(k.revenue).toBe(s.kpis.revenue);
+    expect(k.outstanding).toBe(s.kpis.outstanding);
+    expect(k.openJobs).toBe(s.kpis.openJobs);
+    expect(k.completed).toBe(s.kpis.completed);
+    expect(k.avgTicket).toBe(s.kpis.avgTicket);
+    expect(k.clients).toBe(s.kpis.clients);
+    expect(k.jobs).toBe(s.kpis.jobs);
   });
 });

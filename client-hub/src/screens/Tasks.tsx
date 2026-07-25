@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
 import { Feather } from '@expo/vector-icons';
-import { colors, font, radius, shadow, money } from '../theme';
+import { colors, font, radius, shadow } from '../theme';
 import { Seed, Task } from '../types';
 import { groupTasks } from '../selectors';
 
@@ -12,8 +12,17 @@ const META: Record<Task['type'], { icon: any; color: string; bg: string; group: 
   winback: { icon: 'refresh-ccw', color: colors.violet, bg: colors.violetSoft, group: 'Win back' },
 };
 
-export default function Tasks({ data, onOpenClient }: { data: Seed; onOpenClient: (id: string) => void }) {
-  const [done, setDone] = useState<Record<string, boolean>>({});
+export default function Tasks({
+  data,
+  onOpenClient,
+  done,
+  onToggle,
+}: {
+  data: Seed;
+  onOpenClient: (id: string) => void;
+  done: Record<string, boolean>;
+  onToggle: (id: string) => void;
+}) {
   const grouped = groupTasks(data.tasks);
   const openCount = data.tasks.filter((t) => !done[t.id]).length;
 
@@ -39,7 +48,7 @@ export default function Tasks({ data, onOpenClient }: { data: Seed; onOpenClient
                 const checked = !!done[t.id];
                 return (
                   <Pressable key={t.id} onPress={() => onOpenClient(t.clientId)} style={styles.task}>
-                    <Pressable onPress={() => setDone((d) => ({ ...d, [t.id]: !d[t.id] }))} style={[styles.check, checked && styles.checkOn]}>
+                    <Pressable onPress={() => onToggle(t.id)} style={[styles.check, checked && styles.checkOn]}>
                       {checked && <Feather name="check" size={13} color="#FFF" />}
                     </Pressable>
                     <View style={{ flex: 1 }}>
