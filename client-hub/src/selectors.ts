@@ -21,6 +21,22 @@ export function computeKpis(clients: Client[], tasks: Task[]): Kpis {
   };
 }
 
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+/** Completed-job revenue grouped by calendar month, most recent `n` months, chronological. */
+export function revenueByMonth(clients: Client[], n = 6): { label: string; value: number }[] {
+  const byMonth = new Map<string, number>();
+  for (const c of clients) {
+    for (const j of c.jobs) {
+      if (!j.completedDate || !j.amount) continue;
+      const key = j.completedDate.slice(0, 7); // YYYY-MM
+      byMonth.set(key, (byMonth.get(key) || 0) + j.amount);
+    }
+  }
+  const keys = [...byMonth.keys()].sort().slice(-n);
+  return keys.map((k) => ({ label: MONTHS[parseInt(k.slice(5, 7), 10) - 1], value: byMonth.get(k) || 0 }));
+}
+
 export const CLIENT_FILTERS = ['All', 'New Lead', 'Scheduled', 'In Progress', 'Completed', 'Canceled'] as const;
 export type ClientFilter = (typeof CLIENT_FILTERS)[number];
 
