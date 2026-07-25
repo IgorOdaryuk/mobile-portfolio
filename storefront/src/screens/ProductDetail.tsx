@@ -7,7 +7,7 @@ import { ProductGallery } from '../components/ProductGallery';
 import { ProductArt } from '../components/ProductArt';
 import { productImage } from '../data/productImages';
 import { useStore } from '../store';
-import { money, isOnSale, discountPct, unitPriceCents, reviewsFor, averageReviewRating, relatedProducts } from '../selectors';
+import { money, isOnSale, discountPct, unitPriceCents, reviewsFor, averageReviewRating, relatedProducts, isLowStock } from '../selectors';
 
 export default function ProductDetail({
   productId,
@@ -70,6 +70,13 @@ export default function ProductDetail({
           <Text style={styles.ratingCount}>· {product.reviewCount} reviews</Text>
         </View>
 
+        {isLowStock(product) ? (
+          <View style={styles.lowStock}>
+            <View style={styles.lowDot} />
+            <Text style={styles.lowStockText}>Only {product.stock} left — selling fast</Text>
+          </View>
+        ) : null}
+
         {/* variant selector */}
         <Text style={styles.label}>Size</Text>
         <View style={styles.variants}>
@@ -111,6 +118,16 @@ export default function ProductDetail({
         <Text style={[styles.label, { marginTop: 18 }]}>Key ingredients</Text>
         <Text style={styles.ingredients}>{product.ingredients}</Text>
 
+        {/* trust signals */}
+        <View style={styles.trust}>
+          {['Cruelty-free', 'Vegan', 'Dermatologist-tested'].map((t) => (
+            <View key={t} style={styles.trustItem}>
+              <Text style={styles.trustCheck}>✓</Text>
+              <Text style={styles.trustText}>{t}</Text>
+            </View>
+          ))}
+        </View>
+
         <Divider />
 
         <Text style={styles.label}>Reviews</Text>
@@ -147,9 +164,9 @@ export default function ProductDetail({
       {/* sticky add bar */}
       <View style={styles.bar}>
         <View style={styles.qty}>
-          <Pressable onPress={() => setQty((q) => Math.max(1, q - 1))} hitSlop={6} style={styles.qtyBtn}><Text style={styles.qtyBtnText}>−</Text></Pressable>
+          <Pressable onPress={() => setQty((q) => Math.max(1, q - 1))} hitSlop={12} style={styles.qtyBtn}><Text style={styles.qtyBtnText}>−</Text></Pressable>
           <Text style={styles.qtyVal}>{qty}</Text>
-          <Pressable onPress={() => setQty((q) => q + 1)} hitSlop={6} style={styles.qtyBtn}><Text style={styles.qtyBtnText}>+</Text></Pressable>
+          <Pressable onPress={() => setQty((q) => q + 1)} hitSlop={12} style={styles.qtyBtn}><Text style={styles.qtyBtnText}>+</Text></Pressable>
         </View>
         <Pressable
           style={[styles.add, added && styles.addDone]}
@@ -194,6 +211,9 @@ const makeStyles = (C: Palette) =>
     ratingRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 10 },
     ratingText: { fontFamily: FONT.bodyBold, fontSize: 13, color: C.ink },
     ratingCount: { fontFamily: FONT.bodyReg, fontSize: 13, color: C.inkFaint },
+    lowStock: { flexDirection: 'row', alignItems: 'center', gap: 7, marginTop: 10 },
+    lowDot: { width: 7, height: 7, borderRadius: 4, backgroundColor: C.terra },
+    lowStockText: { fontFamily: FONT.bodySemi, fontSize: 13, color: C.terra },
 
     label: { fontFamily: FONT.bodyBold, fontSize: 14, color: C.ink, marginTop: 20, marginBottom: 10 },
     variants: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
@@ -217,6 +237,10 @@ const makeStyles = (C: Palette) =>
     dot: { width: 6, height: 6, borderRadius: 3, backgroundColor: C.sage },
     benefitText: { fontFamily: FONT.body, fontSize: 14, color: C.ink },
     ingredients: { fontFamily: FONT.bodyReg, fontSize: 13, color: C.inkDim, lineHeight: 20 },
+    trust: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 16 },
+    trustItem: { flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: C.sageSoft, borderRadius: RADIUS.pill, paddingHorizontal: 12, paddingVertical: 7 },
+    trustCheck: { fontFamily: FONT.bodyBold, fontSize: 12, color: C.sage },
+    trustText: { fontFamily: FONT.bodySemi, fontSize: 12, color: C.sage },
 
     review: { marginTop: 14 },
     reviewHead: { flexDirection: 'row', alignItems: 'center', gap: 8 },

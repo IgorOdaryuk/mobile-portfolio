@@ -101,3 +101,11 @@ export const BTN = { fill: '#3F5445', text: '#FFFFFF', done: '#2A231D' } as cons
 
 /** Subscribe-and-save discount rate applied to a subscribed line item. */
 export const SUBSCRIBE_DISCOUNT = 0.15;
+
+/** Cart / merchandising thresholds. */
+export const FREE_SHIP_CENTS = 5000; // free standard shipping over $50
+export const STANDARD_SHIP_CENTS = 599; // flat rate under the threshold
+export const LOW_STOCK = 10; // show an urgency badge at or below this
+
+/** The single demo promo code (case-insensitive). */
+export const PROMO = { code: 'SOLVA10', rate: 0.1, label: '10% off' } as const;

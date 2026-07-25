@@ -29,6 +29,8 @@ export type Product = {
   reviewCount: number;
   subscribable: boolean;
   bestseller: boolean;
+  /** Units in stock (drives low-stock urgency badges). */
+  stock: number;
   benefits: string[];
   ingredients: string;
   variants: Variant[];
