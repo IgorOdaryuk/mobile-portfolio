@@ -45,6 +45,9 @@ export function Chip({
   return (
     <Pressable
       onPress={onPress}
+      accessibilityRole="button"
+      accessibilityState={{ selected: !!active }}
+      accessibilityLabel={label}
       style={[
         styles.chip,
         active ? { backgroundColor: accent, borderColor: accent } : null,

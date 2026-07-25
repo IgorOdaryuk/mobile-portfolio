@@ -16,10 +16,11 @@ import {
   macroCaloriePct,
   lastNDates,
   buildInsights,
+  loggingActivity,
   type Insight,
   type InsightTone,
 } from '../selectors';
-import { weekdayShort } from '../dateutil';
+import { weekdayLetter } from '../dateutil';
 
 export default function Trends() {
   const { C } = useTheme();
@@ -44,8 +45,7 @@ export default function Trends() {
 
   // Same 14-day window as the rest of the screen, so figures never appear to disagree.
   const insights = buildInsights(store.entries, store.foodsById, goals, store.today, 14);
-
-  const last7 = series.slice(-7);
+  const activity = loggingActivity(store.entries, store.today, 35);
 
   return (
     <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
@@ -74,9 +74,9 @@ export default function Trends() {
       <Card>
         <WeeklyBars data={series} goal={goals.kcal} width={318} height={150} />
         <View style={styles.axis}>
-          {last7.map((d) => (
+          {series.map((d) => (
             <Text key={d.date} style={styles.axisLabel}>
-              {weekdayShort(d.date)[0]}
+              {weekdayLetter(d.date)}
             </Text>
           ))}
         </View>
@@ -95,6 +95,37 @@ export default function Trends() {
           <MacroLeg label="Protein" pct={pct.protein} g={periodMacros.protein} color={MACROS.protein.color} />
           <MacroLeg label="Carbs" pct={pct.carbs} g={periodMacros.carbs} color={MACROS.carbs.color} />
           <MacroLeg label="Fat" pct={pct.fat} g={periodMacros.fat} color={MACROS.fat.color} />
+        </View>
+      </Card>
+
+      {/* logging heatmap */}
+      <SectionTitle>Logging activity · last 5 weeks</SectionTitle>
+      <Card>
+        <View style={styles.heat}>
+          {activity.map((d) => (
+            <View
+              key={d.date}
+              style={[
+                styles.heatCell,
+                d.level === 0
+                  ? { backgroundColor: C.ring }
+                  : { backgroundColor: C.primary, opacity: [0, 0.4, 0.7, 1][d.level] },
+              ]}
+            />
+          ))}
+        </View>
+        <View style={styles.heatLegend}>
+          <Text style={styles.heatLegendTxt}>Less</Text>
+          {[0, 1, 2, 3].map((lv) => (
+            <View
+              key={lv}
+              style={[
+                styles.heatKey,
+                lv === 0 ? { backgroundColor: C.ring } : { backgroundColor: C.primary, opacity: [0, 0.4, 0.7, 1][lv] },
+              ]}
+            />
+          ))}
+          <Text style={styles.heatLegendTxt}>More</Text>
         </View>
       </Card>
 
@@ -170,8 +201,8 @@ const makeStyles = (C: Palette) =>
   insightIcon: { width: 30, height: 30, borderRadius: 15, alignItems: 'center', justifyContent: 'center' },
   insightText: { flex: 1, fontFamily: FONT.bodySemi, fontSize: 13, color: C.text, lineHeight: 18 },
 
-  axis: { flexDirection: 'row', justifyContent: 'space-around', marginTop: 2 },
-  axisLabel: { fontFamily: FONT.body, fontSize: 11, color: C.textFaint },
+  axis: { flexDirection: 'row', marginTop: 2, paddingHorizontal: 4 },
+  axisLabel: { flex: 1, textAlign: 'center', fontFamily: FONT.body, fontSize: 10, color: C.textFaint },
   legendInline: { flexDirection: 'row', flexWrap: 'wrap', gap: 14, marginTop: 12, paddingTop: 12, borderTopWidth: 1, borderTopColor: C.cardBorder },
   legItem: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   legBar: { width: 10, height: 10, borderRadius: 3 },
@@ -185,6 +216,12 @@ const makeStyles = (C: Palette) =>
   mlLabel: { fontFamily: FONT.bodySemi, fontSize: 13, color: C.text, width: 58 },
   mlPct: { fontFamily: FONT.display, fontSize: 15, color: C.text, width: 40 },
   mlG: { fontFamily: FONT.body, fontSize: 11, color: C.textFaint },
+
+  heat: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
+  heatCell: { width: 34, height: 26, borderRadius: 6 },
+  heatLegend: { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', gap: 6, marginTop: 14 },
+  heatKey: { width: 12, height: 12, borderRadius: 3 },
+  heatLegendTxt: { fontFamily: FONT.body, fontSize: 11, color: C.textFaint },
 
   footer: { fontFamily: FONT.body, fontSize: 12, color: C.textFaint, textAlign: 'center', marginTop: 26 },
 });

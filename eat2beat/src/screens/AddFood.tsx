@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Pressable, TextInput } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Pressable, TextInput, FlatList } from 'react-native';
 import { FONT, RADIUS, MACROS, type Palette } from '../theme';
 import { useTheme, useStyles } from '../theme-context';
 import { fmt } from '../ui';
@@ -130,14 +130,19 @@ export default function AddFood({
           style={styles.search}
         />
       </View>
-      <ScrollView contentContainerStyle={styles.list} keyboardShouldPersistTaps="handled">
-        <Text style={styles.resultCount}>
-          {results.length} food{results.length === 1 ? '' : 's'} · tap to log
-        </Text>
-        {results.map((f) => (
-          <FoodListRow key={f.id} food={f} onPress={() => setSelected(f)} />
-        ))}
-      </ScrollView>
+      <FlatList
+        data={results}
+        keyExtractor={(f) => f.id}
+        renderItem={({ item }) => <FoodListRow food={item} onPress={() => setSelected(item)} />}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.list}
+        ListHeaderComponent={
+          <Text style={styles.resultCount}>
+            {results.length} food{results.length === 1 ? '' : 's'} · tap to log
+          </Text>
+        }
+      />
     </View>
   );
 }
