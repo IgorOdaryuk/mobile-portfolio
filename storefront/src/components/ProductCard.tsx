@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
-import { FONT, RADIUS, type Palette } from '../theme';
+import { FONT, RADIUS, BTN, type Palette } from '../theme';
 import { useStyles } from '../theme-context';
 import { Stars, Tag, HeartButton } from '../ui';
 import { ProductArt } from './ProductArt';
@@ -14,13 +14,16 @@ export function ProductCard({
   onPress,
   wished,
   onWish,
+  onQuickAdd,
 }: {
   product: Product;
   onPress: () => void;
   wished: boolean;
   onWish: () => void;
+  onQuickAdd?: () => void;
 }) {
   const styles = useStyles(makeStyles);
+  const [added, setAdded] = useState(false);
   const sale = isOnSale(product);
   return (
     <Pressable style={styles.card} onPress={onPress}>
@@ -43,6 +46,19 @@ export function ProductCard({
           <Text style={styles.compare}>{money(product.compareAtCents)}</Text>
         ) : null}
       </View>
+      {onQuickAdd ? (
+        <Pressable
+          style={[styles.quickAdd, added && styles.quickAddDone]}
+          onPress={() => {
+            onQuickAdd();
+            setAdded(true);
+          }}
+          accessibilityRole="button"
+          accessibilityLabel={`Add ${product.name} to bag`}
+        >
+          <Text style={[styles.quickAddText, added && { color: '#FFFFFF' }]}>{added ? '✓ Added' : 'Add to bag'}</Text>
+        </Pressable>
+      ) : null}
     </Pressable>
   );
 }
@@ -75,4 +91,7 @@ const makeStyles = (C: Palette) =>
     priceRow: { flexDirection: 'row', alignItems: 'baseline', gap: 7, marginTop: 5 },
     price: { fontFamily: FONT.display, fontSize: 15, color: C.ink },
     compare: { fontFamily: FONT.bodyReg, fontSize: 12, color: C.inkFaint, textDecorationLine: 'line-through' },
+    quickAdd: { marginTop: 9, borderWidth: 1.5, borderColor: C.sage, borderRadius: RADIUS.pill, paddingVertical: 8, alignItems: 'center' },
+    quickAddDone: { backgroundColor: BTN.fill, borderColor: BTN.fill },
+    quickAddText: { fontFamily: FONT.bodyBold, fontSize: 12, color: C.sage },
   });

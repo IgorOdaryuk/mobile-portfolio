@@ -170,6 +170,8 @@ def cents_products():
         (name, tag, cat, vessel, tint, price, cmp, sub, best, benefits, ing, variants) = row
         rating = round(rng.uniform(4.2, 4.9), 1)
         reviews = rng.randint(38, 640)
+        # Most products well-stocked; a few deliberately low for urgency badges.
+        stock = rng.choice([4, 6, 7] + [40, 60, 90, 120, 150] * 4)
         out.append({
             "id": f"p{i:02d}",
             "name": name,
@@ -183,6 +185,7 @@ def cents_products():
             "reviewCount": reviews,
             "subscribable": sub,
             "bestseller": best,
+            "stock": stock,
             "benefits": benefits,
             "ingredients": ing,
             "variants": [{"id": f"p{i:02d}v{j}", "label": lbl, "priceCents": pr}

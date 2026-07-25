@@ -8,7 +8,7 @@ const STORAGE_KEY = 'solva_state_v1';
 
 const base = seed as unknown as { products: Product[]; reviews: Review[] };
 
-type State = { lines: CartLine[]; wishlist: string[]; hydrated: boolean };
+type State = { lines: CartLine[]; wishlist: string[]; promo: string; hydrated: boolean };
 
 type Action =
   | { type: 'HYDRATE'; payload: Partial<State> }
@@ -17,6 +17,7 @@ type Action =
   | { type: 'REMOVE'; productId: string; variantId: string }
   | { type: 'TOGGLE_SUB'; productId: string; variantId: string }
   | { type: 'CLEAR' }
+  | { type: 'SET_PROMO'; code: string }
   | { type: 'TOGGLE_WISH'; productId: string };
 
 /** For deterministic Cart/Checkout screenshots: ?seedcart=1 pre-fills a bag. */
@@ -36,7 +37,7 @@ const demoWishlist = (): string[] =>
     ? ['p02', 'p07', 'p11', 'p04']
     : [];
 
-const initial: State = { lines: demoLines(), wishlist: demoWishlist(), hydrated: false };
+const initial: State = { lines: demoLines(), wishlist: demoWishlist(), promo: '', hydrated: false };
 
 const sameLine = (l: CartLine, productId: string, variantId: string) =>
   l.productId === productId && l.variantId === variantId;
@@ -80,7 +81,9 @@ function reducer(state: State, action: Action): State {
         ),
       };
     case 'CLEAR':
-      return { ...state, lines: [] };
+      return { ...state, lines: [], promo: '' };
+    case 'SET_PROMO':
+      return { ...state, promo: action.code };
     case 'TOGGLE_WISH':
       return {
         ...state,
@@ -99,12 +102,14 @@ type StoreValue = {
   productsById: Record<string, Product>;
   lines: CartLine[];
   wishlist: string[];
+  promo: string;
   hydrated: boolean;
   addToCart: (line: CartLine) => void;
   setQty: (productId: string, variantId: string, qty: number) => void;
   removeLine: (productId: string, variantId: string) => void;
   toggleSubscribe: (productId: string, variantId: string) => void;
   clearCart: () => void;
+  setPromo: (code: string) => void;
   toggleWish: (productId: string) => void;
 };
 
@@ -128,10 +133,11 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!state.hydrated) return;
-    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ lines: state.lines, wishlist: state.wishlist })).catch(
-      () => {},
-    );
-  }, [state.lines, state.wishlist, state.hydrated]);
+    AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ lines: state.lines, wishlist: state.wishlist, promo: state.promo }),
+    ).catch(() => {});
+  }, [state.lines, state.wishlist, state.promo, state.hydrated]);
 
   const value = useMemo<StoreValue>(
     () => ({
@@ -140,12 +146,14 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       productsById: productMap(base.products),
       lines: state.lines,
       wishlist: state.wishlist,
+      promo: state.promo,
       hydrated: state.hydrated,
       addToCart: (line) => dispatch({ type: 'ADD', line }),
       setQty: (productId, variantId, qty) => dispatch({ type: 'SET_QTY', productId, variantId, qty }),
       removeLine: (productId, variantId) => dispatch({ type: 'REMOVE', productId, variantId }),
       toggleSubscribe: (productId, variantId) => dispatch({ type: 'TOGGLE_SUB', productId, variantId }),
       clearCart: () => dispatch({ type: 'CLEAR' }),
+      setPromo: (code) => dispatch({ type: 'SET_PROMO', code }),
       toggleWish: (productId) => dispatch({ type: 'TOGGLE_WISH', productId }),
     }),
     [state],

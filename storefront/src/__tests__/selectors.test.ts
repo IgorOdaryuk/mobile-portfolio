@@ -13,7 +13,13 @@ import {
   validateCheckout,
   isCheckoutValid,
   relatedProducts,
+  isLowStock,
+  freeShipRemaining,
+  standardShippingCents,
+  promoRate,
+  promoDiscountCents,
 } from '../selectors';
+import { FREE_SHIP_CENTS, STANDARD_SHIP_CENTS } from '../theme';
 import { SUBSCRIBE_DISCOUNT } from '../theme';
 import type { Product, Review, CartLine } from '../types';
 
@@ -32,6 +38,7 @@ const mk = (over: Partial<Product>): Product => {
     reviewCount: 100,
     subscribable: true,
     bestseller: false,
+    stock: 40,
     benefits: [],
     ingredients: '',
     variants: [
@@ -133,10 +140,11 @@ describe('reviews', () => {
 });
 
 describe('money', () => {
-  it('formats cents as USD', () => {
-    expect(money(3400)).toBe('$34.00');
+  it('drops cents for whole dollars, keeps them otherwise', () => {
+    expect(money(3400)).toBe('$34');
     expect(money(1530)).toBe('$15.30');
-    expect(money(0)).toBe('$0.00');
+    expect(money(0)).toBe('$0');
+    expect(money(599)).toBe('$5.99');
   });
 });
 
@@ -158,6 +166,27 @@ describe('relatedProducts', () => {
   });
   it('caps the result at n', () => {
     expect(relatedProducts(cat, cat[0], 2)).toHaveLength(2);
+  });
+});
+
+describe('merchandising helpers', () => {
+  it('flags low stock only within the threshold', () => {
+    expect(isLowStock(mk({ stock: 4 }))).toBe(true);
+    expect(isLowStock(mk({ stock: 40 }))).toBe(false);
+    expect(isLowStock(mk({ stock: 0 }))).toBe(false);
+  });
+  it('computes free-ship remaining and standard shipping', () => {
+    expect(freeShipRemaining(FREE_SHIP_CENTS - 1000)).toBe(1000);
+    expect(freeShipRemaining(FREE_SHIP_CENTS + 500)).toBe(0);
+    expect(standardShippingCents(FREE_SHIP_CENTS - 1)).toBe(STANDARD_SHIP_CENTS);
+    expect(standardShippingCents(FREE_SHIP_CENTS)).toBe(0);
+  });
+  it('applies the promo code case-insensitively', () => {
+    expect(promoRate('solva10')).toBeGreaterThan(0);
+    expect(promoRate('SOLVA10')).toBeGreaterThan(0);
+    expect(promoRate('nope')).toBe(0);
+    expect(promoDiscountCents(10000, 'SOLVA10')).toBe(1000);
+    expect(promoDiscountCents(10000, 'bad')).toBe(0);
   });
 });
 

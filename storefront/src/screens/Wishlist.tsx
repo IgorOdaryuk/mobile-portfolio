@@ -37,6 +37,7 @@ export default function Wishlist({
                 wished
                 onWish={() => store.toggleWish(p.id)}
                 onPress={() => onOpenProduct(p.id)}
+                onQuickAdd={() => store.addToCart({ productId: p.id, variantId: p.variants[0].id, qty: 1, subscribe: false })}
               />
             ))}
           </View>

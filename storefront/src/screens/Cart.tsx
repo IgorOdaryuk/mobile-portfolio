@@ -1,11 +1,19 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
-import { FONT, RADIUS, BTN, type Palette } from '../theme';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, Pressable, TextInput } from 'react-native';
+import { FONT, RADIUS, BTN, FREE_SHIP_CENTS, PROMO, type Palette } from '../theme';
 import { useTheme, useStyles } from '../theme-context';
 import { Tag } from '../ui';
 import { ProductArt } from '../components/ProductArt';
 import { useStore } from '../store';
-import { resolveLines, cartSummary, money } from '../selectors';
+import {
+  resolveLines,
+  cartSummary,
+  money,
+  freeShipRemaining,
+  standardShippingCents,
+  promoDiscountCents,
+  promoRate,
+} from '../selectors';
 
 export default function Cart({
   onBack,
@@ -16,10 +24,21 @@ export default function Cart({
   onCheckout: () => void;
   onOpenProduct: (id: string) => void;
 }) {
+  const { C } = useTheme();
   const styles = useStyles(makeStyles);
   const store = useStore();
   const resolved = resolveLines(store.lines, store.productsById);
   const summary = cartSummary(store.lines, store.productsById);
+
+  const payable = summary.totalCents;
+  const promoDisc = promoDiscountCents(payable, store.promo);
+  const shipCents = standardShippingCents(payable);
+  const finalTotal = payable - promoDisc + shipCents;
+  const shipRemaining = freeShipRemaining(payable);
+  const shipPct = Math.max(0, Math.min(1, payable / FREE_SHIP_CENTS));
+
+  const [code, setCode] = useState(store.promo);
+  const promoApplied = promoRate(store.promo) > 0;
 
   return (
     <View style={styles.wrap}>
@@ -49,10 +68,10 @@ export default function Cart({
                   <Text style={styles.lineVariant}>{r.variant.label}</Text>
                   {r.line.subscribe ? <View style={styles.subTag}><Tag label="Subscription · save 15%" tone="terra" /></View> : null}
                   <View style={styles.qtyRow}>
-                    <Pressable onPress={() => store.setQty(r.product.id, r.variant.id, r.line.qty - 1)} hitSlop={6} style={styles.qtyBtn}><Text style={styles.qtyBtnText}>−</Text></Pressable>
+                    <Pressable onPress={() => store.setQty(r.product.id, r.variant.id, r.line.qty - 1)} hitSlop={12} style={styles.qtyBtn}><Text style={styles.qtyBtnText}>−</Text></Pressable>
                     <Text style={styles.qtyVal}>{r.line.qty}</Text>
-                    <Pressable onPress={() => store.setQty(r.product.id, r.variant.id, r.line.qty + 1)} hitSlop={6} style={styles.qtyBtn}><Text style={styles.qtyBtnText}>+</Text></Pressable>
-                    <Pressable onPress={() => store.removeLine(r.product.id, r.variant.id)} hitSlop={6}><Text style={styles.remove}>Remove</Text></Pressable>
+                    <Pressable onPress={() => store.setQty(r.product.id, r.variant.id, r.line.qty + 1)} hitSlop={12} style={styles.qtyBtn}><Text style={styles.qtyBtnText}>+</Text></Pressable>
+                    <Pressable onPress={() => store.removeLine(r.product.id, r.variant.id)} hitSlop={12}><Text style={styles.remove}>Remove</Text></Pressable>
                   </View>
                 </View>
                 <Text style={styles.linePrice}>{money(r.lineCents)}</Text>
@@ -61,15 +80,49 @@ export default function Cart({
           </ScrollView>
 
           <View style={styles.summary}>
+            {/* free-shipping progress */}
+            <View style={styles.ship}>
+              <Text style={styles.shipMsg}>
+                {shipRemaining > 0
+                  ? <>Add <Text style={styles.shipStrong}>{money(shipRemaining)}</Text> for free shipping</>
+                  : <><Text style={styles.shipStrong}>✓ Free shipping</Text> unlocked</>}
+              </Text>
+              <View style={styles.shipTrack}>
+                <View style={[styles.shipFill, { width: `${shipPct * 100}%` }]} />
+              </View>
+            </View>
+
+            {/* promo code */}
+            <View style={styles.promoRow}>
+              <TextInput
+                value={code}
+                onChangeText={setCode}
+                placeholder="Promo code"
+                placeholderTextColor={C.inkFaint}
+                autoCapitalize="characters"
+                style={styles.promoInput}
+                accessibilityLabel="Promo code"
+              />
+              <Pressable style={styles.promoBtn} onPress={() => store.setPromo(code)}>
+                <Text style={styles.promoBtnText}>Apply</Text>
+              </Pressable>
+            </View>
+            {code.trim().length > 0 ? (
+              <Text style={[styles.promoNote, promoApplied ? styles.promoOk : styles.promoBad]}>
+                {promoApplied ? `${PROMO.label} applied` : 'Invalid code'} · try {PROMO.code}
+              </Text>
+            ) : null}
+
             <Row label="Subtotal" value={money(summary.subtotalCents)} />
             {summary.savingsCents > 0 ? <Row label="Subscribe savings" value={`−${money(summary.savingsCents)}`} accent /> : null}
-            <Row label="Shipping" value="Free" />
+            {promoDisc > 0 ? <Row label={`Promo (${PROMO.code})`} value={`−${money(promoDisc)}`} accent /> : null}
+            <Row label="Shipping" value={shipCents === 0 ? 'Free' : money(shipCents)} />
             <View style={styles.totalRow}>
               <Text style={styles.totalLabel}>Total</Text>
-              <Text style={styles.totalValue}>{money(summary.totalCents)}</Text>
+              <Text style={styles.totalValue}>{money(finalTotal)}</Text>
             </View>
             <Pressable style={styles.checkout} onPress={onCheckout}>
-              <Text style={styles.checkoutText}>Checkout · {money(summary.totalCents)}</Text>
+              <Text style={styles.checkoutText}>Checkout · {money(finalTotal)}</Text>
             </Pressable>
           </View>
         </>
@@ -117,6 +170,18 @@ const makeStyles = (C: Palette) =>
     linePrice: { fontFamily: FONT.display, fontSize: 15, color: C.ink },
 
     summary: { backgroundColor: C.card, borderTopWidth: 1, borderTopColor: C.line, padding: 18, gap: 8 },
+    ship: { marginBottom: 4 },
+    shipMsg: { fontFamily: FONT.body, fontSize: 13, color: C.inkDim, marginBottom: 7 },
+    shipStrong: { fontFamily: FONT.bodyBold, color: C.sage },
+    shipTrack: { height: 6, borderRadius: 3, backgroundColor: C.cardAlt, overflow: 'hidden' },
+    shipFill: { height: '100%', borderRadius: 3, backgroundColor: C.sage },
+    promoRow: { flexDirection: 'row', gap: 8, marginTop: 2 },
+    promoInput: { flex: 1, backgroundColor: C.bg, borderColor: C.line, borderWidth: 1, borderRadius: RADIUS.md, paddingHorizontal: 12, paddingVertical: 10, fontFamily: FONT.body, fontSize: 14, color: C.ink },
+    promoBtn: { paddingHorizontal: 18, justifyContent: 'center', borderRadius: RADIUS.md, backgroundColor: C.cardAlt },
+    promoBtnText: { fontFamily: FONT.bodyBold, fontSize: 13, color: C.ink },
+    promoNote: { fontFamily: FONT.bodySemi, fontSize: 12, marginTop: 2 },
+    promoOk: { color: C.sage },
+    promoBad: { color: C.terra },
     row: { flexDirection: 'row', justifyContent: 'space-between' },
     rowLabel: { fontFamily: FONT.body, fontSize: 14, color: C.inkDim },
     rowValue: { fontFamily: FONT.bodySemi, fontSize: 14, color: C.ink },
