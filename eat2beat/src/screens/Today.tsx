@@ -95,7 +95,7 @@ export default function Today({
             {waterCups} <Text style={styles.waterGoal}>/ {goalCups} cups</Text>
           </Text>
         </View>
-        <Pressable style={styles.waterBtn} onPress={() => store.addWater(date, 250)}>
+        <Pressable style={styles.waterBtn} onPress={() => store.addWater(date, 250)} accessibilityRole="button" accessibilityLabel="Add one cup of water">
           <Text style={styles.waterBtnText}>+1 cup</Text>
         </Pressable>
       </Card>
@@ -156,7 +156,7 @@ function MealSection({
         <Text style={styles.mealName}>{MEAL_LABEL[meal]}</Text>
         <View style={styles.mealHeadRight}>
           <Text style={styles.mealKcal}>{fmt(kcal)} kcal</Text>
-          <Pressable onPress={onAdd} hitSlop={8} style={styles.addBtn}>
+          <Pressable onPress={onAdd} hitSlop={8} style={styles.addBtn} accessibilityRole="button" accessibilityLabel={`Add food to ${MEAL_LABEL[meal]}`}>
             <Text style={styles.addPlus}>+</Text>
           </Pressable>
         </View>

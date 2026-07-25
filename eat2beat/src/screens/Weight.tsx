@@ -22,6 +22,11 @@ export default function Weight() {
   const [draft, setDraft] = useState<number>(
     () => stats.current ?? store.bio.weightKg,
   );
+  const [saved, setSaved] = useState(false);
+  const bump = (delta: number) => {
+    setDraft((w) => Math.round((w + delta) * 10) / 10);
+    setSaved(false);
+  };
 
   const change = stats.changeKg;
   const changeStr = `${change > 0 ? '+' : ''}${change.toFixed(1)} kg`;
@@ -40,7 +45,7 @@ export default function Weight() {
       {/* stat tiles */}
       <View style={styles.tiles}>
         <Tile value={stats.current != null ? stats.current.toFixed(1) : '—'} unit="kg" label="current" tint={C.text} />
-        <Tile value={changeStr} label={`last ${stats.count} weigh-ins`} tint={change <= 0 ? C.primary : C.over} />
+        <Tile value={changeStr} label="since start" tint={change <= 0 ? C.primary : C.over} />
         <Tile value={goal.toFixed(1)} unit="kg" label={toGoal > 0 ? `${toGoal.toFixed(1)} to go` : 'goal reached'} tint={C.textDim} />
       </View>
 
@@ -67,21 +72,27 @@ export default function Weight() {
       <SectionTitle>Log today</SectionTitle>
       <Card style={styles.logCard}>
         <View style={styles.stepper}>
-          <Pressable style={styles.stepBtn} onPress={() => setDraft((w) => Math.round((w - 0.1) * 10) / 10)}>
+          <Pressable style={styles.stepBtn} onPress={() => bump(-0.1)} accessibilityRole="button" accessibilityLabel="Decrease weight">
             <Text style={styles.stepBtnText}>−</Text>
           </Pressable>
           <View style={styles.draftWrap}>
             <Text style={styles.draftVal}>{draft.toFixed(1)}</Text>
             <Text style={styles.draftUnit}>kg</Text>
           </View>
-          <Pressable style={styles.stepBtn} onPress={() => setDraft((w) => Math.round((w + 0.1) * 10) / 10)}>
+          <Pressable style={styles.stepBtn} onPress={() => bump(0.1)} accessibilityRole="button" accessibilityLabel="Increase weight">
             <Text style={styles.stepBtnText}>+</Text>
           </Pressable>
         </View>
-        <Pressable style={styles.logBtn} onPress={() => store.logWeight(store.today, draft)}>
-          <Text style={styles.logBtnText}>
-            {store.weight[store.today] === draft ? '✓ Saved for today' : 'Save today’s weight'}
-          </Text>
+        <Pressable
+          style={[styles.logBtn, saved && styles.logBtnDone]}
+          onPress={() => {
+            store.logWeight(store.today, draft);
+            setSaved(true);
+          }}
+          accessibilityRole="button"
+          accessibilityLabel={`Save today's weight as ${draft.toFixed(1)} kilograms`}
+        >
+          <Text style={styles.logBtnText}>{saved ? '✓ Saved for today' : 'Save today’s weight'}</Text>
         </Pressable>
       </Card>
 
@@ -135,6 +146,7 @@ const makeStyles = (C: Palette) =>
     draftVal: { fontFamily: FONT.display, fontSize: 34, color: C.text, letterSpacing: -1 },
     draftUnit: { fontFamily: FONT.bodySemi, fontSize: 15, color: C.textDim },
     logBtn: { alignSelf: 'stretch', backgroundColor: C.primary, borderRadius: RADIUS.md, paddingVertical: 14, alignItems: 'center' },
+    logBtnDone: { backgroundColor: C.primaryDark },
     logBtnText: { fontFamily: FONT.bodyBold, fontSize: 15, color: '#fff' },
 
     footer: { fontFamily: FONT.body, fontSize: 12, color: C.textFaint, textAlign: 'center', marginTop: 26 },

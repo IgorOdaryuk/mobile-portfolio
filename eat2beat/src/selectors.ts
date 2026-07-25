@@ -230,6 +230,23 @@ export function weightStats(series: { date: string; kg: number }[]): WeightStats
   };
 }
 
+/**
+ * Per-day logging activity over the N days ending at endDate (oldest first),
+ * with an intensity level 0–3 for a GitHub-style heatmap. Level is driven by how
+ * many items were logged that day.
+ */
+export function loggingActivity(
+  entries: Entry[],
+  endDate: string,
+  days: number,
+): { date: string; count: number; level: 0 | 1 | 2 | 3 }[] {
+  return lastNDates(endDate, days).map((date) => {
+    const count = entries.filter((e) => e.date === date).length;
+    const level: 0 | 1 | 2 | 3 = count === 0 ? 0 : count <= 2 ? 1 : count <= 4 ? 2 : 3;
+    return { date, count, level };
+  });
+}
+
 /* ------------------------------------------------------------------ */
 /* Insights — plain-language auto-observations for the Trends screen.  */
 /* ------------------------------------------------------------------ */

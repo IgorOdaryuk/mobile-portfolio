@@ -17,6 +17,7 @@ import {
   weightSeries,
   weightStats,
   buildInsights,
+  loggingActivity,
 } from '../selectors';
 import type { Bio, Entry, Food, Goals } from '../types';
 
@@ -218,5 +219,21 @@ describe('buildInsights', () => {
     const ins = buildInsights([], IFOODS, GOALS, '2026-07-25', 7);
     expect(ins).toHaveLength(1);
     expect(ins[0].id).toBe('empty');
+  });
+});
+
+describe('loggingActivity', () => {
+  const entries: Entry[] = [
+    E({ id: 'a', date: '2026-07-25' }),
+    E({ id: 'b', date: '2026-07-25' }),
+    E({ id: 'c', date: '2026-07-25' }),
+    E({ id: 'd', date: '2026-07-24' }),
+    // 07-23 has nothing
+  ];
+  it('maps counts to intensity levels 0–3, oldest first', () => {
+    const grid = loggingActivity(entries, '2026-07-25', 3);
+    expect(grid.map((g) => g.date)).toEqual(['2026-07-23', '2026-07-24', '2026-07-25']);
+    expect(grid.map((g) => g.level)).toEqual([0, 1, 2]); // 0 items→0, 1→1, 3→2
+    expect(grid[2].count).toBe(3);
   });
 });
