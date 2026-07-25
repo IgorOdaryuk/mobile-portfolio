@@ -25,6 +25,13 @@ Jobber). Folder: [`client-hub/`](./client-hub).
 - **Real charts (react-native-svg):** data-driven monthly-revenue bars + lead-source donut.
 - **Clean architecture:** data logic in `src/selectors.ts` (pure, framework-free),
   components presentational, design tokens in `src/theme.ts`.
+- **Distinct "field-ops console" identity (#13, de-templated):** its own type pair —
+  Archivo (dense grotesque) for text + **JetBrains Mono** for every number / label /
+  status tag (tabular alignment) — dropping the Space Grotesk + Plus Jakarta pairing
+  shared with the other apps. Cool graphite/steel surfaces + hairline rules (was warm
+  paper/brown), burnt-orange kept only as a single signal accent, sharp near-square
+  corners, flatter shadows, denser rows. Reads as a utilitarian pro-tool, not a boutique
+  app. Function unchanged; screens reshot + hero rebuilt on the new look.
 - **Quality gates:** 22 Jest unit tests + `tsc --noEmit` (strict) run in **GitHub Actions
   CI** (green) on every push. Badges in the README.
 - **Auto-deploy:** GitHub Actions exports the Expo web build and publishes to GitHub Pages.
@@ -128,7 +135,11 @@ gig type and the portfolio had no shop.
 - **Persistence:** AsyncStorage cart + wishlist survive reload.
 - **Design:** premium warm palette, **inline-SVG product illustrations** (bottle/jar/tube/
   dropper/pouch, tinted per product) — cohesive boutique look with zero image assets.
-- **Quality gates:** 27 Jest tests + `tsc --noEmit` (strict). CI matrix now covers all
+- **Quality gates:** **47 Jest tests** + `tsc --noEmit` (strict). 36 pure-logic tests
+  **plus 11 React Testing Library render tests (#15)** — `@testing-library/react-native`
+  mounts ProductCard, the UI primitives (Stars/Tag/SampleBadge/HeartButton) and the Shop
+  screen in real theme+store providers, asserting rendered text + that presses fire the
+  right callbacks (jest.setup.js mocks AsyncStorage + vector-icons). CI matrix covers all
   three apps; deploy builds all three (Client Hub at root, Eat2Beat + Solva at subpaths).
 - **Data:** 100% synthetic catalog (`scripts/gen_catalog.py`, fixed seed). Fictional brand
   "Solva", 17 products, 54 reviews, SAMPLE STORE badge. No real brand/customer data.
