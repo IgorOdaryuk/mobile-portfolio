@@ -5,6 +5,10 @@ import { Feather } from '@expo/vector-icons';
 import { colors, font, radius, shadow, money } from '../theme';
 import { Card, SectionLabel } from '../ui';
 import { Seed, Task } from '../types';
+import { revenueByMonth } from '../selectors';
+import Donut from '../components/Donut';
+
+const LEAD_COLORS = ['#E2570C', '#1D4ED8', '#15803D', '#6D28D9', '#B45309', '#8C8378'];
 
 const taskMeta: Record<Task['type'], { icon: any; color: string; bg: string }> = {
   balance: { icon: 'dollar-sign', color: colors.danger, bg: colors.dangerSoft },
@@ -27,8 +31,18 @@ function Stat({ label, value, icon, tint }: { label: string; value: string; icon
 
 export default function Dashboard({ data, go, onOpenClient }: { data: Seed; go: (t: string) => void; onOpenClient: (id: string) => void }) {
   const { kpis, tasks } = data;
-  const maxLead = Math.max(...kpis.leadSources.map((l) => l[1]));
   const top = tasks.slice(0, 3);
+
+  const months = revenueByMonth(data.clients, 6);
+  const maxRev = Math.max(1, ...months.map((m) => m.value));
+
+  const leadTop = kpis.leadSources.slice(0, 5);
+  const leadOther = kpis.leadSources.slice(5).reduce((a, [, n]) => a + n, 0);
+  const totalLeads = kpis.leadSources.reduce((a, [, n]) => a + n, 0) || 1;
+  const donutData = [
+    ...leadTop.map(([, n], i) => ({ value: n, color: LEAD_COLORS[i] })),
+    ...(leadOther ? [{ value: leadOther, color: LEAD_COLORS[5] }] : []),
+  ];
 
   return (
     <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
@@ -59,8 +73,11 @@ export default function Dashboard({ data, go, onOpenClient }: { data: Seed; go: 
         </View>
         <Text style={styles.heroValue}>{money(kpis.revenue)}</Text>
         <View style={styles.spark}>
-          {[38, 52, 44, 66, 58, 80, 72, 96].map((h, i) => (
-            <View key={i} style={[styles.sparkBar, { height: h * 0.5, opacity: 0.35 + i * 0.08 }]} />
+          {months.map((m, i) => (
+            <View key={i} style={styles.sparkCol}>
+              <View style={[styles.sparkBar, { height: 8 + (m.value / maxRev) * 40, opacity: 0.5 + (i / Math.max(1, months.length - 1)) * 0.5 }]} />
+              <Text style={styles.sparkLabel}>{m.label}</Text>
+            </View>
           ))}
         </View>
         <View style={styles.heroFoot}>
@@ -92,15 +109,26 @@ export default function Dashboard({ data, go, onOpenClient }: { data: Seed; go: 
       {/* Lead sources */}
       <SectionLabel>Where leads come from</SectionLabel>
       <Card style={styles.leadCard}>
-        {kpis.leadSources.slice(0, 5).map(([name, n], i) => (
-          <View key={name} style={[styles.leadRow, i > 0 && { marginTop: 14 }]}>
-            <Text style={styles.leadName} numberOfLines={1}>{name}</Text>
-            <View style={styles.leadTrack}>
-              <View style={[styles.leadFill, { width: `${(n / maxLead) * 100}%` }]} />
+        <Donut data={donutData} size={116} stroke={18}>
+          <Text style={styles.donutNum}>{totalLeads}</Text>
+          <Text style={styles.donutLbl}>leads</Text>
+        </Donut>
+        <View style={styles.legend}>
+          {leadTop.map(([name, n], i) => (
+            <View key={name} style={styles.legendRow}>
+              <View style={[styles.legendDot, { backgroundColor: LEAD_COLORS[i] }]} />
+              <Text style={styles.legendName} numberOfLines={1}>{name}</Text>
+              <Text style={styles.legendNum}>{n}</Text>
             </View>
-            <Text style={styles.leadNum}>{n}</Text>
-          </View>
-        ))}
+          ))}
+          {leadOther > 0 && (
+            <View style={styles.legendRow}>
+              <View style={[styles.legendDot, { backgroundColor: LEAD_COLORS[5] }]} />
+              <Text style={styles.legendName}>Other</Text>
+              <Text style={styles.legendNum}>{leadOther}</Text>
+            </View>
+          )}
+        </View>
       </Card>
 
       {/* Needs attention */}
@@ -148,8 +176,10 @@ const styles = StyleSheet.create({
   heroDelta: { flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(126,224,161,0.14)', paddingHorizontal: 8, paddingVertical: 3, borderRadius: 999 },
   heroDeltaText: { fontFamily: font.bold, fontSize: 12, color: '#7EE0A1', marginLeft: 3 },
   heroValue: { fontFamily: font.display, fontSize: 42, color: '#FFF', marginTop: 8, letterSpacing: -1 },
-  spark: { flexDirection: 'row', alignItems: 'flex-end', gap: 6, height: 42, marginTop: 12 },
-  sparkBar: { flex: 1, backgroundColor: colors.accent, borderRadius: 3 },
+  spark: { flexDirection: 'row', alignItems: 'flex-end', gap: 8, height: 66, marginTop: 12 },
+  sparkCol: { flex: 1, alignItems: 'center', justifyContent: 'flex-end', gap: 5 },
+  sparkBar: { alignSelf: 'stretch', backgroundColor: colors.accent, borderRadius: 3 },
+  sparkLabel: { fontFamily: font.med, fontSize: 10, color: '#C9B69F' },
   heroFoot: { flexDirection: 'row', alignItems: 'center', marginTop: 18 },
   heroFootVal: { fontFamily: font.displayMed, fontSize: 18, color: '#FFF' },
   heroFootLbl: { fontFamily: font.med, fontSize: 11, color: '#C9B69F', marginTop: 1 },
@@ -161,12 +191,14 @@ const styles = StyleSheet.create({
   statValue: { fontFamily: font.display, fontSize: 22, color: colors.ink, letterSpacing: -0.5 },
   statLabel: { fontFamily: font.med, fontSize: 12.5, color: colors.muted, marginTop: 2 },
 
-  leadCard: { padding: 18, marginBottom: 22 },
-  leadRow: { flexDirection: 'row', alignItems: 'center' },
-  leadName: { fontFamily: font.semi, fontSize: 13, color: colors.inkSoft, width: 118 },
-  leadTrack: { flex: 1, height: 8, backgroundColor: colors.paperDeep, borderRadius: 4, marginHorizontal: 10, overflow: 'hidden' },
-  leadFill: { height: 8, backgroundColor: colors.accent, borderRadius: 4 },
-  leadNum: { fontFamily: font.display, fontSize: 14, color: colors.ink, width: 22, textAlign: 'right' },
+  leadCard: { padding: 18, marginBottom: 22, flexDirection: 'row', alignItems: 'center', gap: 18 },
+  donutNum: { fontFamily: font.display, fontSize: 22, color: colors.ink },
+  donutLbl: { fontFamily: font.med, fontSize: 11, color: colors.muted, marginTop: -2 },
+  legend: { flex: 1, gap: 10 },
+  legendRow: { flexDirection: 'row', alignItems: 'center' },
+  legendDot: { width: 10, height: 10, borderRadius: 5, marginRight: 9 },
+  legendName: { fontFamily: font.semi, fontSize: 13, color: colors.inkSoft, flex: 1 },
+  legendNum: { fontFamily: font.display, fontSize: 14, color: colors.ink, marginLeft: 8 },
 
   seeAll: { fontFamily: font.semi, fontSize: 13, color: colors.accent },
   taskRow: { flexDirection: 'row', alignItems: 'center', padding: 14, marginBottom: 10 },
