@@ -1,6 +1,6 @@
 import seed from '../data/seed.json';
 import type { Seed } from '../types';
-import { foodMap, dayTotals, entriesForDate, streak } from '../selectors';
+import { foodMap, dayTotals, entriesForDate, streak, computeGoals, weightSeries } from '../selectors';
 
 const data = seed as unknown as Seed;
 const foods = foodMap(data.foods);
@@ -52,5 +52,18 @@ describe('seed data integrity', () => {
     expect(g.kcal).toBeGreaterThan(1200);
     expect(g.protein).toBeGreaterThan(0);
     expect(g.waterMl).toBeGreaterThan(0);
+  });
+
+  it('stored goals match what the bio computes (generator ↔ selector parity)', () => {
+    expect(data.profile.goals).toEqual(computeGoals(data.profile.bio));
+  });
+
+  it('has a multi-week body-weight trend ending today', () => {
+    const series = weightSeries(data.profile.weightByDate, data.today, 30);
+    expect(series.length).toBeGreaterThanOrEqual(14);
+    // today is always logged, and every reading is a believable body weight
+    expect(series[series.length - 1].date).toBe(data.today);
+    for (const p of series) expect(p.kg).toBeGreaterThan(40);
+    expect(data.profile.weightGoalKg).toBeGreaterThan(0);
   });
 });

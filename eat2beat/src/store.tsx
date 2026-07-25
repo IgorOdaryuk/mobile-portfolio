@@ -1,10 +1,10 @@
 import React, { createContext, useContext, useEffect, useMemo, useReducer } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import type { Entry, Food, MealKey, Profile } from './types';
+import type { Bio, Entry, Food, Goals, MealKey, Profile } from './types';
 import { foodMap } from './selectors';
 import seed from './data/seed.json';
 
-const STORAGE_KEY = 'eat2beat_state_v1';
+const STORAGE_KEY = 'eat2beat_state_v2';
 
 const base = seed as unknown as {
   today: string;
@@ -16,6 +16,9 @@ const base = seed as unknown as {
 type State = {
   entries: Entry[];
   water: Record<string, number>;
+  weight: Record<string, number>;
+  goals: Goals;
+  bio: Bio;
   hydrated: boolean;
 };
 
@@ -23,11 +26,16 @@ type Action =
   | { type: 'HYDRATE'; payload: Partial<State> }
   | { type: 'ADD_ENTRY'; entry: Entry }
   | { type: 'REMOVE_ENTRY'; id: string }
-  | { type: 'ADD_WATER'; date: string; ml: number };
+  | { type: 'ADD_WATER'; date: string; ml: number }
+  | { type: 'LOG_WEIGHT'; date: string; kg: number }
+  | { type: 'SET_PROFILE'; goals: Goals; bio: Bio };
 
 const initial: State = {
   entries: base.entries,
   water: base.profile.waterByDate,
+  weight: base.profile.weightByDate,
+  goals: base.profile.goals,
+  bio: base.profile.bio,
   hydrated: false,
 };
 
@@ -44,6 +52,10 @@ function reducer(state: State, action: Action): State {
       const next = Math.max(0, current + action.ml);
       return { ...state, water: { ...state.water, [action.date]: next } };
     }
+    case 'LOG_WEIGHT':
+      return { ...state, weight: { ...state.weight, [action.date]: action.kg } };
+    case 'SET_PROFILE':
+      return { ...state, goals: action.goals, bio: action.bio };
     default:
       return state;
   }
@@ -58,10 +70,15 @@ type StoreValue = {
   foodsById: Record<string, Food>;
   entries: Entry[];
   water: Record<string, number>;
+  weight: Record<string, number>;
+  goals: Goals;
+  bio: Bio;
   hydrated: boolean;
   addEntry: (input: AddEntryInput) => void;
   removeEntry: (id: string) => void;
   addWater: (date: string, ml: number) => void;
+  logWeight: (date: string, kg: number) => void;
+  setProfile: (goals: Goals, bio: Bio) => void;
 };
 
 const StoreContext = createContext<StoreValue | null>(null);
@@ -86,9 +103,15 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     if (!state.hydrated) return;
     AsyncStorage.setItem(
       STORAGE_KEY,
-      JSON.stringify({ entries: state.entries, water: state.water }),
+      JSON.stringify({
+        entries: state.entries,
+        water: state.water,
+        weight: state.weight,
+        goals: state.goals,
+        bio: state.bio,
+      }),
     ).catch(() => {});
-  }, [state.entries, state.water, state.hydrated]);
+  }, [state.entries, state.water, state.weight, state.goals, state.bio, state.hydrated]);
 
   const value = useMemo<StoreValue>(() => {
     return {
@@ -98,6 +121,9 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       foodsById: foodMap(base.foods),
       entries: state.entries,
       water: state.water,
+      weight: state.weight,
+      goals: state.goals,
+      bio: state.bio,
       hydrated: state.hydrated,
       addEntry: (input) =>
         dispatch({
@@ -106,6 +132,8 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         }),
       removeEntry: (id) => dispatch({ type: 'REMOVE_ENTRY', id }),
       addWater: (date, ml) => dispatch({ type: 'ADD_WATER', date, ml }),
+      logWeight: (date, kg) => dispatch({ type: 'LOG_WEIGHT', date, kg }),
+      setProfile: (goals, bio) => dispatch({ type: 'SET_PROFILE', goals, bio }),
     };
   }, [state]);
 

@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
-import { C, FONT, RADIUS } from '../theme';
+import { Feather } from '@expo/vector-icons';
+import { FONT, RADIUS, type Palette } from '../theme';
+import { useTheme, useStyles } from '../theme-context';
 import { Card, SampleBadge, fmt } from '../ui';
 import { CalorieRing, MacroBar } from '../components/charts';
 import { EntryRow } from '../components/FoodRow';
@@ -12,14 +14,18 @@ import { MEAL_LABEL, MealKey } from '../types';
 export default function Today({
   onAdd,
   onOpenFood,
+  onOpenGoals,
 }: {
   onAdd: (meal: MealKey) => void;
   onOpenFood: (foodId: string) => void;
+  onOpenGoals: () => void;
 }) {
+  const { C, mode, toggle } = useTheme();
+  const styles = useStyles(makeStyles);
   const store = useStore();
   const date = store.today;
   const totals = dayTotals(store.entries, store.foodsById, date);
-  const goals = store.profile.goals;
+  const goals = store.goals;
   const meals = mealBreakdown(store.entries, store.foodsById, date);
   const waterMl = store.water[date] ?? 0;
   const waterCups = Math.round((waterMl / 250) * 10) / 10;
@@ -34,7 +40,29 @@ export default function Today({
           <Text style={styles.hi}>Today</Text>
           <Text style={styles.date}>{longDate(date)}</Text>
         </View>
-        <SampleBadge />
+        <View style={styles.headerRight}>
+          <View style={styles.headerBtns}>
+            <Pressable
+              onPress={toggle}
+              hitSlop={8}
+              style={styles.iconBtn}
+              accessibilityRole="button"
+              accessibilityLabel={mode === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+            >
+              <Feather name={mode === 'dark' ? 'sun' : 'moon'} size={18} color={C.textDim} />
+            </Pressable>
+            <Pressable
+              onPress={onOpenGoals}
+              hitSlop={8}
+              style={styles.iconBtn}
+              accessibilityRole="button"
+              accessibilityLabel="Edit goals"
+            >
+              <Feather name="sliders" size={18} color={C.textDim} />
+            </Pressable>
+          </View>
+          <SampleBadge />
+        </View>
       </View>
 
       {/* calorie hero */}
@@ -99,6 +127,7 @@ export default function Today({
 }
 
 function HeroStat({ label, value, tint }: { label: string; value: string; tint?: string }) {
+  const styles = useStyles(makeStyles);
   return (
     <View style={styles.heroStat}>
       <Text style={[styles.heroStatVal, tint ? { color: tint } : null]}>{value}</Text>
@@ -120,6 +149,7 @@ function MealSection({
   onAdd: () => void;
   children: React.ReactNode;
 }) {
+  const styles = useStyles(makeStyles);
   return (
     <View style={styles.meal}>
       <View style={styles.mealHead}>
@@ -140,11 +170,25 @@ function MealSection({
   );
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (C: Palette) =>
+  StyleSheet.create({
   scroll: { padding: 18, paddingTop: 8, paddingBottom: 28 },
   header: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 16 },
   hi: { fontFamily: FONT.display, fontSize: 26, color: C.text },
   date: { fontFamily: FONT.bodySemi, fontSize: 13, color: C.textDim, marginTop: 2 },
+
+  headerRight: { alignItems: 'flex-end', gap: 10 },
+  headerBtns: { flexDirection: 'row', gap: 8 },
+  iconBtn: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: C.card,
+    borderWidth: 1,
+    borderColor: C.cardBorder,
+  },
 
   hero: { flexDirection: 'row', alignItems: 'center', paddingVertical: 18 },
   heroLeft: { width: 152, alignItems: 'center' },
@@ -153,10 +197,10 @@ const styles = StyleSheet.create({
   heroStatVal: { fontFamily: FONT.display, fontSize: 22, color: C.text },
   heroStatLabel: { fontFamily: FONT.bodySemi, fontSize: 12, color: C.textDim, marginTop: 1 },
 
-  water: { flexDirection: 'row', alignItems: 'center', marginTop: 12, backgroundColor: C.waterSoft, borderColor: '#CDE7F7' },
-  waterLabel: { fontFamily: FONT.bodySemi, fontSize: 13, color: '#1C6A9E' },
-  waterVal: { fontFamily: FONT.display, fontSize: 20, color: '#12557E', marginTop: 3 },
-  waterGoal: { fontFamily: FONT.bodySemi, fontSize: 13, color: '#4F94BD' },
+  water: { flexDirection: 'row', alignItems: 'center', marginTop: 12, backgroundColor: C.waterSoft, borderColor: C.waterBorder },
+  waterLabel: { fontFamily: FONT.bodySemi, fontSize: 13, color: C.waterText },
+  waterVal: { fontFamily: FONT.display, fontSize: 20, color: C.waterStrong, marginTop: 3 },
+  waterGoal: { fontFamily: FONT.bodySemi, fontSize: 13, color: C.waterDim },
   waterBtn: { backgroundColor: C.water, borderRadius: RADIUS.pill, paddingHorizontal: 16, paddingVertical: 9 },
   waterBtnText: { fontFamily: FONT.bodyBold, fontSize: 13, color: '#fff' },
 
