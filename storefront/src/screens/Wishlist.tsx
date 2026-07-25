@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
-import { C, FONT, RADIUS } from '../theme';
+import { FONT, RADIUS, BTN, type Palette } from '../theme';
+import { useStyles } from '../theme-context';
 import { ProductArt } from '../components/ProductArt';
 import { ProductCard } from '../components/ProductCard';
 import { useStore } from '../store';
@@ -12,6 +13,7 @@ export default function Wishlist({
   onOpenProduct: (id: string) => void;
   onBrowse: () => void;
 }) {
+  const styles = useStyles(makeStyles);
   const store = useStore();
   const items = store.wishlist.map((id) => store.productsById[id]).filter(Boolean);
 
@@ -44,14 +46,15 @@ export default function Wishlist({
   );
 }
 
-const styles = StyleSheet.create({
-  wrap: { flex: 1, backgroundColor: C.bg },
-  title: { fontFamily: FONT.display, fontSize: 26, color: C.ink, paddingHorizontal: 18, paddingTop: 8, paddingBottom: 6 },
-  empty: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 6, padding: 30 },
-  emptyTitle: { fontFamily: FONT.display, fontSize: 20, color: C.ink, marginTop: 10 },
-  emptyText: { fontFamily: FONT.bodyReg, fontSize: 14, color: C.inkDim, textAlign: 'center' },
-  cta: { backgroundColor: C.sage, borderRadius: RADIUS.pill, paddingHorizontal: 22, paddingVertical: 12, marginTop: 14 },
-  ctaText: { fontFamily: FONT.bodyBold, fontSize: 14, color: C.white },
-  list: { paddingHorizontal: 18, paddingBottom: 24 },
-  grid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' },
-});
+const makeStyles = (C: Palette) =>
+  StyleSheet.create({
+    wrap: { flex: 1, backgroundColor: C.bg },
+    title: { fontFamily: FONT.display, fontSize: 27, color: C.ink, paddingHorizontal: 18, paddingTop: 8, paddingBottom: 6 },
+    empty: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 6, padding: 30 },
+    emptyTitle: { fontFamily: FONT.display, fontSize: 21, color: C.ink, marginTop: 10 },
+    emptyText: { fontFamily: FONT.bodyReg, fontSize: 14, color: C.inkDim, textAlign: 'center' },
+    cta: { backgroundColor: BTN.fill, borderRadius: RADIUS.pill, paddingHorizontal: 22, paddingVertical: 12, marginTop: 14 },
+    ctaText: { fontFamily: FONT.bodyBold, fontSize: 14, color: BTN.text },
+    list: { paddingHorizontal: 18, paddingBottom: 24 },
+    grid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' },
+  });

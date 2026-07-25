@@ -38,11 +38,22 @@ so it runs with zero backend. Cart and saved items persist locally (AsyncStorage
 - **Filter + sort + search** over the catalog; wishlist toggle from any product.
 - All of the above lives in **pure functions** (`src/selectors.ts`) and is unit-tested.
 
+## Design identity
+
+Solva has its **own** look, deliberately distinct from the other portfolio apps: an
+editorial beauty-brand feel built on a **Fraunces serif** display face (not the grotesk
+used elsewhere), a warm cream palette, and a full **light / dark theme** — the dark mode is
+a warm "espresso" brown, not flat grey. Toggle it from the moon/sun in the Shop header
+(persisted to AsyncStorage; force with `?theme=dark` for screenshots).
+
+![Solva — light + dark](screenshots/07-shop-dark.png)
+
 ## Stack
 
 - **React Native 0.86 / Expo SDK 57 / React 19 / TypeScript (strict)**
 - `react-native-svg` for product illustrations, ratings stars and icons
-- Type pairing: **Space Grotesk** (display) + **Plus Jakarta Sans** (body)
+- Runtime **theming** via a light/dark palette + `useStyles(makeStyles)` context
+- Type pairing: **Fraunces** (serif display) + **Plus Jakarta Sans** (body)
 - Runs on iOS, Android and web from one codebase
 
 ## Structure
