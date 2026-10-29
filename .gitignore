@@ -18,3 +18,9 @@
 *.log
 npm-debug.*
 yarn-error.*
+
+CLAUDE.md
+**/CLAUDE.md
+AGENTS.md
+**/AGENTS.md
+.claude/
